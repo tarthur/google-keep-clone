@@ -1,9 +1,9 @@
 import React from 'react'
 
-const AddNotesPanel = ({addSimpleNote, addListNote, addImgNote}) => {
+const AddNotesPanel = ({addSimpleNote, addListNote, addImgNote, onClick}) => {
   return (
     <div>
-      <div>
+      <div onClick={onClick}>
         <input type="text" />
       </div>
       <button onClick={addSimpleNote}>Добавить заметку</button>

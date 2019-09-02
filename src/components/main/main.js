@@ -4,6 +4,10 @@ import AllNotes from '../all-notes'
 
 
 class Main extends Component {
+  state = {
+    addPanel: true
+  }
+
   addSimpleNote = () => {
     alert('addSimpleNote')
   }
@@ -16,12 +20,45 @@ class Main extends Component {
     alert('addImgNote')
   }
 
+  onClickAddPanel = () => {
+    this.setState(state => { 
+      const addPanel = !state.addPanel;
+
+      return {addPanel} 
+    })
+  }
+
+  onBlur = () => {
+    this.setState(state => { 
+      const addPanel = !state.addPanel;
+
+      return {addPanel} 
+    })
+  }
+
+  addPanel = () => {
+    const {addPanel} = this.state;
+
+    if (addPanel) {
+      return (
+        <AddNotesPanel onClick={this.onClickAddPanel}
+                       addSimpleNote={this.addSimpleNote}
+                       addListNote={this.addListNote}
+                       addImgNote={this.addImgNote} />
+      )
+    } else {
+      return (
+        <div>
+          <input type="text" onBlur={this.onBlur} />
+        </div>
+      )
+    }
+  }
+
   render() {
     return (
       <div>
-        <AddNotesPanel addSimpleNote={this.addSimpleNote}
-                       addListNote={this.addListNote}
-                       addImgNote={this.addImgNote} />
+        {this.addPanel()}
         <AllNotes notes="notes" />
       </div>
     )
