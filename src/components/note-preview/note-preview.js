@@ -16,11 +16,27 @@ const customStyles = {
 
 class NotesPreview extends Component {
   state = {
-    modalIsOpen: false
+    modalIsOpen: false,
+    text: ''
   }
 
-  closeModal = () => this.setState({modalIsOpen: false});
-  openModal = () => this.setState({modalIsOpen: true});
+  closeModal = () => {
+    this.props.updateNote(this.state.text)
+
+    return this.setState({
+      modalIsOpen: false
+    });
+
+  }
+
+  openModal = () => this.setState({
+    modalIsOpen: true,
+    text: this.props.note.text
+  });
+
+  onChange = e => {
+    this.setState({text: e.target.value})
+  }
 
   render() {
     return (
@@ -42,7 +58,7 @@ class NotesPreview extends Component {
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <div>{this.props.note.text}</div>
+          <input type="text" value={this.state.text} onChange={this.onChange} />
           <button onClick={this.closeModal}>close</button>
         </Modal>
       </>
@@ -50,4 +66,5 @@ class NotesPreview extends Component {
   }
 }
 
-export default NotesPreview
+
+export default NotesPreview;

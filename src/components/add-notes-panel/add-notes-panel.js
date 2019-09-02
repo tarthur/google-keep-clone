@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux';
+import {addNote} from '../../redux/notes-reducer'
 
 class AddNotesPanel extends Component {
   state = {
@@ -7,7 +9,7 @@ class AddNotesPanel extends Component {
   }
 
   onClickAddBtn = () => {
-    this.props.onClickAddBtn({
+    this.props.addNote({
       text: this.state.addInputText,
       type: this.state.type
     });
@@ -62,4 +64,16 @@ class AddNotesPanel extends Component {
   }
 }
 
-export default AddNotesPanel
+let mapStateToProps = (state) => {
+  return {
+    notes: state.notesReducer.notes,
+  }
+}
+
+let mapDispatchToProps = (dispatch) => {
+  return {
+    addNote: (obj) => dispatch(addNote(obj)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddNotesPanel);
