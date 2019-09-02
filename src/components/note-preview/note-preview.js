@@ -14,48 +14,33 @@ const customStyles = {
   }
 };
 
-
-
-class AllNotes extends Component {
+class NotesPreview extends Component {
   state = {
     modalIsOpen: false
   }
 
-  onClick = () => {
-    
-  }
-
-  openModal = () => {
-    this.setState({modalIsOpen: true});
-  }
-
+  closeModal = () => this.setState({modalIsOpen: false});
+  openModal = () => this.setState({modalIsOpen: true});
 
   render() {
     return (
-      <div className="note-preview" onClick={this.onClick}>
-        {this.props.note.text}
-          <button onClick={this.openModal}>Open Modal</button>
-          <Modal
-            isOpen={this.state.modalIsOpen}
-            onAfterOpen={this.afterOpenModal}
-            onRequestClose={this.closeModal}
-            style={customStyles}
-            contentLabel="Example Modal"
-          >
-            <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
-            <button onClick={this.closeModal}>close</button>
-            <div>I am a modal</div>
-            <form>
-              <input />
-              <button>tab navigation</button>
-              <button>stays</button>
-              <button>inside</button>
-              <button>the modal</button>
-            </form>
+      <>
+        <div className="note-preview" onClick={this.openModal}>
+          {this.props.note.text}
+        </div>
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <div>{this.props.note.text}</div>
+          <button onClick={this.closeModal}>close</button>
         </Modal>
-      </div>
+      </>
     )
   }
 }
 
-export default AllNotes
+export default NotesPreview
