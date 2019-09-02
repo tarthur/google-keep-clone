@@ -4,6 +4,8 @@ import AllNotes from '../all-notes'
 
 
 class Main extends Component {
+  noteId = 1;
+
   state = {
     notes: []
   }
@@ -12,10 +14,26 @@ class Main extends Component {
     this.setState({
       notes: [
         ...this.state.notes,
-        obj
+        {...obj, id: this.noteId++}
       ]
     })
   }  
+
+  onClickDeleteBtn = id => {
+    const targetNote = this.state.notes.findIndex(note => note.id === id)
+    
+    const [...notes] = this.state.notes;
+    const idx = notes.findIndex((item) => item.id === id);
+    const oldItem = notes[idx];
+
+    this.setState({
+      notes: [
+        ...notes.slice(0, idx),
+        ...notes.slice(idx + 1)
+      ]
+    })
+    
+  }
 
   render() {
     const {notes} = this.state;
@@ -23,7 +41,7 @@ class Main extends Component {
     return (
       <div>
         <AddNotesPanel onClickAddBtn={this.onClickAddBtn} />
-        <AllNotes notes={notes} />
+        <AllNotes notes={notes} onClickDeleteBtn={this.onClickDeleteBtn} />
       </div>
     )
   }

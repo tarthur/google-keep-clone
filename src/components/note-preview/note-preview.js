@@ -25,9 +25,16 @@ class NotesPreview extends Component {
   render() {
     return (
       <>
-        <div className="note-preview" onClick={this.openModal}>
-          {this.props.note.text}
+        <div>
+          <div className="note-preview" onClick={this.openModal}>
+            {this.props.note.text}
+          </div>
+          <div>
+            <button onClick={this.props.onClickDeleteBtn}>-</button>
+          </div>
         </div>
+
+
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
