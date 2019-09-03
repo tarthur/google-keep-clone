@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import style from './list-note-preview.module.scss'
 import Modal from 'react-modal';
 import NoteBottomPanel from './../../note-bottom-panel';
+import ListItems from './../../add-notes-panel/list-note-panel/list-items/list-items'
 
 
 const customStyles = {
@@ -34,7 +35,10 @@ class ListNotePreview extends Component {
   });
 
   render() {
-    const lists = this.props.note.lists.map(item => <div>{item.id}</div>)
+    const lists = <ListItems items={this.props.note.lists}
+                //  onDeleteTodoListItem={ (inputId) => {onDeleteTodoListItem(inputId)} }
+                //  onClickCompletedCheckbox={ (inputId, inputValue) => {onClickCompletedCheckbox(inputId, inputValue)} } 
+                 /> 
 
     return (
       <>

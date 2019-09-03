@@ -32,7 +32,7 @@ class AddNotesPanel extends Component {
   onClickAddBtn = (obj) => {
     this.props.addNote(obj);
 
-    this.setState({ view: '' })
+    this.changeView('')
   }
 
   changeView = type => this.setState({type})
