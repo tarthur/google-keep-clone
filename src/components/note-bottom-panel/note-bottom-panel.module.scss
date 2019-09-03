@@ -1,0 +1,9 @@
+.noteBottomPanel {
+  background: rgba(0, 0, 0, .3);
+}
+
+.bgColorBox {
+  display: none;
+  opacity: 0;
+  transition: opacity .3s;
+}

@@ -8,5 +8,7 @@ let reducers = combineReducers({
 let store = createStore(reducers);
 
 
+window.store = store.getState()
+
 
 export default store;

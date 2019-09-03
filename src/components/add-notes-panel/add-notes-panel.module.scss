@@ -1,0 +1,41 @@
+.addNotesPanel {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  box-shadow: 0 0 3px rgba(0, 0, 0, .3);
+  border-radius: 10px;
+}
+
+.icon {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: color .5s;
+  color: #777;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+.listIcon {
+  right: 60px;
+  font-size: 20px;
+}
+
+.imgIcon {
+  right: 20px;
+  font-size: 23px;
+}
+
+.textarea {
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+  cursor: text;
+}

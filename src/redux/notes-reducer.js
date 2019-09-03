@@ -8,8 +8,13 @@ const notesReducer = (state = initialState, action) => {
 
     switch(action.type) {
         case 'ADD_NOTE': {
-            let newNote = {...action.payload, id: noteId++};
-            
+            let noteProps = {
+                id: noteId++,
+                mark: false,
+                bgColor: '#fff'
+            }
+            let newNote = {...noteProps, ...action.payload};
+            console.log(state)
             return {
                 ...state,
                 notes: [...state.notes, newNote]

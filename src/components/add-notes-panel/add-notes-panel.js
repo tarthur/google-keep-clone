@@ -1,66 +1,73 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {addNote} from '../../redux/notes-reducer'
+import NotePanel from './note-panel/note-panel'
+import ListNotePanel from './list-note-panel/list-note-panel'
+import ImgPanel from './img-panel/img-panel'
+import style from './add-notes-panel.module.scss'
 
 class AddNotesPanel extends Component {
   state = {
-    addInputText: '',
-    type: ''
+    view: ''
   }
 
-  onClickAddBtn = () => {
-    this.props.addNote({
-      text: this.state.addInputText,
-      type: this.state.type
-    });
-    this.setState({
-      addInputText: '',
-      type: ''
-    })
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside);
   }
 
-  onChange = e => this.setState({addInputText: e.target.value})
-  addType = type => this.setState({type})
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside);
+  }
+
+  handleClickOutside = (event) => {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.changeView('')
+    }
+  }
+
+  setWrapperRef = (node) => {
+    this.wrapperRef = node;
+  }
+
+  onClickAddBtn = (obj) => {
+    this.props.addNote(obj);
+
+    this.setState({ view: '' })
+  }
+
+  changeView = type => this.setState({type})
 
   getPanel = () => {
     switch(this.state.type) {
       case 'note' :
-        return (
-          <div>
-            <input type="text" value={this.state.addInputText} onChange={this.onChange} />
-            <button onClick={this.onClickAddBtn}>Добавить</button>
-          </div>
-        )
+        return <NotePanel onClick={this.onClickAddBtn}/>
       case 'list' :
-        return (
-          <div>
-            <input type="text" value={this.state.addInputText} onChange={this.onChange} />
-            <button onClick={this.onClickAddBtn}>Добавить</button>
-          </div>
-        )
+        return <ListNotePanel onClick={this.onClickAddBtn}/>
       case 'img' :
-        return (
-          <div>
-            <input type="text" value={this.state.addInputText} onChange={this.onChange} />
-            <button onClick={this.onClickAddBtn}>Добавить</button>
-          </div>
-        )
+        return <ImgPanel onClick={this.onClickAddBtn}/>
       default :
         return (
-          <div>
-            <div>
-              <input type="text" />
+          <>
+            <div className={style.textarea} onClick={() => this.changeView('note')} >
+              Заметка…
             </div>
-            <button onClick={() => this.addType('note')}>Добавить заметку</button>
-            <button onClick={() => this.addType('list')}>Добавить лист</button>
-            <button onClick={() => this.addType('img')}>Добавить заметку-изображение</button>
-          </div>
+            <div className={`${style.icon} ${style.listIcon}`} onClick={() => this.changeView('list')}>
+              <i class="far fa-check-square"></i>
+            </div>
+            <div className={`${style.icon} ${style.imgIcon}`} onClick={() => this.changeView('img')}>
+            <i class="far fa-image"></i>
+            </div>
+          </>
         )
     }
   }
 
   render() {
-    return this.getPanel()
+    return (
+      <div className={style.addNotesPanel} ref={this.setWrapperRef}>
+        { this.getPanel() }
+      </div>
+    )
   }
 }
 
