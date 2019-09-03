@@ -1,8 +1,15 @@
 import React, {Component} from 'react'
-import style from './list-note-preview.module.scss'
+import style from './img-note-preview.module.scss'
 import Modal from 'react-modal';
 import NoteBottomPanel from './../../note-bottom-panel';
-import ListItems from './../../add-notes-panel/list-note-panel/list-items/list-items'
+
+import {updateNote} from '../../../redux/notes-reducer'
+import {connect} from 'react-redux';
+
+import { firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
+
+
 
 
 const customStyles = {
@@ -16,14 +23,24 @@ const customStyles = {
   }
 };
 
-class ListNotePreview extends Component {
+class ImgNotePreview extends Component {
   
   state = {
     modalIsOpen: false,
+    text: this.props.note.addInputText
+  }
+
+  onChange = e => {
+    this.setState({
+      text: e.target.value
+    })
   }
   
   closeModal = () => {
-    // this.props.updateNote(this.state.text)
+    this.props.updateNote(this.props.note.id, {
+      ...this.props.note,
+      addInputText: this.state.text
+    })
 
     return this.setState({
       modalIsOpen: false
@@ -35,18 +52,16 @@ class ListNotePreview extends Component {
   });
 
   render() {
-    const lists = <ListItems items={this.props.note.lists}
-                //  onDeleteTodoListItem={ (inputId) => {onDeleteTodoListItem(inputId)} }
-                //  onClickCompletedCheckbox={ (inputId, inputValue) => {onClickCompletedCheckbox(inputId, inputValue)} } 
-                 /> 
+    console.log('==========>>>>>>>>>>>>')
 
     return (
       <div>
         <div className={style.notePreview} style={{backgroundColor: this.props.note.bgColor}}>
           <div className={style.mark}></div>
           {/*  onClick={onClickMark} */}
+          <strong>img img</strong>
           <div onClick={this.openModal}>
-            {lists}
+            {this.props.note.addInputText}
           </div>
           <div className={style.NoteBottomPanel}>
             <NoteBottomPanel onClickDeleteBtn={this.props.onClickDeleteBtn}
@@ -62,7 +77,8 @@ class ListNotePreview extends Component {
           style={customStyles}
           contentLabel="Example Modal"
         >
-        {lists}
+        
+        <input value={this.state.text} onChange={this.onChange} />
         
         <button onClick={this.closeModal}>close</button>
         </Modal>
@@ -72,4 +88,26 @@ class ListNotePreview extends Component {
 }
 
 
-export default ListNotePreview;
+
+const mapStateToProps = (state) => {
+  return {
+    projects: state.firestore.ordered.projects,
+    notes: state.firestore.ordered.notes
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    // delNote: () => alert(111),
+    updateNote: (id, obj) => dispatch(updateNote(id, obj)),
+  }
+}  
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([
+    { collection: 'projects' },
+    { collection: 'items' },
+    { collection: 'notes' }
+  ])
+)(ImgNotePreview)

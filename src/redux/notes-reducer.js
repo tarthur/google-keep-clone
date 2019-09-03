@@ -57,19 +57,45 @@ export const addNote = (payload) => {
     }
 };
 
-export const delNote = (payload) => {
-    return {
-      type: 'DELETE_NOTE',
-      payload
-    }
+export const addItem = (item) => {
+  return (dispatch, getState, {getFirestore}) => {
+    // make async call to database
+    const firestore = getFirestore();
+    firestore.collection('notes').add(item)
+    .then(() => {
+      // dispatch({ type: 'CREATE_PROJECT_SUCCESS' });
+    }).catch(err => {
+      // dispatch({ type: 'CREATE_PROJECT_ERROR' }, err);
+    });
+  }
 };
 
-export const updateNote = (id, value) => {
-    return {
-      type: 'UPDATE_NOTE',
-      id,
-      value
-    }
+export const delNote = (id) => {
+  return (dispatch, getState, {getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.delete({ collection: 'notes', doc: id });
+  }
 };
+
+export const updateNote = (id, obj) => {
+  console.log('==========>>>>>>>>>>>>')
+  console.log('==========>>>>>>>>>>>>')
+  console.log('==========>>>>>>>>>>>>')
+  console.log(obj)
+
+  return (dispatch, getState, {getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.update({ collection: 'notes', doc: id }, obj)
+  }
+};
+
+
+// export const updateNote = (id, value) => {
+//     return {
+//       type: 'UPDATE_NOTE',
+//       id,
+//       value
+//     }
+// };
 
 export default notesReducer;

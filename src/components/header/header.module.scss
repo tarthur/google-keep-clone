@@ -1,4 +1,5 @@
 .header {
+  z-index: 100;
   position: fixed;
   top: 0; left: 0; right: 0;
   background: #fff;
@@ -6,4 +7,15 @@
   color: #333;
   // box-shadow: 0 0 3px rgba(0, 0, 0, .3);
   border-bottom: 1px solid rgba(0, 0, 0, .2);
+}
+
+.main {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.logo {
+  width: 40px;
+  margin-right: 15px;
 }

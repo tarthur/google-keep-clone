@@ -6,7 +6,7 @@ import BottomPanel from '../../bottom-panel';
 class notePanel extends Component {
   state = {
     value: '',
-    type: 'note'
+    type: 'img'
   }
   
   onChange = e => this.setState({addInputText: e.target.value})
@@ -17,7 +17,7 @@ class notePanel extends Component {
   render() {
     return (
       <div>
-        img
+        {/* onBlur={this.onBlur} */}
         <div>Заголовок</div>
         <input type="text" value={this.value} onChange={this.onChange} />
         <button onClick={this.onClick}>Добавить</button>
