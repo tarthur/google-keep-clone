@@ -11,21 +11,36 @@ const ListItems = props => {
   // const { items, 
   //   onDeleteTodoListItem, onClickCompletedCheckbox, onChangeTextField 
   // } = props;
-  const { items,  onChangeTextField } = props;
+  const { items,  onChangeTextField, onClickCompletedCheckbox, onDeleteTodoListItem } = props;
 
   const todoListItems = () => {
-    return items.map((item, index, array) => {
-      const focus = (index === (array.length - 1)) ? true : false;
-      
-      return <TodoListItem  id={item.id} 
-                            value={item.value} 
-                            checkbox={item.checkbox}
-                            // onDeleteTodoListItem={ () => { onDeleteTodoListItem(item.id) } }
-                            // onClickCompletedCheckbox={ () => onClickCompletedCheckbox(item.id) }
-                            onChangeTextField={ (value) => onChangeTextField(item.id, value)  }
-                            focus={focus} 
-                            />
-    });
+    if (props.viewMode && props.viewMode === "only-view") {
+      return items.map((item, index, array) => {
+        
+        return <TodoListItem  id={item.id} 
+                              value={item.value} 
+                              checkbox={item.checkbox}
+                              onDeleteTodoListItem={ () => {} }
+                              onChangeTextField={ () => {} }
+                              onClickCompletedCheckbox={ () => {} }  
+                              focus={false} />
+      });
+
+    } else {
+      return items.map((item, index, array) => {
+        const focus = (index === (array.length - 1)) ? true : false;
+        
+        return <TodoListItem  id={item.id} 
+                              value={item.value} 
+                              checkbox={item.checkbox}
+                              onDeleteTodoListItem={ () => { onDeleteTodoListItem(item.id) } }
+                              onChangeTextField={ (value) => onChangeTextField(item.id, value)  }
+                              onClickCompletedCheckbox={ () => onClickCompletedCheckbox(item.id)  }
+                              focus={focus} 
+                              />
+      });
+    }
+
   }
 
   return <ul> { todoListItems() } </ul>

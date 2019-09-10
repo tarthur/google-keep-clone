@@ -1,33 +1,77 @@
 import React, {Component} from 'react'
 import style from './list-note-preview.module.scss'
-import Modal from 'react-modal';
 import NoteBottomPanel from './../../note-bottom-panel';
 import ListItems from './../../add-notes-panel/list-note-panel/list-items/list-items'
+import ListNotePanel from '../../add-notes-panel/list-note-panel'
+
+import ModalBox from './../../modal-box'
 
 
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
+import List from '../../common/list/list'
+
+
+
+
+// class ListNotePanel extends Component {
+//   state = {
+//     lists: [],
+//     type: 'list'
+//   }
+
+//   onClickAddBtn = () => {
+//     this.props.onClick(this.state)
+//   }
+  
+//   returningItems = lists => {
+//     this.setState({lists})
+//   }
+
+//   render() {
+//     const {value, onChange} = this.props;
+
+//     return (
+//       <div>
+//         <div>Заголовок222</div>
+//         <List returningItems={this.returningItems} />
+//         <button onClick={this.onClickAddBtn}>Добавить</button>
+//         {/* <BottomPanel /> */}
+//       </div>
+//     )
+//   }
+// }
+
+
 
 class ListNotePreview extends Component {
   
   state = {
     modalIsOpen: false,
+    lists: this.props.note.lists
   }
   
   closeModal = () => {
-    // this.props.updateNote(this.state.text)
+    this.props.updateNote({
+      lists: this.state.lists
+    })
 
     return this.setState({
       modalIsOpen: false
     });
+  }
+
+  returningItems = lists => {
+    this.setState({lists})
+  }
+
+  getColor = bgColor => {
+    this.setState({
+      bgColor
+    })
+    
+    this.props.updateNote(this.props.note.id, {
+      ...this.props.note,
+      bgColor
+    })
   }
 
   openModal = () => this.setState({
@@ -35,37 +79,34 @@ class ListNotePreview extends Component {
   });
 
   render() {
-    const lists = <ListItems items={this.props.note.lists}
-                //  onDeleteTodoListItem={ (inputId) => {onDeleteTodoListItem(inputId)} }
-                //  onClickCompletedCheckbox={ (inputId, inputValue) => {onClickCompletedCheckbox(inputId, inputValue)} } 
-                 /> 
+    console.log('>>>>>.')
+    console.log(this.props)
+    // const lists = <ListItems items={this.props.note.lists}
+    //             //  onDeleteTodoListItem={ (inputId) => {onDeleteTodoListItem(inputId)} }
+    //             //  onClickCompletedCheckbox={ (inputId, inputValue) => {onClickCompletedCheckbox(inputId, inputValue)} } 
+    //              /> 
 
     return (
-      <div>
-        <div className={style.notePreview} style={{backgroundColor: this.props.note.bgColor}}>
+      <div className={style.notePreview} style={{backgroundColor: this.state.bgColor}}>
+        <div>
           <div className={style.mark}></div>
           {/*  onClick={onClickMark} */}
           <div onClick={this.openModal}>
-            {lists}
+          <ListItems items={this.state.lists} viewMode="only-view" /> 
           </div>
           <div className={style.NoteBottomPanel}>
             <NoteBottomPanel onClickDeleteBtn={this.props.onClickDeleteBtn}
-                            chooseСolor={this.props.chooseСolor} />
+                            getColor={this.getColor} />
+
           </div>
         </div>
 
-
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-        {lists}
-        
-        <button onClick={this.closeModal}>close</button>
-        </Modal>
+        <ModalBox isOpen={this.state.modalIsOpen} >
+          <div>
+            <List returningItems={this.returningItems} lists={this.state.lists} />
+            <button onClick={this.closeModal}>close</button>
+          </div>
+        </ModalBox>
       </div>
     )
   }

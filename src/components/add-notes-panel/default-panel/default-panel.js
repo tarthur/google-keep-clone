@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {addNote} from '../../../redux/notes-reducer'
 import BottomPanel from '../../bottom-panel';
-import style from './note-panel.module.scss'
+// import style from './note-panel.module.scss'
 
-class notePanel extends Component {
+class DefaultPanel extends Component {
   state = {
     value: '',
     type: 'note',
@@ -44,26 +44,19 @@ class notePanel extends Component {
 
   render() {
     return (
-      <div className={style.notePanel} style={{backgroundColor: this.state.bgColor}}>
-        
-        <div className={style.title}>
-          <input onChange={this.onTitleChange} 
-                  value={this.state.title} 
-                  placeholder="Заголовок"  />
+      <React.Fragment>
+        <div className="notes-panel__textarea" onClick={() => this.props.getPanel('note')} >
+          Заметка…
         </div>
-        <div className={style.inputBox}>
-          <input className={style.input} 
-                  type="text" value={this.value} 
-                  placeholder="Заметка" 
-                  onChange={this.onChange} />
+        <div className="notes-panel__icon notes-panel__list-icon" onClick={() => this.props.getPanel('list')} >
+          <i class="far fa-check-square"></i>
         </div>
-        <div className={style.bottomPanel}>
-          <BottomPanel getColor={this.getColor} getPanel={this.props.getPanel} />
-          <button onClick={this.onClick}>Добавить</button>
+        <div className="notes-panel__icon notes-panel__img-icon" onClick={() => this.props.getPanel('img')}>
+        <i class="far fa-image"></i>
         </div>
-      </div>
+      </React.Fragment>
     )
   }
 }
 
-export default notePanel;
+export default DefaultPanel;

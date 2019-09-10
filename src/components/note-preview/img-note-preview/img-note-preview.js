@@ -51,13 +51,24 @@ class ImgNotePreview extends Component {
     modalIsOpen: true,
   });
 
+  getColor = bgColor => {
+    this.setState({
+      bgColor
+    })
+    
+    this.props.updateNote(this.props.note.id, {
+      ...this.props.note,
+      bgColor
+    })
+  }
+  
   render() {
     console.log('==========>>>>>>>>>>>>')
 
     return (
-      <div>
-        <div className={style.notePreview} style={{backgroundColor: this.props.note.bgColor}}>
-          <div className={style.mark}></div>
+      <div className={style.notePreview} style={{backgroundColor: this.state.bgColor}}>
+        <div>
+        <div className={style.mark}></div>
           {/*  onClick={onClickMark} */}
           <strong>img img</strong>
           <div onClick={this.openModal}>
@@ -65,7 +76,8 @@ class ImgNotePreview extends Component {
           </div>
           <div className={style.NoteBottomPanel}>
             <NoteBottomPanel onClickDeleteBtn={this.props.onClickDeleteBtn}
-                            chooseСolor={this.props.chooseСolor} />
+                            getColor={this.getColor} />
+                            
           </div>
         </div>
 

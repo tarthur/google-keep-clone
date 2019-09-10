@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import style from './simple-note-preview.module.scss'
-import Modal from 'react-modal';
 import NoteBottomPanel from './../../note-bottom-panel';
 
 import {updateNote} from '../../../redux/notes-reducer'
@@ -9,37 +8,31 @@ import {connect} from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 
+import ModalBox from './../../modal-box'
 
 
-
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
 
 class SimpleNotePreview extends Component {
-  
   state = {
     modalIsOpen: false,
-    text: this.props.note.addInputText
+    text: this.props.note.addInputText,
+    bgColor: this.props.note.bgColor,
+    time: +(new Date()),
   }
 
   onChange = e => {
     this.setState({
-      text: e.target.value
+      text: e.target.value,
+      time: +(new Date())
     })
   }
   
   closeModal = () => {
     this.props.updateNote(this.props.note.id, {
       ...this.props.note,
-      addInputText: this.state.text
+      addInputText: this.state.text,
+      time: this.state.time,
+      bgColor: this.state.bgColor
     })
 
     return this.setState({
@@ -50,37 +43,51 @@ class SimpleNotePreview extends Component {
   openModal = () => this.setState({
     modalIsOpen: true,
   });
+  
+  getColor = bgColor => {
+    this.setState({
+      bgColor
+    })
+    
+    this.props.updateNote(this.props.note.id, {
+      ...this.props.note,
+      bgColor
+    })
+  }
+
+  onClickMark = () => {
+    alert(1)
+  }
 
   render() {
-    console.log('==========>>>>>>>>>>>>')
+    const date = new Date(this.props.note.time);
+    const modalContent = (
+      <div>
+        <div>
+          <div><input value={this.state.text} onChange={this.onChange} /></div>
+          <br />
+          <div>update data: {`${date.getHours()}.${date.getMinutes()}.${date.getSeconds()}`}</div>
+        </div>
+        <button onClick={this.closeModal}>close</button>
+      </div>
+    )
 
     return (
-      <div>
-        <div className={style.notePreview} style={{backgroundColor: this.props.note.bgColor}}>
-          <div className={style.mark}></div>
-          {/*  onClick={onClickMark} */}
+      <div className={style.notePreview} style={{backgroundColor: this.state.bgColor}}>
+        <div>
+          <div className={style.mark} onClick={this.onClickMark}></div>
           <div onClick={this.openModal}>
             {this.props.note.addInputText}
           </div>
           <div className={style.NoteBottomPanel}>
             <NoteBottomPanel onClickDeleteBtn={this.props.onClickDeleteBtn}
-                            chooseСolor={this.props.chooseСolor} />
+                            getColor={this.getColor} />
           </div>
         </div>
 
-
-        <Modal
-          isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
-          onRequestClose={this.closeModal}
-          style={customStyles}
-          contentLabel="Example Modal"
-        >
-        
-        <input value={this.state.text} onChange={this.onChange} />
-        
-        <button onClick={this.closeModal}>close</button>
-        </Modal>
+        <ModalBox isOpen={this.state.modalIsOpen} >
+          {modalContent}
+        </ModalBox>
       </div>
     )
   }

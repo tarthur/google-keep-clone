@@ -1,17 +1,26 @@
 import React, {Component} from 'react'
-import style from './note-bottom-panel.module.scss'
+import style from './note-bottom-panel.scss'
+import ChooseСolor from '../common/choose-color/choose-color'
+import MoreButton from '../common/more-button/more-button'
 
-const NoteBottomPanel = ({onClickDeleteBtn, chooseСolor}) => {
+const NoteBottomPanel = ({getColor, getPanel, onClickDeleteBtn}) => {
+  
   return (
-    <div className={style.noteBottomPanel}>
-      <button onClick={onClickDeleteBtn}>-</button>
-      <div className={chooseСolor}>
-        <ul className={style.bgColorBox}>
-          <li>red</li>
-          <li>green</li>
-          <li>blue</li>
-        </ul>
-        <span>color</span>
+    <div className="note-bottom-panel">
+      <div className="note-bottom-panel__icon">
+        <ChooseСolor getColor={getColor} />
+      </div>
+      <div className="note-bottom-panel__icon">
+        <div><i class="far fa-image"></i></div>
+      </div>
+      <div className="note-bottom-panel__icon note-bottom-panel__icon_3">
+        <MoreButton getPanel={getPanel} 
+                    toggle={<i class="fas fa-ellipsis-v"></i>}
+                    items={[
+                      {text: 'Удалить', onClick: onClickDeleteBtn},
+                      {text: 'Создать Копию', onClick: () => {}},
+                      {text: 'Добавить ярлык', onClick: () => {}}
+                    ]} />
       </div>
     </div>
   )

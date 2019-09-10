@@ -4,7 +4,8 @@ import {addNote, addItem} from '../../redux/notes-reducer'
 import NotePanel from './note-panel/note-panel'
 import ListNotePanel from './list-note-panel/list-note-panel'
 import ImgPanel from './img-panel/img-panel'
-import style from './add-notes-panel.module.scss'
+import DefaultPanel from './default-panel/default-panel'
+import style from './add-notes-panel.scss'
 
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
@@ -46,58 +47,34 @@ class AddNotesPanel extends Component {
     this.changeView('')
   }
 
+  getPanelllll = panel => {
+    this.changeView(panel)
+  }
+
   changeView = type => this.setState({type})
 
   getPanel = () => {
     switch(this.state.type) {
       case 'note' :
-        return <NotePanel onClick={this.onClickAddBtn}/>
+        return <NotePanel onClick={this.onClickAddBtn} getPanel={this.getPanelllll}/>
       case 'list' :
         return <ListNotePanel onClick={this.onClickAddBtn}/>
       case 'img' :
         return <ImgPanel onClick={this.onClickAddBtn}/>
       default :
-        return (
-          <React.Fragment>
-            <div className={style.textarea} onClick={() => this.changeView('note')} >
-              Заметка…
-            </div>
-            <div className={`${style.icon} ${style.listIcon}`} onClick={() => this.changeView('list')}>
-              <i class="far fa-check-square"></i>
-            </div>
-            <div className={`${style.icon} ${style.imgIcon}`} onClick={() => this.changeView('img')}>
-            <i class="far fa-image"></i>
-            </div>
-          </React.Fragment>
-        )
+        return <DefaultPanel  getPanel={this.getPanelllll} />
     }
   }
 
   render() {
-    console.log('>>>>>>>>>>.')
-    console.log(this.props)
     return (
-      <div className={style.addNotesPanel} ref={this.setWrapperRef}>
+      // <div className="add-notes-panel" ref={this.setWrapperRef}>
+      <div className="notes-panel" ref={this.setWrapperRef}>
         { this.getPanel() }
       </div>
     )
   }
 }
-
-// let mapStateToProps = (state) => {
-//   return {
-//     notes: state.notesReducer.notes,
-//   }
-// }
-
-// let mapDispatchToProps = (dispatch) => {
-//   return {
-//     addNote: (obj) => dispatch(addNote(obj)),
-//   }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(AddNotesPanel);
-
 
 const mapStateToProps = (state) => {
   return {
@@ -116,7 +93,6 @@ const mapDispatchToProps = dispatch => {
 //   { collection: 'items' }
 // ])( connect(mapStateToProps, mapDispatchToProps)(AddNotesPanel) );
 
-  
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

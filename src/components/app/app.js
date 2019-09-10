@@ -2,7 +2,8 @@ import React from 'react';
 // import logo from './logo.svg';
 import Header from '../header'
 import Main from '../main'
-import './app.css';
+
+
 
 function App() {
   return (

@@ -13,21 +13,15 @@ class NotesPreview extends Component {
     switch(this.props.note.type) {
       case 'note' : 
         return (
-          <div className={style.notePreview}>
-            <SimpleNotePreview note={this.props.note} onClickDeleteBtn={this.props.onClickDeleteBtn} />
-          </div>
+          <SimpleNotePreview note={this.props.note} onClickDeleteBtn={this.props.onClickDeleteBtn} />
         )
       case 'list' : 
         return (
-          <div className={style.notePreview}>
-            <ListNotePreview note={this.props.note} onClickDeleteBtn={this.props.onClickDeleteBtn} />
-          </div>
+          <ListNotePreview note={this.props.note} updateNote={this.props.updateNote} onClickDeleteBtn={this.props.onClickDeleteBtn} />
         )
       case 'img' :
         return (
-          <div className={style.notePreview}>
-            <ImgNotePreview note={this.props.note} onClickDeleteBtn={this.props.onClickDeleteBtn} />
-          </div>
+          <ImgNotePreview note={this.props.note} onClickDeleteBtn={this.props.onClickDeleteBtn} />
         )
       default :
         return <div>no note</div>
@@ -35,7 +29,11 @@ class NotesPreview extends Component {
   }
 
   render() {
-    return this.buildMain()
+    return (
+      <div className={style.notePreviewBox}>
+        {this.buildMain()}
+      </div>
+    )
   }
 }
 

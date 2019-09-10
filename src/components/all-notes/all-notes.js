@@ -15,8 +15,17 @@ import style from './all-notes.module.scss'
 const AllNotes = ({notes, delNote, updateNote}) => {
   let notesList;
   
+  
   if (notes) {
-    notesList = notes.map(note => {
+    let [...sortNotes] = notes;
+    
+    sortNotes.sort((a, b) => {
+      if (a.time > b.time) return -1;
+      if (a.time == b.time) return 0;
+      if (a.time < b.time) return 1;
+    });
+
+    notesList = sortNotes.map(note => {
       return <NotePreview key={note.id} 
                           note={note} 
                           onClickDeleteBtn={() => delNote(note.id)} 

@@ -1,0 +1,22 @@
+.moreBox {
+  position: relative;
+  margin-left: 10px;
+}
+
+.listBox {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  // padding: 15px;
+  transform: translateY(100%);
+
+  & > ul {
+    background: #eee;
+    list-style-type: none;;
+    
+    & > li {
+      padding: 10px;
+    }
+  }
+
+}
