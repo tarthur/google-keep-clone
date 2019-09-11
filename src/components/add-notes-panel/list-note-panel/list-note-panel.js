@@ -22,12 +22,14 @@ class ListNotePanel extends Component {
   
   returningItems = lists => {
     this.setState(state => {
+      
       this.props.setData({
         lists,
         type: state.type
       });
       
       return { lists }
+      
     });
   }
 

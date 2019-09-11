@@ -49,7 +49,7 @@ class ImageNotePreview extends Component {
     return (
       <div>
         <div onClick={this.openModal}>
-          {this.props.note.text}
+          <img style={{width: '100%', height: 'auto'}} src={this.props.note.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" />
         </div>
         <ModalBox isOpen={this.state.modalIsOpen} >
           <div>

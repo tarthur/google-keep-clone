@@ -27,10 +27,13 @@ class notePanel extends Component {
 
   handleUpload = (image) => {
       const name = new Date().getTime() + "." + image.name.split('.').pop();
+
       // new Date().getTime()
       console.log('->>>>>>>')
       console.log(image.name)
+
       const uploadTask = storage.ref(`images/${name}`).put(image);
+
       uploadTask.on('state_changed', 
       (snapshot) => {
         // progrss function ....
@@ -43,11 +46,18 @@ class notePanel extends Component {
         console.log(error);
       }, 
     () => {
-        // complete function ....
-        storage.ref('images').child(name).getDownloadURL().then(url => {
-            console.log(url);
-            this.setState({url});
-        })
+        storage.ref('images').child(name).getDownloadURL()
+          .then(url => {
+
+            this.setState(state => {
+              this.props.setData({
+                url,
+                type: state.type
+              });
+
+              return {url}
+            });
+          })
     });
   }
 

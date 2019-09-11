@@ -74,9 +74,9 @@ class AddNotesPanel extends Component {
       case 'note' :
         return <NotePanel setData={this.setData} />
       case 'list' :
-        return <ListNotePanel setData={this.setData}/>
+        return <ListNotePanel setData={this.setData} />
       case 'img' :
-        return <ImgPanel />
+        return <ImgPanel setData={this.setData}/>
     }
   }
 
