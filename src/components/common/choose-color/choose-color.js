@@ -34,7 +34,9 @@ export default class ChooseColor extends Component {
       <div className="choose-color" 
             onMouseEnter={this.onMouseEnter} 
             onMouseLeave={this.onMouseLeave}>
-        <span className="choose-color__title">color</span>
+        <span className="choose-color__title">
+          <i class="fas fa-palette"></i>
+        </span>
         {this.getList()}
       </div>
     )

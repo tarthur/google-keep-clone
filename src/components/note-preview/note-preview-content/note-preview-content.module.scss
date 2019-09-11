@@ -12,31 +12,18 @@
   transition: opacity .1s;
 }
 
-.NoteBottomPanel {
-  opacity: 0;
-  transition: opacity .3s;
-}
-
-.notePreviewBox {
-  width: 25%;
+.notePreview {
+  min-height: 100px;
   flex-shrink: 0;
   position: relative;
-  margin: 15px 20px 15px 0;
-  border-radius: 25px;
   background: #fff;
-  box-shadow: 0 0 2px rgba(0, 0, 0, .3);
-  transition: box-shadow .3s;
 
   &:hover {
-    border: 2px solid #333;
     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+  }
+}
 
-    .mark {
-      opacity: 1;
-    }
-
-    .NoteBottomPanel {
-      opacity: 1;
-    }
+.notePreview {
+  &:hover {
   }
 }

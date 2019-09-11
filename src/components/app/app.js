@@ -1,15 +1,18 @@
 import React from 'react';
-// import logo from './logo.svg';
 import Header from '../header'
-import Main from '../main'
+import AddNotesPanel from '../add-notes-panel'
+import AllNotes from '../all-notes'
+import './app.scss'
 
 
-
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Header />
-      <Main />
+    <div className="app">
+      <Header className="app__header" />
+      <div className="app__main">
+        <AddNotesPanel className="app__notes-panel" />
+        <AllNotes />
+      </div>
     </div>
   );
 }

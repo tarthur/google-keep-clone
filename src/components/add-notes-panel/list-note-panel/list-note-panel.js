@@ -10,8 +10,6 @@ import Form from './form/form'
 import List from '../../common/list/list'
 
 
-
-
 class ListNotePanel extends Component {
   state = {
     lists: [],
@@ -23,7 +21,14 @@ class ListNotePanel extends Component {
   }
   
   returningItems = lists => {
-    this.setState({lists})
+    this.setState(state => {
+      this.props.setData({
+        lists,
+        type: state.type
+      });
+      
+      return { lists }
+    });
   }
 
   render() {
@@ -31,10 +36,7 @@ class ListNotePanel extends Component {
 
     return (
       <div>
-        <div>Заголовок222</div>
         <List returningItems={this.returningItems} />
-        <button onClick={this.onClickAddBtn}>Добавить</button>
-        {/* <BottomPanel /> */}
       </div>
     )
   }

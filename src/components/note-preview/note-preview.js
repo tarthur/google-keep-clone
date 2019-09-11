@@ -1,28 +1,23 @@
 import React, {Component} from 'react'
-import style from './note-preview.module.scss'
-import Modal from 'react-modal';
-import NoteBottomPanel from './../note-bottom-panel';
-import ListNotePreview from './list-note-preview';
 import SimpleNotePreview from './simple-note-preview';
-import ImgNotePreview from './img-note-preview';
+import NotePreviewContent from '../note-preview/note-preview-content/note-preview-content'
+import ListNotePreview from './list-note-preview/list-note-preview'
+import ImageNotePreview from './image-note-preview/image-note-preview'
+
+import './note-preview.scss'
 
 
 class NotesPreview extends Component {
+  getColor = bgColor => this.props.updateNote(this.props.note.id, {bgColor})
 
-  buildMain = () => {
+  buildMain() {
     switch(this.props.note.type) {
-      case 'note' : 
-        return (
-          <SimpleNotePreview note={this.props.note} onClickDeleteBtn={this.props.onClickDeleteBtn} />
-        )
-      case 'list' : 
-        return (
-          <ListNotePreview note={this.props.note} updateNote={this.props.updateNote} onClickDeleteBtn={this.props.onClickDeleteBtn} />
-        )
+      case 'note' :
+        return <SimpleNotePreview note={this.props.note} updateNote={this.props.updateNote} />
+      case 'list' :
+        return <ListNotePreview note={this.props.note} updateNote={this.props.updateNote} />
       case 'img' :
-        return (
-          <ImgNotePreview note={this.props.note} onClickDeleteBtn={this.props.onClickDeleteBtn} />
-        )
+        return <ImageNotePreview note={this.props.note} updateNote={this.props.updateNote} />
       default :
         return <div>no note</div>
     }
@@ -30,12 +25,13 @@ class NotesPreview extends Component {
 
   render() {
     return (
-      <div className={style.notePreviewBox}>
-        {this.buildMain()}
+      <div className="note-preview">
+        <NotePreviewContent getColor={this.getColor} onClickDeleteBtn={this.props.onClickDeleteBtn}>
+          {this.buildMain()}
+        </NotePreviewContent>
       </div>
     )
   }
 }
-
 
 export default NotesPreview;

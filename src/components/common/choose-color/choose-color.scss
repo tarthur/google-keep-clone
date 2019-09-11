@@ -1,7 +1,7 @@
 .choose-color {
   position: relative;
-  background: red;
-  border: 1px solid #333;
+  cursor: pointer;
+  color: #333;
 
   &__box {
     position: absolute;

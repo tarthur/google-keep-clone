@@ -15,8 +15,6 @@ class MoreButton extends Component {
   }
 
   getItems = () => {
-    console.log('************')
-    console.log(this.props.items)
     return this.props.items.map(item => {
       return <li onClick={item.onClick}>{item.text}</li>
     })

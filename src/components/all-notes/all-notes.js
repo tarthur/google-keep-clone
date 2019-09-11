@@ -2,19 +2,14 @@ import React, {Component} from 'react'
 import NotePreview from '../note-preview'
 import {connect} from 'react-redux';
 import {delNote, updateNote} from '../../redux/notes-reducer'
-
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-
 import Spinner from './../spinner'
-
-import style from './all-notes.module.scss'
-
+import './all-notes.scss'
 
 
-const AllNotes = ({notes, delNote, updateNote}) => {
+const AllNotes = ({notes, deleteNote, updateNote}) => {
   let notesList;
-  
   
   if (notes) {
     let [...sortNotes] = notes;
@@ -28,10 +23,9 @@ const AllNotes = ({notes, delNote, updateNote}) => {
     notesList = sortNotes.map(note => {
       return <NotePreview key={note.id} 
                           note={note} 
-                          onClickDeleteBtn={() => delNote(note.id)} 
-                          updateNote={(value) => updateNote(note.id, value)} />
+                          onClickDeleteBtn={() => deleteNote(note.id)} 
+                          updateNote={updateNote} />
     });
-  
   }
 
   if (!notes) {
@@ -39,28 +33,15 @@ const AllNotes = ({notes, delNote, updateNote}) => {
   }
 
   return (
-    <div className="container">
-      <div className={style.main}>
-        {notesList}
+    <div className="all-notes">
+      <div className="all-notes__container container">
+        <div className="all-notes__main">
+          {notesList}
+        </div>
       </div>
     </div>
   )
 }
-
-
-// let mapStateToProps = (state) => {
-//   return {
-//     notes: state.notesReducer.notes,
-//   }
-// }
-
-// let mapDispatchToProps = (dispatch) => {
-//   return {
-//     delNote: (id) => dispatch(delNote(id)),
-//     updateNote: (id, value) => dispatch(updateNote(id, value)),
-//   }
-// }
-// export default connect(mapStateToProps, mapDispatchToProps)(AllNotes)
 
 
 const mapStateToProps = (state) => {
@@ -72,9 +53,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // delNote: () => alert(111),
-    delNote: (id) => dispatch(delNote(id)),
-    updateNote: (id, value) => dispatch(updateNote(id, value)),
+    deleteNote: (id) => dispatch(delNote(id)),
+    updateNote: (id, obj) => dispatch(updateNote(id, obj)),
   }
 }  
 
@@ -82,7 +62,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([
     { collection: 'projects' },
-    { collection: 'items' },
     { collection: 'notes' }
   ])
 )(AllNotes)

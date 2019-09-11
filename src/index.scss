@@ -1,3 +1,67 @@
+// var
+
+$Arial: Arial, sans-serif;
+
+// mixins
+
+@mixin btn() {
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  height: 35px;
+  padding: 0 20px;
+  font: 14px/35px $Arial;
+  // letter-spacing: 0.08em;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #000;
+  transition: color 0.15s ease-in-out, background-color .3s ease-in-out, box-shadow .3s;
+}
+
+@mixin btn_block($w: 100%) {
+  display: block;
+  width: $w;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@mixin btn_gray() {
+  color: rgba(0,0,0,0.87);
+  background-color: transparent;
+  transition: background-color .3s;
+
+  &:hover {
+    background-color: rgba(95,99,104,0.039);
+    color: #242939;
+  }
+}
+
+// base
+
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+@-ms-viewport {
+  width: device-width;
+}
+
+html {
+  box-sizing: border-box;
+  -ms-overflow-style: scrollbar;
+  min-height: auto;
+  // height: 100%;
+}
+
+
+// classes
+
 .container {
   max-width: 100%;
   min-width: 320px;
@@ -23,7 +87,6 @@
   }
 }
 
-
 /***** nowrap *****/
 .nowrap {
     white-space: nowrap;
@@ -40,12 +103,24 @@
     padding: 0;
 }
 
-/***** ------------ *****/
-/***** ------------ *****/
-/***** ------------ *****/
-/***** ------------ *****/
-/***** ------------ *****/
+/***** btn *****/
+.btn {
+  @include btn; 
 
+  &_gray {
+    @include btn_gray;
+  }
+  
+  &_block {
+    @include btn_block;
+  }
+}
+
+/***** ------------ *****/
+/***** ------------ *****/
+/***** ------------ *****/
+/***** ------------ *****/
+/***** ------------ *****/
 
 
 .App {

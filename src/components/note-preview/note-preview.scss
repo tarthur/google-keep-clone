@@ -1,0 +1,39 @@
+.note-preview {
+  margin: 8px;
+  width: 280px;
+  flex-shrink: 0;
+  position: relative;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, .3);
+  transition: box-shadow .3s;
+
+  &__mark {
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-20%, -20%);
+    width: 20px;
+    height: 20px;
+    background: #333;
+    border-radius: 50%;
+    transition: opacity .1s;
+  }
+
+  &:hover {
+    // border: 2px solid #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+
+    .note-preview {
+      &__mark {
+        opacity: 1;
+      }
+    }
+
+    .NoteBottomPanel {
+      opacity: 1;
+    }
+  }
+}

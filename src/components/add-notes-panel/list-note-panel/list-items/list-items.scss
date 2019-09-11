@@ -1,0 +1,11 @@
+.list-items {
+  &_no-bottom {
+    .list-items {
+      &__list-item {
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}

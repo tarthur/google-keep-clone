@@ -1,8 +1,5 @@
 import React, {Component} from 'react'
-// import {connect} from 'react-redux';
-// import {addNote} from '../../redux/notes-reducer'
-// import BottomPanel from './../bottom-panel';
-import style from './todo-list-item.module.scss'
+import './todo-list-item.scss'
 
 
 
@@ -22,22 +19,22 @@ class TodoListItem extends Component {
   render() {
     const { value, checkbox, 
             onDeleteTodoListItem, onChangeTextField, onClickCompletedCheckbox} = this.props;
-    let liClasses = style.listItem;
+    let liClasses = 'list-item ' + (this.props.className || '');
   
-    if ( this.props.checkbox ) liClasses += ' ' + style.active;
+    if ( this.props.checkbox ) liClasses += ' ' + 'list-item_active';
 
     return (
       <li className={ liClasses }>
-        <div className={ style.checkbox }
+        <div className="list-item__checkbox"
              onClick={  onClickCompletedCheckbox } >
         </div>
-        <input className={style.input}
+        <input className="list-item__input"
                type="text"
                value={ value }
                onChange={ (e) => onChangeTextField(e.target.value) }
                ref={ this.input } 
             />
-        <i className={style.closeBtn} 
+        <i className="list-item__close-btn" 
            onClick={ onDeleteTodoListItem } ></i>
       </li>
     );

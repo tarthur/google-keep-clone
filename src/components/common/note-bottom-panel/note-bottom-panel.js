@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import style from './note-bottom-panel.scss'
-import ChooseСolor from '../common/choose-color/choose-color'
-import MoreButton from '../common/more-button/more-button'
+import './note-bottom-panel.scss'
+import ChooseСolor from '../choose-color/choose-color'
+import MoreButton from '../more-button/more-button'
 
 const NoteBottomPanel = ({getColor, getPanel, onClickDeleteBtn}) => {
   

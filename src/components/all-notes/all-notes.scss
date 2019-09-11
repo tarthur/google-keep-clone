@@ -1,0 +1,9 @@
+.all-notes {
+  &__main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin: 0 -8px;
+  }
+  
+}

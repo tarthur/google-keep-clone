@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 // import {connect} from 'react-redux';
 // import {addNote} from '../../redux/notes-reducer'
 // import BottomPanel from './../bottom-panel';
-// import style from './list-items.module.scss'
+import './list-items.scss'
 
 import TodoListItem from './../todo-list-item/todo-list-item'
 
@@ -23,7 +23,9 @@ const ListItems = props => {
                               onDeleteTodoListItem={ () => {} }
                               onChangeTextField={ () => {} }
                               onClickCompletedCheckbox={ () => {} }  
-                              focus={false} />
+                              focus={false} 
+                              className="list-items__list-item" 
+                              />
       });
 
     } else {
@@ -37,13 +39,14 @@ const ListItems = props => {
                               onChangeTextField={ (value) => onChangeTextField(item.id, value)  }
                               onClickCompletedCheckbox={ () => onClickCompletedCheckbox(item.id)  }
                               focus={focus} 
+                              className="list-items__list-item"
                               />
       });
     }
 
   }
 
-  return <ul> { todoListItems() } </ul>
+  return <ul className={`list-items ${props.className}`} > { todoListItems() } </ul>
 }
 
 export default ListItems;

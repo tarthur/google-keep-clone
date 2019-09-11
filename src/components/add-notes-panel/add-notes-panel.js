@@ -5,17 +5,26 @@ import NotePanel from './note-panel/note-panel'
 import ListNotePanel from './list-note-panel/list-note-panel'
 import ImgPanel from './img-panel/img-panel'
 import DefaultPanel from './default-panel/default-panel'
-import style from './add-notes-panel.scss'
+import './add-notes-panel.scss'
 
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 // import { addItem } from '../../store/actions/projectActions'
 
+import NotePanelView from './note-panel-view/note-panel-view'
+
 
 
 class AddNotesPanel extends Component {
   state = {
-    view: ''
+    note: {},
+    view: '',
+    
+//   value: '',
+//   type: 'note',
+//   editMode: false,
+//   bgColor: 'transparent',
+//   time: +(new Date())
   }
 
   componentDidMount() {
@@ -36,45 +45,60 @@ class AddNotesPanel extends Component {
     this.wrapperRef = node;
   }
 
-  onClickAddBtn = (obj) => {
-    // this.props.addNote(obj);
-    this.props.addItem({
-      mark: false,
-      bgColor: '#fff',
-      ...obj
+  onClickAddBtn = (data) => {
+    this.setState(state => {
+      const note = {
+        ...state.note,
+        ...data
+      }
+
+      this.props.addNote(note);
+
+      return { note }
     });
 
-    this.changeView('')
+    this.changeView('');
   }
 
-  getPanelllll = panel => {
-    this.changeView(panel)
+  changeView = view => this.setState({view})
+
+  setData = note => {
+    this.setState({note: {
+      ...this.state.note,
+      ...note
+    }})
   }
 
-  changeView = type => this.setState({type})
-
-  getPanel = () => {
-    switch(this.state.type) {
+  getPanelG = () => {
+    switch(this.state.view) {
       case 'note' :
-        return <NotePanel onClick={this.onClickAddBtn} getPanel={this.getPanelllll}/>
+        return <NotePanel setData={this.setData} />
       case 'list' :
-        return <ListNotePanel onClick={this.onClickAddBtn}/>
+        return <ListNotePanel setData={this.setData}/>
       case 'img' :
-        return <ImgPanel onClick={this.onClickAddBtn}/>
-      default :
-        return <DefaultPanel  getPanel={this.getPanelllll} />
+        return <ImgPanel />
     }
   }
 
   render() {
     return (
-      // <div className="add-notes-panel" ref={this.setWrapperRef}>
-      <div className="notes-panel" ref={this.setWrapperRef}>
-        { this.getPanel() }
+      <div className={`notes-panel ${this.props.className}`} ref={this.setWrapperRef}>
+        {
+          this.state.view === '' 
+          ? 
+          <DefaultPanel setPanelView={this.changeView} /> 
+          :
+          <NotePanelView onClick={this.onClickAddBtn}>
+            { this.getPanelG() }
+          </NotePanelView>
+        }
       </div>
     )
   }
 }
+
+
+
 
 const mapStateToProps = (state) => {
   return {
@@ -85,14 +109,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addItem: (item) => dispatch(addItem(item)),
+    addNote: (item) => dispatch(addItem(item)),
   }
 }
-// export default firestoreConnect([
-//   { collection: 'projects' },
-//   { collection: 'items' }
-// ])( connect(mapStateToProps, mapDispatchToProps)(AddNotesPanel) );
-
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

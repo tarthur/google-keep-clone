@@ -20,7 +20,7 @@ class Form extends React.Component {
   render() {
     return (
       <div className={style.form}>
-        <input type="text" className={style.formInput} placeholder="What needs to be done?..." 
+        <input type="text" className={style.formInput} placeholder="Новый пункт" 
                value={ this.state.value}
                onChange={ this.onChangeInputText }/>
       </div>

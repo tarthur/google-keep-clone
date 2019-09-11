@@ -1,16 +1,14 @@
 import React from 'react'
-import style from './header.module.scss'
-import logo512 from './../../assets/images/logo512.png'
+import Logo from '../common/logo'
+import './header.scss'
+
 
 const Header = () => {
   return (
-    <div className={style.header}>
-      <div className="container">
-        <div className={style.main}>
-          <div className={style.logo}>
-            <img src={logo512} className="img-fluid" />
-          </div>
-          Keep clone
+    <div className="header">
+      <div className="header__container container">
+        <div className="header__main">
+          <Logo className="header__logo" />
         </div>
       </div>
     </div>

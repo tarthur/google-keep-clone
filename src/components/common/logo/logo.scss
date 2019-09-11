@@ -1,0 +1,16 @@
+.logo {
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    width: 32px;
+    margin-right: 10px;
+  }
+
+  &__name {
+    font-family: Arial,sans-serif;
+    font-size: 22px;
+    line-height: 24px;
+    color: #5f6368;
+  }
+}

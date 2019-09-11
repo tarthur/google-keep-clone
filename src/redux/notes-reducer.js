@@ -81,7 +81,7 @@ export const updateNote = (id, obj) => {
   console.log('==========>>>>>>>>>>>>')
   console.log('==========>>>>>>>>>>>>')
   console.log('==========>>>>>>>>>>>>')
-  console.log(obj)
+  console.log(id, obj)
 
   return (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();

@@ -1,14 +1,8 @@
 import React, {Component} from 'react'
-import NoteBottomPanel from '../../common/note-bottom-panel/note-bottom-panel';
 import ModalBox from './../../modal-box'
-import List from '../../common/list/list'
-import ListItems from '../../add-notes-panel/list-note-panel/list-items/list-items'
 
 
-  
-
-
-class ListNotePreview extends Component {
+class ImageNotePreview extends Component {
   state = {
     modalIsOpen: false,
 
@@ -16,18 +10,14 @@ class ListNotePreview extends Component {
       text: this.props.note.text,
       bgColor: this.props.note.bgColor,
       time: +(new Date()),
-      lists: this.props.note.lists
     }
   }
-
-  returningItems = lists => {
-    this.setState({
-      note: {
-        ...this.state.note,
-        time: +(new Date()),
-        lists
-      }
-    })
+  
+  handleChange = e => {
+    if (e.target.files[0]) {
+      const image = e.target.files[0];
+      this.setState(() => ({image}));
+    }
   }
 
   onChange = e => {
@@ -55,16 +45,19 @@ class ListNotePreview extends Component {
 
   render() {
     const date = new Date(this.props.note.time);
-    console.log(this.props)
 
     return (
       <div>
         <div onClick={this.openModal}>
-          <ListItems items={this.props.note.lists} viewMode="only-view" className="note-preview__list-items list-items_no-bottom"/> 
+          {this.props.note.text}
         </div>
         <ModalBox isOpen={this.state.modalIsOpen} >
           <div>
-            <List returningItems={this.returningItems} lists={this.state.note.lists} />
+            <div>
+              <div><input value={this.state.note.text} onChange={this.onChange} /></div>
+              <br />
+              <div>update data: {`${date.getHours()}.${date.getMinutes()}.${date.getSeconds()}`}</div>
+            </div>
             <button onClick={this.closeModal}>close</button>
           </div>
         </ModalBox>
@@ -73,4 +66,5 @@ class ListNotePreview extends Component {
   }
 }
 
-export default ListNotePreview;
+
+export default ImageNotePreview;
