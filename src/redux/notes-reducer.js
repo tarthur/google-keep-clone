@@ -70,10 +70,22 @@ export const addItem = (item) => {
   }
 };
 
-export const delNote = (id) => {
-  return (dispatch, getState, {getFirestore}) => {
+export const delNote = (note) => {
+  
+  return (dispatch, getState, {getFirestore, storage}) => {
+    if (note.type === 'img') {
+      // Delete the file
+      storage.ref(`images/${note.imgName}`).delete().then(function() {
+        // File deleted successfully
+        alert('File deleted successfully')
+      }).catch(function(error) {
+        alert(2)
+        // Uh-oh, an error occurred!
+      });
+    }
+  
     const firestore = getFirestore();
-    firestore.delete({ collection: 'notes', doc: id });
+    firestore.delete({ collection: 'notes', doc: note.id });
   }
 };
 

@@ -23,7 +23,7 @@ const AllNotes = ({notes, deleteNote, updateNote}) => {
     notesList = sortNotes.map(note => {
       return <NotePreview key={note.id} 
                           note={note} 
-                          onClickDeleteBtn={() => deleteNote(note.id)} 
+                          onClickDeleteBtn={() => deleteNote(note)} 
                           updateNote={updateNote} />
     });
   }
@@ -53,7 +53,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteNote: (id) => dispatch(delNote(id)),
+    deleteNote: (note) => dispatch(delNote(note)),
     updateNote: (id, obj) => dispatch(updateNote(id, obj)),
   }
 }  

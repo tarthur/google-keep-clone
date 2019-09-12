@@ -4,7 +4,7 @@ import { firestoreReducer } from 'redux-firestore';
 import thunk from 'redux-thunk'
 import { reduxFirestore, getFirestore } from 'redux-firestore';
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
-import fbConfig from './../config/fbConfig'
+import fbConfig, {storage} from './../config/fbConfig'
 
 let reducers = combineReducers({
   notesReducer,
@@ -16,7 +16,7 @@ let reducers = combineReducers({
 
 const store = createStore(reducers,
   compose(
-    applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
+    applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore, storage})),
     reactReduxFirebase(fbConfig), // redux binding for firebase
     reduxFirestore(fbConfig) // redux bindings for firestore
   )

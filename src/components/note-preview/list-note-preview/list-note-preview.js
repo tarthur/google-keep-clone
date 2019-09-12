@@ -3,7 +3,7 @@ import NoteBottomPanel from '../../common/note-bottom-panel/note-bottom-panel';
 import ModalBox from './../../modal-box'
 import List from '../../common/list/list'
 import ListItems from '../../add-notes-panel/list-note-panel/list-items/list-items'
-
+import classNames from 'classnames'
 
   
 
@@ -58,7 +58,7 @@ class ListNotePreview extends Component {
     console.log(this.props)
 
     return (
-      <div>
+      <div className={classNames('foo', 'bar')}>
         <div onClick={this.openModal}>
           <ListItems items={this.props.note.lists} viewMode="only-view" className="note-preview__list-items list-items_no-bottom"/> 
         </div>

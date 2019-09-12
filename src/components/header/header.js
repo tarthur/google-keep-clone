@@ -8,7 +8,7 @@ const Header = () => {
     <div className="header">
       <div className="header__container container">
         <div className="header__main">
-          <Logo className="header__logo" />
+          <Logo />
         </div>
       </div>
     </div>

@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from './logo.png';
-import './logo.scss'
+import style from './logo.module.scss'
 
 
-const Logo = props => {
+const Logo = () => {
   return (
-    <div className={`${props.className} logo`}>
-      <div className="logo__icon">
+    <div className={style.logo}>
+      <div className={style.logoIcon}>
         <img src={logo} className="img-fluid" />
       </div>
-      <div className="logo__name">
-        Keep clone
-      </div>
+      <div className={style.logoName}>Keep clone</div>
     </div>
   )
 }

@@ -25,11 +25,9 @@ class NotesPreview extends Component {
 
   render() {
     return (
-      <div className="note-preview">
-        <NotePreviewContent getColor={this.getColor} onClickDeleteBtn={this.props.onClickDeleteBtn}>
-          {this.buildMain()}
-        </NotePreviewContent>
-      </div>
+      <NotePreviewContent getColor={this.getColor} bgColor={this.props.note.bgColor} onClickDeleteBtn={this.props.onClickDeleteBtn}>
+        {this.buildMain()}
+      </NotePreviewContent>
     )
   }
 }

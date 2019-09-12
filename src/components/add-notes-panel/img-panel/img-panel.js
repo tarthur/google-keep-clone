@@ -13,6 +13,7 @@ class notePanel extends Component {
 
     image: null,
     url: '',
+    imgName: null,
     progress: 0,
   }
 
@@ -52,6 +53,7 @@ class notePanel extends Component {
             this.setState(state => {
               this.props.setData({
                 url,
+                imgName: name,
                 type: state.type
               });
 

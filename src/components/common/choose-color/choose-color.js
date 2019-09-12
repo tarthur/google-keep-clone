@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
-import './choose-color.scss'
+import style from './choose-color.module.scss';
+import classNames from 'classnames';
+
 
 export default class ChooseColor extends Component {
   state = {
@@ -18,23 +20,35 @@ export default class ChooseColor extends Component {
     })
   }
 
+  getColors = () => {
+    let colors = ['#fff', '#f28b82', '#fbbc04', '#fff475', '#ccff90', '#a7ffeb', '#cbf0f8', '#aecbfa', '#d7aefb', '#fdcfe8', '#e6c9a8', '#e8eaed'];
+
+    return colors.map((item, i) => {
+      let borderColor = item;
+
+      if (i === 0) borderColor = '#eee'
+      
+      return <li className={style.listItem} 
+                  style={{backgroundColor: item, borderColor}} 
+                  onClick={() => this.props.getColor(item)} />
+    });
+  }
+
   getList = () => {
     return this.state.isShowList &&
-            <div className="choose-color__box">
-              <ul className="choose-color__list">
-                <li className="choose-color__list-item" onClick={() => this.props.getColor('red')}>red</li>
-                <li className="choose-color__list-item" onClick={() => this.props.getColor('green')}>green</li>
-                <li className="choose-color__list-item" onClick={() => this.props.getColor('blue')}>blue</li>
+            <div className={style.box}>
+              <ul className={style.list}>
+                {this.getColors()}
               </ul>
             </div>
   }
 
   render() {
+    
+
     return (
-      <div className="choose-color" 
-            onMouseEnter={this.onMouseEnter} 
-            onMouseLeave={this.onMouseLeave}>
-        <span className="choose-color__title">
+      <div className={style.chooseColor} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+        <span className={style.title}>
           <i class="fas fa-palette"></i>
         </span>
         {this.getList()}

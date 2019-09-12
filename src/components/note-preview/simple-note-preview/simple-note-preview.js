@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import ModalBox from './../../modal-box'
+import style from './simple-note-preview.module.scss'
 
 
 class SimpleNotePreview extends Component {
@@ -41,7 +42,7 @@ class SimpleNotePreview extends Component {
 
     return (
       <div>
-        <div onClick={this.openModal}>
+        <div className={style.note} onClick={this.openModal}>
           {this.props.note.text}
         </div>
         <ModalBox isOpen={this.state.modalIsOpen} >

@@ -13,16 +13,6 @@ import ModalBox from './../../modal-box'
 
 
 class NotePreviewContent extends Component {
-  state = {
-    // modalIsOpen: false,
-
-    // note: {
-    //   text: this.props.note.text,
-    //   bgColor: this.props.note.bgColor,
-    //   time: +(new Date()),
-    // }
-  }
-
   onClickMark = () => {
     alert(1)
   }
@@ -32,16 +22,18 @@ class NotePreviewContent extends Component {
 
     return (
       <div className={style.notePreview} 
-      // style={{backgroundColor: this.state.bgColor}}
+      style={{backgroundColor: this.props.bgColor}}
       >
+        <div className={style.notePreviewWrap} >
         <div>
           <div className={style.mark} onClick={this.onClickMark}></div>
           {this.props.children}
-          <div className={style.NoteBottomPanel}>
-            <NoteBottomPanel onClickDeleteBtn={this.props.onClickDeleteBtn}
-                            getColor={this.props.getColor} />
-          </div>
         </div>
+      </div>
+      <div className={style.NoteBottomPanel}>
+        <NoteBottomPanel onClickDeleteBtn={this.props.onClickDeleteBtn}
+                        getColor={this.props.getColor} />
+      </div>
       </div>
     )
   }
