@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import './panel-title.scss'
+import style from './panel-title.module.scss'
 
 export default class PanelTitle extends Component {
   state = {
@@ -11,15 +11,15 @@ export default class PanelTitle extends Component {
       title: e.currentTarget.value
     });
 
-    console.log(this.state.title)
+    this.props.getTitle(e.currentTarget.value)
   }
 
   render() {
     return (
-      <div className="panel-title">
+      <div className={style.panelTitle}>
 
         
-      <input className="panel-title__input"
+      <input className={style.input}
               onChange={this.onTitleChange} 
               value={this.state.title} 
               placeholder="Заголовок"  />

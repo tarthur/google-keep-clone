@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import './list.scss'
-import ListItems from '../../add-notes-panel/list-note-panel/list-items/list-items'
-import Form from '../../add-notes-panel/list-note-panel/form/form'
+import ListItems from './list-items/list-items'
+import Form from './form/form'
+import style from './list.module.scss'
 
 export default class List extends Component {
   state = {
@@ -94,7 +94,7 @@ export default class List extends Component {
 
   render() {
     return (
-      <div className="todo-list">
+      <div className={style.todoList}>
         <ListItems items={this.state.lists}
                    onChangeTextField={this.onChangeTextField}
                     onClickCompletedCheckbox={ this.onClickCompletedCheckbox } 

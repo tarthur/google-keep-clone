@@ -2,14 +2,16 @@
   opacity: 0;
   cursor: pointer;
   position: absolute;
+  z-index: 10;
   top: 0;
   left: 0;
-  transform: translate(-50%, -50%);
-  width: 30px;
-  height: 30px;
-  background: #333;
-  border-radius: 50%;
+  transform: translate(-40%, -40%);
+  font-size: 20px;
   transition: opacity .1s;
+
+  i {
+    border-radius: 50%;
+  }
 }
 
 .NoteBottomPanel {
@@ -21,6 +23,7 @@
 }
 
 .notePreview {
+  border: 2px solid transparent;
   margin-left: 1%;
   margin-bottom: 15px;
   width: 24%;
@@ -43,8 +46,22 @@
   &:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
 
+    .mark {
+      opacity: 1;
+    }
+
     .NoteBottomPanel {
       opacity: 1;
+    }
+  }
+
+  &.active {
+    border-color: #333;
+
+    .mark {
+      i {
+        background: #eee;
+      }
     }
   }
 }

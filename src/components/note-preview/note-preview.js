@@ -4,8 +4,6 @@ import NotePreviewContent from '../note-preview/note-preview-content/note-previe
 import ListNotePreview from './list-note-preview/list-note-preview'
 import ImageNotePreview from './image-note-preview/image-note-preview'
 
-import './note-preview.scss'
-
 
 class NotesPreview extends Component {
   getColor = bgColor => this.props.updateNote(this.props.note.id, {bgColor})

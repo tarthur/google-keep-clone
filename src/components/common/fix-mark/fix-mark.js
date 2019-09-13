@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
-import './fix-mark.scss'
+import style from './fix-mark.module.scss'
+import ReactTooltip from 'react-tooltip'
 
 const FixMark = props => {
   return (
-    <div className="fix-mark" onClick={props.onClick}>
+    <div className={style.fixMark} onClick={props.onClick} data-tip="Закрепить" >
       <i class="fas fa-thumbtack"></i>
+      <ReactTooltip place="bottom" type="dark" effect="solid"/>
     </div>
   )
 }

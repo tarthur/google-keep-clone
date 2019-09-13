@@ -43,11 +43,13 @@ class SimpleNotePreview extends Component {
     return (
       <div>
         <div className={style.note} onClick={this.openModal}>
-          {this.props.note.text}
+          <div>{this.props.note.title}</div>
+          <div>{this.props.note.text}</div>
         </div>
         <ModalBox isOpen={this.state.modalIsOpen} >
           <div>
             <div>
+              <div>{this.props.note.title}</div>
               <div><input value={this.state.note.text} onChange={this.onChange} /></div>
               <br />
               <div>update data: {`${date.getHours()}.${date.getMinutes()}.${date.getSeconds()}`}</div>

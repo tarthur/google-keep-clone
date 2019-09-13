@@ -62,13 +62,7 @@ class ImageNotePreview extends Component {
   }
 
   render() {
-    console.log('this.props.note')
-    console.log('this.props.note')
-    console.log('this.props.note')
-    console.log('this.props.note')
-    console.log('this.props.note')
-    console.log(this.props.note)
-    console.log(this.props.note)
+    
     const date = new Date(this.props.note.time);
     
     return (

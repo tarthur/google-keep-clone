@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
-import NoteBottomPanel from '../../common/note-bottom-panel/note-bottom-panel';
 import ModalBox from './../../modal-box'
 import List from '../../common/list/list'
-import ListItems from '../../add-notes-panel/list-note-panel/list-items/list-items'
+import ListItems from '../../common/list/list-items/list-items'
 import classNames from 'classnames'
-
+import style from './list-note-preview.module.scss'
   
 
 
@@ -60,10 +59,12 @@ class ListNotePreview extends Component {
     return (
       <div className={classNames('foo', 'bar')}>
         <div onClick={this.openModal}>
+          <div className={style.title}>{this.props.note.title}</div>
           <ListItems items={this.props.note.lists} viewMode="only-view" className="note-preview__list-items list-items_no-bottom"/> 
         </div>
         <ModalBox isOpen={this.state.modalIsOpen} >
           <div>
+            <div>{this.props.note.title}</div>
             <List returningItems={this.returningItems} lists={this.state.note.lists} />
             <button onClick={this.closeModal}>close</button>
           </div>

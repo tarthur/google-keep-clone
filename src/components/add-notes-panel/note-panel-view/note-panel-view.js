@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import BottomPanel from '../../bottom-panel';
+import NoteBottomPanel from '../../common/note-bottom-panel/note-bottom-panel';
 import PanelTitle from '../../common/panel-title/panel-title'
 import FixMark from '../../common/fix-mark/fix-mark'
 import style from './note-panel-view.module.scss'
@@ -8,13 +8,12 @@ import style from './note-panel-view.module.scss'
 class NotePanelView extends Component {
   state = {
     title: '',
-    bgColor: '',
     time: +(new Date()),
   }
 
-  getColor = bgColor => {
-    this.setState({bgColor})
-  }
+  // getColor = bgColor => {
+  //   this.setState({bgColor})
+  // }
   
   onClickFixMark = () => {
     alert('onClickFixMark')
@@ -24,20 +23,40 @@ class NotePanelView extends Component {
     this.props.onClick(this.state)
   }
 
+  getTitle = title => {
+    this.setState({
+      title
+    })
+  }
+
   render() {
+    const NoteBottomPanelParams = [
+      {
+        panelName: 'color',
+        getColor: this.props.getColor,
+      },
+      {
+        panelName: 'more',
+        moreItems: [
+          {text: 'Создать Копию', onClick: () => {}},
+          {text: 'Добавить ярлык', onClick: () => {}}
+        ]
+      }
+    ]
     
     return (
-      <div>
-        <PanelTitle />
+      <>
+        <PanelTitle getTitle={this.getTitle} />
         <FixMark onClick={this.onClickFixMark} />
 
         {this.props.children}
 
         <div className={style.bottomPanel}>
-          <BottomPanel getColor={this.getColor} getPanel={this.props.getPanel} />
+          <NoteBottomPanel params={NoteBottomPanelParams} />
+
           <div class="btn btn_gray" role="button" onClick={this.onClickAddBtn}>Добавить</div>
         </div>
-      </div>
+      </>
     )
   }
 }

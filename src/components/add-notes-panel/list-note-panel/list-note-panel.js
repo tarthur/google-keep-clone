@@ -3,8 +3,8 @@ import React, {Component} from 'react'
 // import {addNote} from '../../redux/notes-reducer'
 // import BottomPanel from './../bottom-panel';
 import style from './list-note-panel.module.scss'
-import ListItems from './list-items/list-items'
-import Form from './form/form'
+import ListItems from '../../common/list/list-items/list-items'
+import Form from '../../common/list/form/form'
 
 
 import List from '../../common/list/list'

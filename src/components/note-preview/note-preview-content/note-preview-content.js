@@ -17,22 +17,37 @@ class NotePreviewContent extends Component {
   }
 
   render() {
-    console.log('this.props')
-    console.log(this.props)
+    const NoteBottomPanelParams = [
+      {
+        panelName: 'color',
+        getColor: this.props.getColor,
+      },
+      {
+        panelName: 'addImg'
+      },
+      {
+        panelName: 'more',
+        moreItems: [
+          {text: 'Удалить', onClick: this.props.onClickDeleteBtn},
+          {text: 'Создать Копию', onClick: () => {}},
+          {text: 'Добавить ярлык', onClick: () => {}}
+        ]
+      },
+    ]
 
     return (
       <div className={style.notePreview}  
       style={{backgroundColor: this.props.bgColor}}>
         <div className={style.notePreviewWrap} >
           <div>
-            <div className={style.mark} onClick={this.onClickMark}></div>
+            <div className={style.mark} onClick={this.onClickMark}>
+              <i class="fas fa-check-circle" />
+            </div>
             {this.props.children}
           </div>
         </div>
         <div className={className(style.NoteBottomPanel, style[this.props.bottomPanelPosition])}>
-          <NoteBottomPanel onClickDeleteBtn={this.props.onClickDeleteBtn}
-                            getColor={this.props.getColor}
-                            classes={['notePreview']} />
+          <NoteBottomPanel params={NoteBottomPanelParams} />
         </div>
       </div>
     )

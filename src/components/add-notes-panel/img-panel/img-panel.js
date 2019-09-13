@@ -1,8 +1,5 @@
 import React, {Component} from 'react'
 import {storage} from '../../../config/fbConfig';
-import {connect} from 'react-redux';
-import {addNote} from '../../../redux/notes-reducer'
-import BottomPanel from '../../bottom-panel';
 
 
 

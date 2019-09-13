@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-
-// import ErrorIndicator from '../error-indicator/error-indicator';
-
 import Modal from 'react-modal';
+import style from './modal-box.module.scss'
 
 
 const customStyles = {
@@ -12,14 +10,18 @@ const customStyles = {
     right                 : 'auto',
     bottom                : 'auto',
     marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
+    transform             : 'translate(-50%, -50%)',
+    zIndex                : '100'
   }
 };
 
 export default class ModalBox extends Component {
   render() {
+    
     return (
-      <Modal isOpen={this.props.isOpen} style={customStyles} >
+      <Modal isOpen={this.props.isOpen} 
+              style={customStyles}
+              overlayClassName={style.ddd} >
         {this.props.children}
       </Modal>
     )

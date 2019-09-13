@@ -5,7 +5,7 @@ import {delNote, updateNote} from '../../redux/notes-reducer'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import Spinner from '../common/spinner'
-import './all-notes.scss'
+import style from './all-notes.module.scss'
 
 
 
@@ -21,8 +21,6 @@ const imagesLoadedOptions = { background: '.my-bg-image-el' }
 
 const AllNotes = ({notes, deleteNote, updateNote}) => {
   let notesList;
-  console.log('notesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotes')
-  console.log(notes)
   
   if (notes) {
     let [...sortNotes] = notes;
@@ -33,22 +31,26 @@ const AllNotes = ({notes, deleteNote, updateNote}) => {
       if (a.time < b.time) return 1;
     });
 
-    notesList = sortNotes.map(note => {
-      return <NotePreview key={note.id} 
-                          note={note} 
-                          onClickDeleteBtn={() => deleteNote(note)} 
-                          updateNote={updateNote} />
+    notesList = sortNotes.map((note, i) => {
+      
+      return (
+        <NotePreview key={note.id} 
+                        note={note} 
+                        onClickDeleteBtn={() => deleteNote(note)} 
+                        updateNote={updateNote} 
+                        zIndex={(sortNotes.length - i)} />
+      )
     });
   }
   
   return (
 
-    <div className="all-notes">
-      <div className="all-notes__container container">
-        <div className="all-notes__main">
+    <div className={style.allNotes}>
+      <div className="container">
+        <div className={style.main}>
           {!notes && <Spinner classes={['big']} />}
           {notes &&  <Masonry
-                        className={'ggg'} // default ''
+                        className={style.npWrap} // default ''
                         elementType={'ul'} // default 'div'
                         options={masonryOptions} // default {}
                         disableImagesLoaded={false} // default false

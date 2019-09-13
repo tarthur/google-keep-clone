@@ -11,7 +11,7 @@ const App = () => {
       <Header />
 
       <div className={style.main}>
-        <AddNotesPanel className={style.notesPanel} />
+        <AddNotesPanel />
         <AllNotes />
       </div>
     </div>

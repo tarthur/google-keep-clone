@@ -17,7 +17,9 @@ import NotePanelView from './note-panel-view/note-panel-view'
 
 class AddNotesPanel extends Component {
   state = {
-    note: {},
+    note: {
+      bgColor: '#fff'
+    },
     view: '',
     
 //   value: '',
@@ -47,12 +49,16 @@ class AddNotesPanel extends Component {
 
   onClickAddBtn = (data) => {
     this.setState(state => {
-      const note = {
+      let note = {
         ...state.note,
         ...data
       }
 
       this.props.addNote(note);
+
+      note = {
+        bgColor: '#fff'
+      }
 
       return { note }
     });
@@ -80,15 +86,25 @@ class AddNotesPanel extends Component {
     }
   }
 
+  getColor = bgColor => {
+    this.setState(state => {
+      const note = {
+        ...state.note,
+        bgColor
+      }
+      return { note }
+    });
+  }
+
   render() {
     return (
-      <div className={style.notesPanel} ref={this.setWrapperRef}>
+      <div className={style.notesPanel} ref={this.setWrapperRef} style={{backgroundColor: this.state.note.bgColor}}>
         {
           this.state.view === '' 
           ? 
           <DefaultPanel setPanelView={this.changeView} /> 
           :
-          <NotePanelView onClick={this.onClickAddBtn}>
+          <NotePanelView onClick={this.onClickAddBtn} getColor={this.getColor}>
             { this.getPanelG() }
           </NotePanelView>
         }
