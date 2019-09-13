@@ -12,9 +12,18 @@
   transition: opacity .1s;
 }
 
+.NoteBottomPanel {
+  opacity: 0;
+  transition: opacity .3s;
+  border-radius: inherit;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 .notePreview {
-  margin: 8px;
-  width: 273px;
+  margin-left: 1%;
+  margin-bottom: 15px;
+  width: 24%;
   flex-shrink: 0;
   position: relative;
   border-radius: 8px;
@@ -24,19 +33,30 @@
   flex-shrink: 0;
   position: relative;
   background: #fff;
-  transition: background-color .5s;
+  transition: background-color .5s, top .5s, left .5s, bottom .5s, right .5s;
+
+  @media (max-width: 1199px) {
+    width: 31.5%;
+    margin-left: 1.5%;
+  }
 
   &:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+
+    .NoteBottomPanel {
+      opacity: 1;
+    }
   }
 }
 
 .notePreviewWrap {
-  
   overflow: hidden;
+  border-radius: inherit;
 }
 
-.notePreview {
-  &:hover {
-  }
+.absolute {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  background: rgba(#fff, .8);
 }

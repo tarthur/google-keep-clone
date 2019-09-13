@@ -4,12 +4,25 @@ import {connect} from 'react-redux';
 import {delNote, updateNote} from '../../redux/notes-reducer'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import Spinner from './../spinner'
+import Spinner from '../common/spinner'
 import './all-notes.scss'
+
+
+
+import Masonry from 'react-masonry-component';
+
+const masonryOptions = {
+    transitionDuration: 0
+};
+
+const imagesLoadedOptions = { background: '.my-bg-image-el' }
+
 
 
 const AllNotes = ({notes, deleteNote, updateNote}) => {
   let notesList;
+  console.log('notesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotesnotes')
+  console.log(notes)
   
   if (notes) {
     let [...sortNotes] = notes;
@@ -27,16 +40,25 @@ const AllNotes = ({notes, deleteNote, updateNote}) => {
                           updateNote={updateNote} />
     });
   }
-
-  if (!notes) {
-    return <Spinner />;
-  }
-
+  
   return (
+
     <div className="all-notes">
       <div className="all-notes__container container">
         <div className="all-notes__main">
-          {notesList}
+          {!notes && <Spinner classes={['big']} />}
+          {notes &&  <Masonry
+                        className={'ggg'} // default ''
+                        elementType={'ul'} // default 'div'
+                        options={masonryOptions} // default {}
+                        disableImagesLoaded={false} // default false
+                        updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+                        imagesLoadedOptions={imagesLoadedOptions} // default {}
+                        onLayoutComplete={(e) => {console.log(1111, e)}}
+                      >
+                        {notesList}
+                      </Masonry>}
+          {/* {notesList} */}
         </div>
       </div>
     </div>

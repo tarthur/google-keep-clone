@@ -24,8 +24,19 @@ class NotesPreview extends Component {
   }
 
   render() {
+    const params = {
+      getColor: this.getColor,
+      bgColor: this.props.note.bgColor,
+      onClickDeleteBtn: this.props.onClickDeleteBtn,
+      bottomPanelPosition: 'relative',
+    }
+
+    if (this.props.note.type === 'img') {
+      params.bottomPanelPosition = 'absolute'
+    }
+
     return (
-      <NotePreviewContent getColor={this.getColor} bgColor={this.props.note.bgColor} onClickDeleteBtn={this.props.onClickDeleteBtn}>
+      <NotePreviewContent {...params} >
         {this.buildMain()}
       </NotePreviewContent>
     )

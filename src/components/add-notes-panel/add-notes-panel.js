@@ -5,7 +5,7 @@ import NotePanel from './note-panel/note-panel'
 import ListNotePanel from './list-note-panel/list-note-panel'
 import ImgPanel from './img-panel/img-panel'
 import DefaultPanel from './default-panel/default-panel'
-import './add-notes-panel.scss'
+import style from './add-notes-panel.module.scss'
 
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
@@ -82,7 +82,7 @@ class AddNotesPanel extends Component {
 
   render() {
     return (
-      <div className={`notes-panel ${this.props.className}`} ref={this.setWrapperRef}>
+      <div className={style.notesPanel} ref={this.setWrapperRef}>
         {
           this.state.view === '' 
           ? 

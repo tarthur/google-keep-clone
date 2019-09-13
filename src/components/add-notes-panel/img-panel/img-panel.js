@@ -15,10 +15,28 @@ class notePanel extends Component {
     url: '',
     imgName: null,
     progress: 0,
+
+    imgWidth: null, 
+    imgHeight: null,
   }
 
   handleChange = e => {
+    const $this = this;
+
     if (e.target.files[0]) {
+      let _URL = window.URL || window.webkitURL;
+      let image222 = new Image();
+      
+
+      image222.onload = function() {
+        const imgWidth = this.width;
+        const imgHeight = this.height;
+
+        $this.setState({imgWidth, imgHeight})
+      };
+      image222.src = _URL.createObjectURL(e.target.files[0]);
+
+
       const image = e.target.files[0];
       this.setState(() => ({image}));
       
@@ -54,7 +72,9 @@ class notePanel extends Component {
               this.props.setData({
                 url,
                 imgName: name,
-                type: state.type
+                type: state.type,
+                imgWidth: state.imgWidth, 
+                imgHeight: state.imgHeight,
               });
 
               return {url}

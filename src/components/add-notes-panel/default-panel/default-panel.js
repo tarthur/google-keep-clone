@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import style from './default-panel.module.scss'
+import className from 'classnames'
 
 
 const DefaultPanel = props => {
@@ -6,13 +8,13 @@ const DefaultPanel = props => {
 
   return (
     <React.Fragment>
-      <div className="notes-panel__textarea" onClick={() => setPanelView('note')} >
+      <div className={style.textarea} onClick={() => setPanelView('note')} >
         Заметка…
       </div>
-      <div className="notes-panel__icon notes-panel__list-icon" onClick={() => setPanelView('list')} >
+      <div className={className(style.icon, style.listIcon)} onClick={() => setPanelView('list')} >
         <i class="far fa-check-square"></i>
       </div>
-      <div className="notes-panel__icon notes-panel__img-icon" onClick={() => setPanelView('img')}>
+      <div className={className(style.icon, style.imgIcon)} onClick={() => setPanelView('img')}>
       <i class="far fa-image"></i>
       </div>
     </React.Fragment>

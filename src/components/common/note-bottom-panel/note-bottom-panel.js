@@ -1,19 +1,22 @@
 import React, {Component} from 'react'
-import './note-bottom-panel.scss'
+import style from './note-bottom-panel.module.scss'
 import ChooseСolor from '../choose-color/choose-color'
 import MoreButton from '../more-button/more-button'
+// import className from 'classnames'
 
-const NoteBottomPanel = ({getColor, getPanel, onClickDeleteBtn}) => {
+const NoteBottomPanel = ({getColor, getPanel, onClickDeleteBtn, classes}) => {
+  // const mainClasses = classes.map(cls => style[cls]);
   
   return (
-    <div className="note-bottom-panel">
-      <div className="note-bottom-panel__icon">
+    // <div className={className(style.noteBottomPanel, mainClasses)}>
+    <div className={style.noteBottomPanel}>
+      <div className={style.icon}>
         <ChooseСolor getColor={getColor} />
       </div>
-      <div className="note-bottom-panel__icon">
+      <div className={style.icon}>
         <div><i class="far fa-image"></i></div>
       </div>
-      <div className="note-bottom-panel__icon note-bottom-panel__icon_3">
+      <div className={style.icon}>
         <MoreButton getPanel={getPanel} 
                     toggle={<i class="fas fa-ellipsis-v"></i>}
                     items={[

@@ -1,0 +1,37 @@
+
+// mixins
+
+@mixin btn() {
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  height: 35px;
+  padding: 0 20px;
+  font: 14px/35px $Arial;
+  // letter-spacing: 0.08em;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #000;
+  transition: color 0.15s ease-in-out, background-color .3s ease-in-out, box-shadow .3s;
+}
+
+@mixin btn_block($w: 100%) {
+  display: block;
+  width: $w;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@mixin btn_gray() {
+  color: rgba(0,0,0,0.87);
+  background-color: transparent;
+  transition: background-color .3s;
+
+  &:hover {
+    background-color: rgba(95,99,104,0.039);
+    color: #242939;
+  }
+}

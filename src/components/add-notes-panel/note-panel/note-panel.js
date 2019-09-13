@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {addNote} from '../../../redux/notes-reducer'
-import './note-panel.scss'
+import style from './note-panel.module.scss'
 
 class notePanel extends Component {
   state = {
@@ -37,13 +37,11 @@ class notePanel extends Component {
 
   render() {
     return (
-      <div className="note-panel">
-        <div className="note-panel__input-box">
-          <input className="note-panel__input" 
-                  type="text" value={this.value} 
-                  placeholder="Заметка" 
-                  onChange={this.onChange} />
-        </div>
+      <div className={style.notePanel}>
+        <input className={style.input} 
+                type="text" value={this.value} 
+                placeholder="Заметка" 
+                onChange={this.onChange} />
       </div>
     )
   }

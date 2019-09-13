@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux';
-import {addNote} from '../../../redux/notes-reducer'
-import './note-panel-view.scss'
 import BottomPanel from '../../bottom-panel';
 import PanelTitle from '../../common/panel-title/panel-title'
 import FixMark from '../../common/fix-mark/fix-mark'
+import style from './note-panel-view.module.scss'
+
 
 class NotePanelView extends Component {
   state = {
@@ -16,11 +15,7 @@ class NotePanelView extends Component {
   getColor = bgColor => {
     this.setState({bgColor})
   }
-
-  onClick = () => {
-    // this.props.onClick(this.state);
-  }
-
+  
   onClickFixMark = () => {
     alert('onClickFixMark')
   }
@@ -30,14 +25,15 @@ class NotePanelView extends Component {
   }
 
   render() {
+    
     return (
-      <div className="notes-panel__main">
+      <div>
         <PanelTitle />
         <FixMark onClick={this.onClickFixMark} />
 
         {this.props.children}
 
-        <div className="note-panel__bottom-panel">
+        <div className={style.bottomPanel}>
           <BottomPanel getColor={this.getColor} getPanel={this.props.getPanel} />
           <div class="btn btn_gray" role="button" onClick={this.onClickAddBtn}>Добавить</div>
         </div>

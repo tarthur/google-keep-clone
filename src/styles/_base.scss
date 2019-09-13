@@ -1,0 +1,56 @@
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+@-ms-viewport {
+  width: device-width;
+}
+
+html {
+  box-sizing: border-box;
+  -ms-overflow-style: scrollbar;
+  min-height: auto;
+  // height: 100%;
+}
+
+p {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: normal;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+button, select, input, textarea {
+  outline: none;
+}
+
+figure {
+  margin: 0;
+}
+
+img {
+  display: block;
+}
+
+label {
+  display: none;
+}
