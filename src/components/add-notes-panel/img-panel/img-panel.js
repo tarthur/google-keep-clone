@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import {storage} from '../../../config/fbConfig';
+import style from './img-panel.module.scss'
+import className from 'classnames'
 
 
 
@@ -9,7 +11,7 @@ class notePanel extends Component {
     type: 'img',
 
     image: null,
-    url: '',
+    url: null,
     imgName: null,
     progress: 0,
 
@@ -17,80 +19,113 @@ class notePanel extends Component {
     imgHeight: null,
   }
 
-  handleChange = e => {
+  readURL(input) {
+    
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+  
+      let $this = this;
+
+      reader.onload = function (e) {
+        $this.setState({
+          url: e.target.result
+        })
+      };
+  
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  componentDidMount() {
+
+    // const input = this.props.input
+    // const image = this.props.input.files[0]
+    // this.readURL(input)
+    // this.setState({url: image.name})
+
+    this.readURL(this.props.input)
+    
+    this.setState({url: this.props.image.name})
+    
+    this.handleChange(this.props.image)
+  }
+  
+  handleChange = propsImage => {
     const $this = this;
 
-    if (e.target.files[0]) {
+    if (propsImage) {
       let _URL = window.URL || window.webkitURL;
       let image222 = new Image();
       
 
       image222.onload = function() {
-        const imgWidth = this.width;
-        const imgHeight = this.height;
 
-        $this.setState({imgWidth, imgHeight})
+        $this.setState(state => {
+          const imgWidth = this.width;
+          const imgHeight = this.height;
+          const image = propsImage;
+
+          
+          $this.props.setData({
+            image,
+            type: $this.state.type,
+            imgWidth: imgWidth,
+            imgHeight: imgHeight,
+          });
+
+          return {imgWidth, imgHeight, image}
+        })
       };
-      image222.src = _URL.createObjectURL(e.target.files[0]);
 
-
-      const image = e.target.files[0];
-      this.setState(() => ({image}));
-      
-      this.handleUpload(image)
+      image222.src = _URL.createObjectURL(propsImage);
+      // this.handleUpload(image)
     }
   }
 
-  handleUpload = (image) => {
-      const name = new Date().getTime() + "." + image.name.split('.').pop();
 
-      // new Date().getTime()
-      console.log('->>>>>>>')
-      console.log(image.name)
+  onClick = () => {
+    this.props.onClick(this.state);
+  }
+  
+  onChange = e => {
+    const value = e.target.value;
 
-      const uploadTask = storage.ref(`images/${name}`).put(image);
-
-      uploadTask.on('state_changed', 
-      (snapshot) => {
-        // progrss function ....
-        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-        this.setState({progress});
-      }, 
-      (error) => {
-           // error function ....
-           alert(error.message_)
-        console.log(error);
-      }, 
-    () => {
-        storage.ref('images').child(name).getDownloadURL()
-          .then(url => {
-
-            this.setState(state => {
-              this.props.setData({
-                url,
-                imgName: name,
-                type: state.type,
-                imgWidth: state.imgWidth, 
-                imgHeight: state.imgHeight,
-              });
-
-              return {url}
-            });
-          })
+    this.setState(state => {
+      this.props.setData({
+        text: value,
+        type: state.type,
+        image: state.image
+      });
+      
+      return { value }
     });
   }
 
-  onChange = e => this.setState({addInputText: e.target.value})
-  onClick = () => {
-    this.props.onClick(this.state);
+  deactivateEditMode() {
+    this.setState( {
+      editMode: false
+    } );
+    // this.props.updateStatus(this.state.status);
+  }
+
+  activateEditMode = () => {
+    this.setState( {
+      editMode: true
+    } );
   }
 
   render() {
     return (
-      <div>
-        <img src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400"/>
-        <input type="file" onChange={this.handleChange}/>
-        <input type="text" value={this.value} onChange={this.onChange} />
+      <div className={style.imgBox}>
+        <div>
+          <img className={className('img-fluid', style.img)} src={this.state.url || 'http://via.placeholder.com/400x300'} alt="Uploaded images" height="300" width="400"/>
+        </div>
+        <div className={style.notePanel}>
+          <input className={style.input} 
+                  type="text" value={this.value} 
+                  placeholder="Заметка" 
+                  onChange={this.onChange} />
+        </div>
       </div>
     )
   }

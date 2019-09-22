@@ -1,0 +1,10 @@
+.btn {
+  color: rgba(0,0,0,0.87);
+  background-color: transparent;
+  transition: background-color .3s;
+
+  &:hover {
+    background-color: rgba(95,99,104,0.039);
+    color: #242939;
+  }
+}

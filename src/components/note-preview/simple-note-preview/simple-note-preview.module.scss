@@ -2,3 +2,10 @@
   padding: 10px 15px;
   font: 16px/1.2 Arial;
 }
+
+.img {
+  width: 100%;
+  height: auto;
+  opacity: 1;
+  transition: opacity .7s;
+}

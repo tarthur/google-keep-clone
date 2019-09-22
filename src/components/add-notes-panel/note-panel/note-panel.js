@@ -6,7 +6,6 @@ import style from './note-panel.module.scss'
 class notePanel extends Component {
   state = {
     value: '',
-    type: 'note'
   }
   
   onChange = e => {
@@ -15,7 +14,6 @@ class notePanel extends Component {
     this.setState(state => {
       this.props.setData({
         text: value,
-        type: state.type
       });
       
       return { value }

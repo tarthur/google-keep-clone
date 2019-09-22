@@ -1,16 +1,19 @@
 import React, {Component} from 'react'
 import ModalBox from './../../modal-box'
+import Spinner from '../../common/spinner/spinner'
 import style from './simple-note-preview.module.scss'
 
 
 class SimpleNotePreview extends Component {
   state = {
     modalIsOpen: false,
+    loader: true,
 
     note: {
       text: this.props.note.text,
       bgColor: this.props.note.bgColor,
       time: +(new Date()),
+      height: 273 * (this.props.note.imgHeight / this.props.note.imgWidth),
     }
   }
 
@@ -36,6 +39,13 @@ class SimpleNotePreview extends Component {
     modalIsOpen: true,
   });
 
+  onLoad = e => {
+    // const height = e.target.width * (this.props.note.imgHeight / this.props.note.imgWidth);
+
+    this.setState({
+      loader: false,
+    })
+  }
 
   render() {
     const date = new Date(this.props.note.time);
@@ -43,6 +53,17 @@ class SimpleNotePreview extends Component {
     return (
       <div>
         <div className={style.note} onClick={this.openModal}>
+      {this.props.note.imgHeight && (
+        <div style={{height: this.state.note.height, overflow: 'hidden'}}>
+          {this.state.loader && <Spinner classes={['small']} />}
+          <img className="img-fluid" 
+                src={this.props.note.url}
+                onLoad={this.onLoad} 
+                onError={this.onError}
+                className={style.img} />
+        </div>
+      )}
+
           <div>{this.props.note.title}</div>
           <div>{this.props.note.text}</div>
         </div>

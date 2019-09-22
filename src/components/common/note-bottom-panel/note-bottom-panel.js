@@ -4,6 +4,8 @@ import ChooseСolor from '../choose-color/choose-color'
 import MoreButton from '../more-button/more-button'
 // import className from 'classnames'
 import ReactTooltip from 'react-tooltip'
+import InputFile from '../input-file/input-file'
+import FixMark from '../fix-mark/fix-mark'
 
 
 const NoteBottomPanel = ({params}) => {
@@ -27,9 +29,21 @@ const NoteBottomPanel = ({params}) => {
           </div>
         )
       case 'addImg' :
+        const {addImg} = item;
+
         return (
           <div className={style.icon} data-tip="Добавить картинку">
-            <div><i class="far fa-image"></i></div>
+            <InputFile onChangeFile={addImg}>
+              <i class="far fa-image" />
+            </InputFile>
+          </div>
+        )
+      case 'fixMark' :
+        const {fixMark, onClickFixMark} = item;
+
+        return (
+          <div className={style.icon}>
+            <FixMark check={fixMark} onClick={onClickFixMark} />
           </div>
         )
     }

@@ -6,6 +6,7 @@ import ImageNotePreview from './image-note-preview/image-note-preview'
 
 
 class NotesPreview extends Component {
+  
   getColor = bgColor => this.props.updateNote(this.props.note.id, {bgColor})
 
   buildMain() {
@@ -27,6 +28,10 @@ class NotesPreview extends Component {
       bgColor: this.props.note.bgColor,
       onClickDeleteBtn: this.props.onClickDeleteBtn,
       bottomPanelPosition: 'relative',
+      onClickMark: this.props.onClickMark,
+      note: this.props.note,
+      onClickFixMark: this.props.onClickFixMark,      
+      bottomPanel: ['color', 'addImg', 'more']
     }
 
     if (this.props.note.type === 'img') {

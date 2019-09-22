@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 
 const OutsideAlerter = (View) => {
-
-
   return class extends Component {
     constructor(props) {
       super(props);
@@ -38,16 +36,16 @@ const OutsideAlerter = (View) => {
      */
     handleClickOutside(event) {
       if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-        console.log('You clicked outside of me!');
+        this.setState({show: false})
+      } else {
+        this.setState({show: true})
       }
     }
 
     render() {
       const { show } = this.state;
       
-      return <div ref={this.setWrapperRef}>
-        <View {...this.props} show={show} />
-      </div>;
+      return <View {...this.props} show={show} hhhhh={this.setWrapperRef} />
     }
     
   };

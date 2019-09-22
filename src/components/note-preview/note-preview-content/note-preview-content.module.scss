@@ -43,7 +43,12 @@
     margin-left: 1.5%;
   }
 
+  &.ggggg {
+    border-color: #333;
+  }
+
   &:hover {
+    z-index: 1000 !important;
     box-shadow: 0 0 10px rgba(0, 0, 0, .3);
 
     .mark {
@@ -76,4 +81,10 @@
   bottom: 0;
   left: 0; right: 0;
   background: rgba(#fff, .8);
+}
+
+.fixMark {
+  position: absolute;
+  top: 12px;
+  right: 14px;
 }

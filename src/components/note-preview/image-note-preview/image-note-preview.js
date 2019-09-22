@@ -73,7 +73,6 @@ class ImageNotePreview extends Component {
           {this.state.loader && <Spinner classes={['small']} />}
           <img className="img-fluid" 
                 src={this.props.note.url}
-                alt="Uploaded images"
                 onLoad={this.onLoad} 
                 onError={this.onError}
                 className={style.img} />

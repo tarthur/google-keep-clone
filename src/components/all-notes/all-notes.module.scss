@@ -1,9 +1,9 @@
-.allNotes {
-  
+.emptyNotesBox {
+  width: 100%;
+  text-align: center;
 }
 
-
-.main {
+.notesList {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
@@ -16,4 +16,13 @@
 
 .npWrap {
   width: 100%;
+}
+
+.notesListTitle {
+  text-transform: uppercase;
+  padding: 0 0 10px 20px;
+}
+
+.fixNotesBox {
+  margin-bottom: 70px;
 }

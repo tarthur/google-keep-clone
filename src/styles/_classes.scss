@@ -33,16 +33,3 @@
     max-width: 100%;
     height: auto;
 }
-
-/***** btn *****/
-.btn {
-  @include btn; 
-
-  &_gray {
-    @include btn_gray;
-  }
-  
-  &_block {
-    @include btn_block;
-  }
-}

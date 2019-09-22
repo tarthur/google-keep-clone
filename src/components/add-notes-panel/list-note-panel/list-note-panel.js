@@ -13,11 +13,6 @@ import List from '../../common/list/list'
 class ListNotePanel extends Component {
   state = {
     lists: [],
-    type: 'list'
-  }
-
-  onClickAddBtn = () => {
-    this.props.onClick(this.state)
   }
   
   returningItems = lists => {
@@ -25,7 +20,6 @@ class ListNotePanel extends Component {
       
       this.props.setData({
         lists,
-        type: state.type
       });
       
       return { lists }
@@ -34,8 +28,6 @@ class ListNotePanel extends Component {
   }
 
   render() {
-    const {value, onChange} = this.props;
-
     return (
       <div>
         <List returningItems={this.returningItems} />

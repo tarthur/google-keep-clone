@@ -12,52 +12,42 @@ import { compose } from 'redux'
 // import { addItem } from '../../store/actions/projectActions'
 
 import NotePanelView from './note-panel-view/note-panel-view'
+import OutsideAlerter from '../../hoc/with-outside-alerter'
+import cn from 'classnames'
 
 
 
 class AddNotesPanel extends Component {
+  defaultNoteView = {
+    bgColor: '#fff',
+  }
+
   state = {
-    note: {
-      bgColor: '#fff'
-    },
+    input: null,
     view: '',
-    
-//   value: '',
-//   type: 'note',
-//   editMode: false,
-//   bgColor: 'transparent',
-//   time: +(new Date())
+    note: {
+      ...this.defaultNoteView
+    },
   }
 
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside);
-  }
-
-  handleClickOutside = (event) => {
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.show !== prevProps.show) {
       this.changeView('')
     }
-  }
-
-  setWrapperRef = (node) => {
-    this.wrapperRef = node;
   }
 
   onClickAddBtn = (data) => {
     this.setState(state => {
       let note = {
         ...state.note,
-        ...data
+        ...data,
+        type: state.view
       }
 
       this.props.addNote(note);
 
       note = {
-        bgColor: '#fff'
+        ...this.defaultNoteView
       }
 
       return { note }
@@ -66,7 +56,11 @@ class AddNotesPanel extends Component {
     this.changeView('');
   }
 
-  changeView = view => this.setState({view})
+  changeView = (view, input) => {
+    this.setState({
+      view, input
+    })
+  }
 
   setData = note => {
     this.setState({note: {
@@ -76,14 +70,28 @@ class AddNotesPanel extends Component {
   }
 
   getPanelG = () => {
+    let children;
+    let bottomPanel = ['color', 'addImg', 'more'];
+
     switch(this.state.view) {
       case 'note' :
-        return <NotePanel setData={this.setData} />
+        children = <NotePanel setData={this.setData} />
+        break;
       case 'list' :
-        return <ListNotePanel setData={this.setData} />
+        children = <ListNotePanel setData={this.setData} />
+        break;
       case 'img' :
-        return <ImgPanel setData={this.setData}/>
+        bottomPanel = ['color', 'more'];
+        children = <NotePanel setData={this.setData} />
+        // children = <ImgPanel setData={this.setData} input={this.state.input} />
+        break;
     }
+
+    return (
+      <NotePanelView onClick={this.onClickAddBtn} getColor={this.getColor} bottomPanel={bottomPanel} input={this.state.input} >
+        { children }
+      </NotePanelView>
+    )
   }
 
   getColor = bgColor => {
@@ -97,22 +105,21 @@ class AddNotesPanel extends Component {
   }
 
   render() {
+    console.log('this.props.notesthis.props.notesthis.props.notesthis.props.notes')
+    console.log(this.props.notes)
+
     return (
-      <div className={style.notesPanel} ref={this.setWrapperRef} style={{backgroundColor: this.state.note.bgColor}}>
-        {
-          this.state.view === '' 
-          ? 
-          <DefaultPanel setPanelView={this.changeView} /> 
-          :
-          <NotePanelView onClick={this.onClickAddBtn} getColor={this.getColor}>
-            { this.getPanelG() }
-          </NotePanelView>
-        }
+      <div className={cn(style.notesPanel, style[this.state.view])} 
+            ref={this.props.hhhhh} 
+            style={{backgroundColor: this.state.note.bgColor}}>
+
+        { (this.state.view === '') && <DefaultPanel setPanelView={this.changeView} /> }
+        { (this.state.view !== '') && this.getPanelG() }
+
       </div>
     )
   }
 }
-
 
 
 
@@ -135,5 +142,6 @@ export default compose(
     { collection: 'projects' },
     { collection: 'items' },
     { collection: 'notes' }
-  ])
+  ]),
+  OutsideAlerter
 )(AddNotesPanel)
