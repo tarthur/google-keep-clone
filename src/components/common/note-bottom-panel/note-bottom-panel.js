@@ -1,31 +1,44 @@
 import React, {Component} from 'react'
 import style from './note-bottom-panel.module.scss'
 import ChooseСolor from '../choose-color/choose-color'
-import MoreButton from '../more-button/more-button'
-// import className from 'classnames'
+import ClickIcon from '../click-icon'
 import ReactTooltip from 'react-tooltip'
 import InputFile from '../input-file/input-file'
 import FixMark from '../fix-mark/fix-mark'
+import cn from 'classnames'
 
 
-const NoteBottomPanel = ({params}) => {
-  const showPanels = params.map(item => {
-    switch (item.panelName) {
+const NoteBottomPanel = props => {
+
+  const showPanels = props.panels.map(item => {
+    switch (item.name) {
       case 'color' :
-        const {getColor} = item;
+        const {position, getColor, currentColor} = item;
+        const props = {position, getColor, currentColor};
 
         return (
           <div className={style.icon} data-tip="Изменить цвет">
-            <ChooseСolor getColor={getColor} />
+            <ChooseСolor {...props} />
           </div>
         )
-      case 'more' :
-        const {moreItems} = item;
+      case 'delNote' :
+        const {onClickDelNoteBtn} = item;
 
         return (
-          <div className={style.icon} data-tip="Еще">
-            <MoreButton toggle={<i class="fas fa-ellipsis-v"></i>}
-                        items={moreItems} />
+          <div className={style.icon}>
+            <ClickIcon tooltipText="Удалить заметку" onClick={onClickDelNoteBtn}>
+              <i class="far fa-trash-alt"></i>
+            </ClickIcon>
+          </div>
+        )
+      case 'createClone' :
+        const {onClickCreateCloneBtn} = item;
+
+        return (
+          <div className={style.icon}>
+            <ClickIcon tooltipText="Создать Копию" onClick={onClickCreateCloneBtn}>
+              <i class="far fa-clone"></i>
+            </ClickIcon>
           </div>
         )
       case 'addImg' :
@@ -49,8 +62,10 @@ const NoteBottomPanel = ({params}) => {
     }
   })
 
+  const noteBottomClass = props.noteBottomClass ? props.noteBottomClass : ''
+
   return (
-    <div className={style.noteBottomPanel}>
+    <div className={cn(style.noteBottomPanel, noteBottomClass)} >
       {showPanels}
       <ReactTooltip place="bottom" type="dark" effect="solid"/>
     </div>

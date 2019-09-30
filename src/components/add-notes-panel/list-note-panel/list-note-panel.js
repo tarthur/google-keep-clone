@@ -7,7 +7,7 @@ import ListItems from '../../common/list/list-items/list-items'
 import Form from '../../common/list/form/form'
 
 
-import List from '../../common/list/list'
+import List from '../../common/list'
 
 
 class ListNotePanel extends Component {
@@ -18,9 +18,7 @@ class ListNotePanel extends Component {
   returningItems = lists => {
     this.setState(state => {
       
-      this.props.setData({
-        lists,
-      });
+      this.props.getList({ lists });
       
       return { lists }
       

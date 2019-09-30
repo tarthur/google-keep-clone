@@ -1,0 +1,14 @@
+.imgBox {
+  overflow: hidden;
+  position: relative;
+  // transition: height .0.5s;
+}
+
+.img {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: auto;
+  opacity: 1;
+  transition: opacity .7s;
+}

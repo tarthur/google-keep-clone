@@ -8,8 +8,13 @@ const FixMark = props => {
   const checkMark = props.check ? style.check : '';
   const textMark = props.check ? 'Открепить' : 'Закрепить'
 
+  const onClick = e => {
+    e.stopPropagation();
+    props.onClick()
+  }
+
   return (
-    <div className={cn(style.fixMark, checkMark)} onClick={props.onClick} data-tip={textMark} >
+    <div className={cn(style.fixMark, checkMark)} onClick={onClick} data-tip={textMark} >
       <i class="fas fa-thumbtack"></i>
       <ReactTooltip place="bottom" type="dark" effect="solid"/>
     </div>

@@ -9,12 +9,22 @@
 }
 
 .box {
-  padding: 0px 0px 10px 0;
   position: absolute;
   z-index: 100;
+}
+
+.positionTopLeft {
+  padding: 0px 0px 10px 0;
   top: 0;
   left: 0;
   transform: translateY(-100%) translateX(-5px);
+}
+
+.positionBottomLeft {
+  padding: 10px 0px 0px 0;
+  bottom: 0px;
+  left: 0;
+  transform: translateY(100%) translateX(-5px);
 }
 
 .list {
@@ -30,6 +40,7 @@
 } 
 
 .listItem {
+  position: relative;
   flex-shrink: 0;
   height: 26px;
   width: 26px;
@@ -41,4 +52,16 @@
   &:hover {
     border-color: #333 !important;
   }
+}
+
+.mark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.9em;
+}
+
+.currentColor {
+  border-color: #333 !important;
 }

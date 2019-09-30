@@ -1,12 +1,24 @@
+@import '../../styles/mixins';
+
+
 .notesPanel {
-  overflow: hidden;
+
+  @media (max-width: 767px) {
+    @include container;
+  }
+}
+
+.notesPanelWrap {
   max-width: 600px;
   width: 100%;
   margin: 0 auto 50px;
   position: relative;
-  // display: flex;
+  border: 1px solid transparent;
   box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 2px 6px 2px rgba(60,64,67,0.149);
+
   border-radius: 8px;
+  transition: background-color .5s;
+
 }
 
 .img {

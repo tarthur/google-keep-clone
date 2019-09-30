@@ -1,6 +1,16 @@
 import React, {Component} from 'react'
 import style from './more-button.module.scss'
 
+// use
+      // case 'more' :
+      //   const {moreItems} = item;
+
+      //   return (
+      //     <div className={style.icon} data-tip="Еще">
+      //       <MoreButton toggle={<i class="fas fa-ellipsis-v"></i>}
+      //                   items={moreItems} />
+      //     </div>
+      //   )
 class MoreButton extends Component {
   state = {
     isShowList: false

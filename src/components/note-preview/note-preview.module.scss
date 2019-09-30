@@ -1,0 +1,146 @@
+.selectedMark {
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  transform: translate(-40%, -40%);
+  font-size: 20px;
+  transition: opacity .1s;
+
+  i {
+    position: relative;
+
+    &:after {
+      content: "";
+      display: block;
+      background: #ddd;
+      position: absolute;
+      top: 0.2em; right: 0.2em; bottom: 0.2em; left:0.2em;
+      border-radius: 50%;
+    }
+
+    &:before {
+      position: relative;
+      z-index: 10;
+    }
+
+  }
+}
+
+.main {
+  pointer-events: none;
+}
+
+.paddingTop {
+  padding-top: 14px;
+}
+
+.paddingBottom {
+  padding-bottom: 14px;
+}
+
+.NoteBottomPanel {
+  z-index: 10;
+  position: relative;
+  opacity: 0;
+  transition: opacity .3s;
+  border-radius: inherit;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.fixMark {
+  position: absolute;
+  z-index: 20;
+  top: 12px;
+  right: 14px;
+  opacity: 0;
+  transition: opacity .1s;
+}
+
+.notePreview {
+  border: 1px solid #e0e0e0;
+  margin-left: 1%;
+  margin-bottom: 15px;
+  width: 24%;
+  flex-shrink: 0;
+  position: relative;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, .0);
+  transition: box-shadow .3s;
+  flex-shrink: 0;
+  position: relative;
+  background: #fff;
+  transition: background-color .5s, top .5s, left .5s, bottom .5s, right .5s, box-shadow .218s;
+
+  @media (max-width: 1199px) {
+    width: 31.8%;
+    margin-left: 1.5%;
+  }
+
+  @media (max-width: 767px) {
+    width: 48%;
+    margin-left: 2%;
+  }
+
+  @media (max-width: 575px) {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  &.activeNote {
+    border-color: #333;
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.6), 0 1px 3px 1px rgba(60,64,67,0.3);
+
+    .selectedMark {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    z-index: 1000 !important;    
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.302), 0 1px 3px 1px rgba(60,64,67,0.149);
+  
+    &.activeNote {
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.6), 0 1px 3px 1px rgba(60,64,67,0.3);
+    }
+
+    .selectedMark {
+      opacity: 1;
+    }
+
+    .NoteBottomPanel {
+      opacity: 1;
+    }
+
+    .fixMark {
+      opacity: 1;
+    }
+  }
+
+  &.active {
+    border-color: #333;
+
+    .selectedMark {
+      i {
+        background: #eee;
+      }
+    }
+  }
+}
+
+.notePreviewWrap {
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.absolute {
+  position: absolute;
+  z-index: 20;
+  bottom: 0;
+  left: 0; right: 0;
+  background: rgba(#fff, .8);
+}

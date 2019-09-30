@@ -1,17 +1,33 @@
+@import '../../styles/variables';
+
 .emptyNotesBox {
+  pointer-events: none;
+  user-select: none;
   width: 100%;
   text-align: center;
+  font: 16px/1.2 $Arial;
+  color: rgba(#000, .5);
 }
 
 .notesList {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  // display: flex;
+  // flex-wrap: wrap;
+  // align-items: flex-start;
   margin-left: -1%;
+  // margin-left: -16px;
 
   @media (max-width: 1199px) {
     margin-left: -1.5%;
   }
+
+  @media (max-width: 767px) {
+    margin-left: -2%;
+  }
+  
+  @media (max-width: 575px) {
+    margin-left: 0;
+  }
+
 }
 
 .npWrap {
@@ -19,8 +35,17 @@
 }
 
 .notesListTitle {
+  // text-transform: uppercase;
+  // padding: 0 0 10px 20px;
+
+  color: #5f6368;
+  letter-spacing: .07272727em;
+  font-family: Roboto,Arial,sans-serif;
+  font-size: .6875rem;
+  font-weight: 500;
+  line-height: 1rem;
   text-transform: uppercase;
-  padding: 0 0 10px 20px;
+  margin: 32px 32px 8px;
 }
 
 .fixNotesBox {

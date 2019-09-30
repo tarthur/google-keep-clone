@@ -1,16 +1,53 @@
 .bottomPanel {
-  padding: 0 15px;
+  padding: 0 15px 3px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.img {
-  width: 100%;
+.bottomPanelBox {
+  margin-left: -9px;
 }
 
 .fixMark {
   position: absolute;
   top: 12px;
   right: 14px;
+}
+
+.img {
+  width: 100%;
+}
+.deleteIcon {
+  position: absolute;
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  color: #ccc;
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.pictureBox {
+  position: relative;
+
+  &:hover {
+    .deleteIcon {
+      opacity: 1;
+    }
+  }
+}
+
+.picturePreview {
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+}
+
+.title {
+  height: 2em;
+  padding: 15px 35px 0 15px;
+}
+
+.noteBottom {
+  padding: 10px;
 }

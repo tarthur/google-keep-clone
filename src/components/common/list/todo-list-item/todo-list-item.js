@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-import className from 'classnames'
+import cn from 'classnames'
 import style from './todo-list-item.module.scss'
 
 
 
-class TodoListItem extends Component {
+class ListItem extends Component {
   constructor(props) {
     super(props);
 
@@ -20,16 +20,16 @@ class TodoListItem extends Component {
   render() {
     const { value, checkbox, 
             onDeleteTodoListItem, onChangeTextField, onClickCompletedCheckbox} = this.props;
-    let liClasses = className(style.listItem, [(this.props.className || ''), (this.props.checkbox ? style.active : '')]);
+    let liClasses = cn(style.listItem, [(this.props.className || ''), (this.props.checkbox ? style.active : '')]);
 
     // if ( this.props.checkbox ) liClasses += className(liClasses, style.acitve);
 
-    console.log('----------')
-    console.log(liClasses)
+    
     return (
       <li className={ liClasses}>
         <div className={style.checkbox}
-             onClick={  onClickCompletedCheckbox } >
+             onClick={onClickCompletedCheckbox} >
+          <i className={cn("fas fa-check", style.checkboxMark)}></i>
         </div>
         <input className={style.input}
                type="text"
@@ -37,11 +37,13 @@ class TodoListItem extends Component {
                onChange={ (e) => onChangeTextField(e.target.value) }
                ref={ this.input } 
             />
-        <i className="list-item__close-btn" 
-           onClick={ onDeleteTodoListItem } ></i>
+        <div className={style.closeBtn} 
+           onClick={ onDeleteTodoListItem } >
+            <i class="fas fa-times"></i>
+        </div>
       </li>
     );
   }                           
 }
 
-export default TodoListItem;
+export default ListItem;

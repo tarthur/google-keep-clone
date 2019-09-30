@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
+import TodoListItem from '../todo-list-item'
 import style from './list-items.module.scss'
-
-import TodoListItem from '../todo-list-item/todo-list-item'
 
 
 const ListItems = props => {

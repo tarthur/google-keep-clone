@@ -1,28 +1,22 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {addNote, addItem} from '../../redux/notes-reducer'
-import NotePanel from './note-panel/note-panel'
-import ListNotePanel from './list-note-panel/list-note-panel'
-import ImgPanel from './img-panel/img-panel'
-import DefaultPanel from './default-panel/default-panel'
 import style from './add-notes-panel.module.scss'
-
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-// import { addItem } from '../../store/actions/projectActions'
-
-import NotePanelView from './note-panel-view/note-panel-view'
+import NotePanelView from './note-panel-view'
+import DefaultPanel from './default-panel'
 import OutsideAlerter from '../../hoc/with-outside-alerter'
 import cn from 'classnames'
 
 
-
 class AddNotesPanel extends Component {
   defaultNoteView = {
-    bgColor: '#fff',
+    bgColor: '#ffffff',
   }
 
   state = {
+    emptyField: true,
     input: null,
     view: '',
     note: {
@@ -32,90 +26,94 @@ class AddNotesPanel extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.show !== prevProps.show) {
+      this.setState(state => {
+        return {
+          emptyField: true,
+          input: null,
+          view: '',
+          note: {
+            ...this.defaultNoteView
+          },
+        }
+      })
       this.changeView('')
     }
   }
 
-  onClickAddBtn = (data) => {
-    this.setState(state => {
-      let note = {
-        ...state.note,
-        ...data,
-        type: state.view
+  onClickAddBtn = (note) => {    
+    if (!this.state.emptyField || this.state.input) {
+      let image;
+
+      if (this.state.input) {
+        image = this.state.input.files[0];
       }
 
-      this.props.addNote(note);
+      this.setState(state => {
+        let newNote = {
+          ...state.note,
+          ...note,
+          type: state.view
+        }
+  
+        this.props.addNote(newNote, image);
+  
+        newNote = {
+          ...this.defaultNoteView
+        }
+  
+        return { note: newNote }
+      });
 
-      note = {
-        ...this.defaultNoteView
-      }
 
-      return { note }
-    });
-
-    this.changeView('');
+      this.setState({ emptyField: true })
+      this.changeView('');
+  
+    } else {
+      alert('Все поля пустые!')
+    }
   }
 
   changeView = (view, input) => {
+    if (input) this.setState({emptyField: false})
+
+    this.setState({view, input});
+  }
+
+  setData = dataObj => {
+
+
+    if (dataObj === null) {
+      return this.setState({emptyField: true})
+    } 
+    
     this.setState({
-      view, input
+      emptyField: false,
+      note: {
+      ...this.state.note,
+      ...dataObj
+      }
     })
   }
 
-  setData = note => {
-    this.setState({note: {
-      ...this.state.note,
-      ...note
-    }})
-  }
-
-  getPanelG = () => {
-    let children;
-    let bottomPanel = ['color', 'addImg', 'more'];
-
-    switch(this.state.view) {
-      case 'note' :
-        children = <NotePanel setData={this.setData} />
-        break;
-      case 'list' :
-        children = <ListNotePanel setData={this.setData} />
-        break;
-      case 'img' :
-        bottomPanel = ['color', 'more'];
-        children = <NotePanel setData={this.setData} />
-        // children = <ImgPanel setData={this.setData} input={this.state.input} />
-        break;
-    }
-
-    return (
-      <NotePanelView onClick={this.onClickAddBtn} getColor={this.getColor} bottomPanel={bottomPanel} input={this.state.input} >
-        { children }
-      </NotePanelView>
-    )
-  }
-
-  getColor = bgColor => {
-    this.setState(state => {
-      const note = {
-        ...state.note,
-        bgColor
-      }
-      return { note }
-    });
+  setInput = input => {
+    this.setState({input})
   }
 
   render() {
-    console.log('this.props.notesthis.props.notesthis.props.notesthis.props.notes')
-    console.log(this.props.notes)
-
     return (
-      <div className={cn(style.notesPanel, style[this.state.view])} 
+      <div className={cn(style.notesPanel, style[this.state.view])}>
+        <div className={style.notesPanelWrap} 
             ref={this.props.hhhhh} 
             style={{backgroundColor: this.state.note.bgColor}}>
 
-        { (this.state.view === '') && <DefaultPanel setPanelView={this.changeView} /> }
-        { (this.state.view !== '') && this.getPanelG() }
+          { (this.state.view === '') && <DefaultPanel setPanelView={this.changeView} /> }
+          { (this.state.view !== '') && <NotePanelView onClickAddBtn={this.onClickAddBtn}
+                                                        setInput={this.setInput}
+                                                        input={this.state.input} 
+                                                        setData={this.setData} 
+                                                        view={this.state.view} /> }
 
+        </div>
       </div>
     )
   }
@@ -125,22 +123,19 @@ class AddNotesPanel extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    projects: state.firestore.ordered.projects,
     notes: state.firestore.ordered.notes
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    addNote: (item) => dispatch(addItem(item)),
+    addNote: (note, image) => dispatch(addItem(note, image)),
   }
 }
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([
-    { collection: 'projects' },
-    { collection: 'items' },
     { collection: 'notes' }
   ]),
   OutsideAlerter

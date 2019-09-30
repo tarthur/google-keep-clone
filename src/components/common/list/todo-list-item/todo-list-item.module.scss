@@ -24,22 +24,22 @@
   position: relative;
   display: inline-block;
   width: 14px;
-  height: 11px;
+  height: 14px;
   cursor: pointer;
-  border: 1px solid #b3b3b3;
+  border: 1px solid #969696;
   margin-bottom: 1px;
-  border-radius: 3px;
+  border-radius: 2px;
+}
 
-  &:before {
-    content: '';
-    display: block;
-    position: absolute;
-    top: 1px; right: 1px; bottom: 1px; left: 1px;
-    border-radius: 3px;
-    background: transparent;
-    /* opacity: 0;
-    transition: opacity .3s; */
-  }
+.checkboxMark {
+  font-size: 0.55em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  color: #6b6b6b;
+  opacity: 0;
+  transition: opacity ease-out .2s;
 }
 
 .input {
@@ -53,14 +53,16 @@
 }
 
 .closeBtn {
-  margin-right: 2px;
-  width: 19px;
-  height: 16px;
-  background: #333;
+  font-size: .8em;
+  color: rgba(65, 65, 65, 0.7);
+  // margin-right: 2px;
+  // width: 19px;
+  // height: 16px;
+  // background: #333;
   // background: url(../../..//assets/images/error.svg) no-repeat;
   cursor: pointer;
   opacity: 0;
-  transition: opacity ease-out .4s;
+  transition: opacity ease-out .1s;
 }
 
 .listItem {
@@ -68,9 +70,10 @@
     opacity: 1;
   }
   
-  &.active .checkbox:before {
-    /* opacity: 1; */
-    background: #838383;
+  &.active .checkbox {
+    .checkboxMark {
+      opacity: 1;
+    }
   }
   
   &.active .input {

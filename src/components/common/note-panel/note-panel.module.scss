@@ -2,10 +2,12 @@
   width: 100%;
 }
 
-.input {
+.textarea {
   background: transparent;
   width: 100%;
   padding: 10px 15px;
   border: none;
   outline: none;
+  resize: none;
+  height: 2em;
 }

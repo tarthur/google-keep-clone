@@ -3,8 +3,8 @@
   font-size: 14px;
   display: flex;
   align-items: center;
-  border-top: 1px solid rgba(#000, .1);
-  border-bottom: 1px solid rgba(#000, .1);
+  border-top: 1px solid rgba(#ccc, .5);
+  border-bottom: 1px solid rgba(#ccc, .5);
 }
 
 .formInput {
@@ -14,8 +14,8 @@
   padding: 0;
   outline: none;
   width: 100%;
-  // background: url(../../../assets/images/plus-symbol.1.svg) no-repeat;
   background-size: 12px 100%;
+  background: transparent;
   padding-left: 5px;
 }
 

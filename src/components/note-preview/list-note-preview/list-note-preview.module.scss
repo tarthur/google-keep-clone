@@ -1,9 +1,14 @@
 .title {
-  padding: 3px 15px;
+  padding: 0 16px 12px;
+  font: 18px/1.2 Arial;
 }
-.img {
-  width: 100%;
-  height: auto;
-  opacity: 1;
-  transition: opacity .7s;
+
+.lists {
+  padding: 0 16px 0;
+  margin: -14px -14px -14px;
+}
+
+.modalTitle {
+  padding: 15px 35px 15px 15px;
+  height: 2em;
 }

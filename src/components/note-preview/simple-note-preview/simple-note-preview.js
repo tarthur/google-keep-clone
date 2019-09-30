@@ -1,87 +1,75 @@
 import React, {Component} from 'react'
-import ModalBox from './../../modal-box'
-import Spinner from '../../common/spinner/spinner'
+import PanelTitle from '../../common/panel-title/panel-title'
+import NotePanel from '../../common/note-panel/note-panel'
+import cn from 'classnames'
+import ModalContainer from '../modal-container/modal-container'
 import style from './simple-note-preview.module.scss'
 
 
 class SimpleNotePreview extends Component {
   state = {
-    modalIsOpen: false,
-    loader: true,
-
     note: {
+      title: this.props.note.title,
       text: this.props.note.text,
-      bgColor: this.props.note.bgColor,
-      time: +(new Date()),
-      height: 273 * (this.props.note.imgHeight / this.props.note.imgWidth),
     }
   }
-
-  onChange = e => {
-    this.setState({
-      note: {
-        ...this.state.note,
-        text: e.target.value,
-        time: +(new Date())
+  
+  onChangeText = text => {
+    this.setState(state => {
+      const note = {
+        ...state.note,
+        text: text
       }
+
+      return { note }
     })
   }
-  
-  closeModal = () => {
-    this.props.updateNote(this.props.note.id, this.state.note)
 
-    return this.setState({
-      modalIsOpen: false
+  onChangeTitle = title => {
+    this.setState(state => {
+      const note = {
+        ...state.note,
+        title: title
+      }
+
+      return { note }
+    })
+  }
+
+  setData = () => {
+    this.props.updateNote(this.props.note.id, {
+      ...this.state.note,
+      time: +(new Date()),
     });
   }
 
-  openModal = () => this.setState({
-    modalIsOpen: true,
-  });
-
-  onLoad = e => {
-    // const height = e.target.width * (this.props.note.imgHeight / this.props.note.imgWidth);
-
-    this.setState({
-      loader: false,
-    })
-  }
-
   render() {
-    const date = new Date(this.props.note.time);
-
-    return (
-      <div>
-        <div className={style.note} onClick={this.openModal}>
-      {this.props.note.imgHeight && (
-        <div style={{height: this.state.note.height, overflow: 'hidden'}}>
-          {this.state.loader && <Spinner classes={['small']} />}
-          <img className="img-fluid" 
-                src={this.props.note.url}
-                onLoad={this.onLoad} 
-                onError={this.onError}
-                className={style.img} />
+    const previewContent = (
+      <div className={style.note}>
+        <div className={style.main}>
+          {this.props.note.title && (
+            <div className={style.title}>{this.props.note.title}</div>
+          )}
+          {this.props.note.text && (
+            <div className={style.text}>{this.props.note.text}</div>
+          )}
         </div>
-      )}
-
-          <div>{this.props.note.title}</div>
-          <div>{this.props.note.text}</div>
-        </div>
-        <ModalBox isOpen={this.state.modalIsOpen} >
-          <div>
-            <div>
-              <div>{this.props.note.title}</div>
-              <div><input value={this.state.note.text} onChange={this.onChange} /></div>
-              <br />
-              <div>update data: {`${date.getHours()}.${date.getMinutes()}.${date.getSeconds()}`}</div>
-            </div>
-            <button onClick={this.closeModal}>close</button>
-          </div>
-        </ModalBox>
       </div>
+    )
+    
+    return (
+      <ModalContainer note={this.props.note} 
+                      previewContent={previewContent} 
+                      modalIsOpen={this.props.modalIsOpen} 
+                      modal={this.props.modal} 
+                      setData={this.setData}>
+
+        <PanelTitle value={this.props.note.title} getTitle={this.onChangeTitle} textareaClass={style.modalTitle} />
+        <NotePanel value={this.props.note.text} placeholder="Текст заметки" getText={this.onChangeText} />
+        
+      </ModalContainer>
     )
   }
 }
 
-
-export default SimpleNotePreview;
+export default SimpleNotePreview

@@ -6,115 +6,93 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import Spinner from '../common/spinner'
 import style from './all-notes.module.scss'
+import Masonry from 'react-masonry-component';
 import cn from 'classnames'
 
 
-import Masonry from 'react-masonry-component';
+const AllNotes = props => {
+  const masonryOptions = { transitionDuration: 0 };
+  const imagesLoadedOptions = { background: '.my-bg-image-el' }
 
-const masonryOptions = {
-    transitionDuration: 0
-};
+  const {notes, deleteNote, updateNote, addMarkNote} = props;
+  let notesList = [];
+  let fixNotesList = [];
 
-const imagesLoadedOptions = { background: '.my-bg-image-el' }
-
-
-
-class AllNotes extends Component {
-  state = {
-    markNotes: []
+  const sortNotesFunc = (a, b) => {
+    if (a.time > b.time) return -1;
+    if (a.time == b.time) return 0;
+    if (a.time < b.time) return 1;
   }
 
-  onClickMark = id => {
-    this.props.addMarkNote(id)
-  }
-
-  onClickFixMark = (id, obj) => {
-    this.props.updateNote(id, obj)
-  }
-
-  getNotes = () => {
-    const {notes, deleteNote, updateNote} = this.props;
-    let notesList, fixNotesList;
-  
-    if (notes) {
-      let [...sortNotes] = notes;
-      
-      sortNotes.sort((a, b) => {
-        if (a.time > b.time) return -1;
-        if (a.time == b.time) return 0;
-        if (a.time < b.time) return 1;
-      });
-
-      const getNote = note => {
-        return (
-          <NotePreview key={note.id} 
-                          note={note} 
-                          onClickDeleteBtn={() => deleteNote(note, notes)} 
-                          updateNote={updateNote} 
-                          onClickMark={() => this.onClickMark(note.id)}
-                          onClickFixMark={(obj) => this.onClickFixMark(note.id, obj)} />
-        )
-      }
-  
-      notesList = sortNotes.filter(note => !note.fixMark).map(getNote)
-      fixNotesList = sortNotes.filter(note => note.fixMark).map(getNote)
-    }
-
-    if (notes !== undefined) {
-      if (notes.length !== 0) {
-        const getMasonry = children => {
-          return (
-            <Masonry
-              className={cn(style.npWrap, style.notesList)} // default ''
-              elementType={'ul'} // default 'div'
-              options={masonryOptions} // default {}
-              disableImagesLoaded={false} // default false
-              updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-              imagesLoadedOptions={imagesLoadedOptions} // default {}
-              onLayoutComplete={(e) => {console.log(1111, e)}}
-            >
-              {children}
-            </Masonry>
-          )
-        }
-
-        return (
-          <>
-            {(fixNotesList.length !== 0) &&
-              <>
-                <div className={style.fixNotesBox}>
-                  <div className={style.notesListTitle}>Закрепленные заметки</div>
-                  {getMasonry(fixNotesList)}
-                </div>
-                <div className={style.notesListTitle}>Другие заметки</div>
-              </>}
-            {getMasonry(notesList)}
-          </>
-        )
-      } else {
-        return (
-          <div className={style.emptyNotesBox}>Список заметок пуст</div>
-        )
-      }
-    } else if (notes === undefined) {
-      return (
-        <Spinner classes={['big']} />
-      )
-    } 
-    
-  }
-  
-  render() {
+  const getMasonry = children => {
     return (
-      <div className={style.allNotes}>
-        <div className="container">
-          <div className={style.main}>
-            {this.getNotes()}
-          </div>
-        </div>
-      </div>
+      <Masonry
+        className={cn(style.npWrap, '')} // default ''
+        // elementType={'ul'} // default 'div'
+        options={masonryOptions} // default {}
+        disableImagesLoaded={false} // default false
+        updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
+        imagesLoadedOptions={imagesLoadedOptions} // default {}
+        onLayoutComplete={(e) => {console.log(1111, e)}} >
+
+          {children}
+
+      </Masonry>
     )
   }
+  
+  if (notes) {
+    let [...sortNotes] = notes;
+    sortNotes.sort(sortNotesFunc);
+
+    const getNote = note => {
+      return (
+        <NotePreview key={note.id} 
+                      note={note} 
+                      updateNote={(obj) => updateNote(note.id, obj)} 
+                      onClickMark={() => addMarkNote(note.id)} />
+      )
+    }
+
+    notesList = sortNotes.filter(note => !note.fixMark).map(getNote)
+    fixNotesList = sortNotes.filter(note => note.fixMark).map(getNote)
+  }
+
+  const getNotes = () => {
+    if (notes.length !== 0) {
+      return (
+        <>
+          {(fixNotesList.length !== 0) &&
+            <>
+              <div className={style.fixNotesBox}>
+                <div className={style.notesListTitle}>Закрепленные заметки</div>
+                {getMasonry(fixNotesList)}
+              </div>
+            </>}
+
+          {((fixNotesList.length !== 0) && (notesList.length !== 0)) && (
+            <div className={style.notesListTitle}>Другие заметки</div>
+          )}
+          {(notesList.length !== 0) && getMasonry(notesList)}
+        </>
+      )
+    } else {
+      return (
+        <div className={style.emptyNotesBox}>Список заметок пуст...</div>
+      )
+    }
+  }
+  
+  return (
+    <div className={style.allNotes}>
+      <div className="container">
+        <div className={cn(style.main,  style.notesList)} >
+          {(notes === undefined) && <Spinner classes={['big']} />}
+          {(notes !== undefined) && getNotes()}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 

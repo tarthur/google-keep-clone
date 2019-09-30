@@ -1,79 +1,24 @@
 import React, {Component} from 'react'
-import NoteBottomPanel from '../../common/note-bottom-panel/note-bottom-panel';
-import PanelTitle from '../../common/panel-title/panel-title'
-import FixMark from '../../common/fix-mark/fix-mark'
-import AddBtn from '../../common/add-btn/add-btn'
+import NoteBottomPanel from '../../common/note-bottom-panel';
+import PanelTitle from '../../common/panel-title'
+import FixMark from '../../common/fix-mark'
+import AddBtn from '../../common/add-btn'
+import PicturePreview from '../../common/picture-preview'
+import ClickIcon from '../../common/click-icon'
+import NotePanel from './../../common/note-panel'
+import ListNotePanel from './../list-note-panel'
+import getImgSizes from '../../../utils/get-image-sizes'
+import validateTextFields from '../../../utils/validateTextFields'
 import style from './note-panel-view.module.scss'
-import cn from 'classnames'
 
 
 class NotePanelView extends Component {
   state = {
-    picture: null,
     progress: 0,
+    currentColor: '#ffffff',
     note: {
       fixMark: false,
-    }
-  }
-
-  componentDidMount() {
-    const inputData = this.props.input;
-
-    if (inputData !== undefined) {
-      this.setImgParams(inputData)
-    }
-  }
-
-  setImgParams(inputData) {
-    const input = inputData
-    const image = inputData.files[0]
-
-    this.setPreviewImg(input)
-    this.setImgSizes(image)
-  }
-
-  setPreviewImg(input) {
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-
-      let $this = this;
-
-      reader.onload = function (e) {
-        $this.setState({
-          picture: e.target.result
-        })
-      };
-
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  setImgSizes = propsImage => {
-    const $this = this;
-
-    if (propsImage) {
-      let _URL = window.URL || window.webkitURL;
-      let image222 = new Image();
-      
-
-      image222.onload = function() {
-
-        $this.setState(state => {
-          const imgWidth = this.width;
-          const imgHeight = this.height;
-          const image = propsImage;
-
-          return {
-            note: {
-              ...state.note,
-              imgWidth, imgHeight, image
-            }
-          }
-        })
-      };
-
-      image222.src = _URL.createObjectURL(propsImage);
-    }
+    },
   }
   
   onClickFixMark = () => {
@@ -88,72 +33,109 @@ class NotePanelView extends Component {
   }
 
   onClickAddBtn = () => {
-    this.props.onClick(this.state.note)
+    const input = this.props.input;
+
+    if (input) {
+      getImgSizes(input, (imgWidth, imgHeight) => {
+        this.setState(state => {
+          const note = {
+            ...state.note,
+            imgWidth, imgHeight
+          }
+
+          this.props.onClickAddBtn(note)
+        })
+      })
+    } else {
+      this.props.onClickAddBtn(this.state.note)
+    }  
+  }
+
+  onDelete = () => {
+    this.props.setInput(null)
+  }
+
+  getColor = currentColor => {
+    this.setState({
+      currentColor
+    })
+    this.props.setData({ bgColor: currentColor})
   }
 
   getTitle = title => {
-    this.setState({
-      note: {
-        ...this.state.note,
-        title
-      }
-    })
+    const validField = validateTextFields(title);
+    const result = validField === null ? null : {title: validField};
+
+    this.props.setData(result);
   }
 
+  getText = text => {
+    const validField = validateTextFields(text);
+    const result = validField === null ? null : {text: validField};
 
-  addImg = (picture, input) => {
-    console.log(picture)
-    console.log(input)
+    this.props.setData(result);
+  }
 
-    this.readURL(input)
-
-    this.setState({picture: picture.name})
+  getList = list => {
+    if (list.length === 0) {
+      this.props.setData(null);
+    } else {
+      this.props.setData(list);
+    }
   }
 
   render() {
-    const NoteBottomPanelParams = panels => {
-      
-      return panels.map(panel => {
-        switch (panel) {
-          case 'color' :
-            return {
-              panelName: panel,
-              getColor: this.props.getColor,
-            }
-          case 'addImg' :
-            return {
-              panelName: panel,
-              addImg: (inputData) => {this.setImgParams(inputData)},
-            }
-          case 'more' :
-            return {
-              panelName: panel,
-              moreItems: [
-                {text: 'Создать Копию', onClick: () => {}},
-                {text: 'Добавить ярлык', onClick: () => {}}
-              ]
-            }
-          default : return
-        }
-      })
+    const panels = [
+      {
+        name: 'addImg',
+        addImg: (input) => this.props.setInput(input),
+      }, {
+        name: 'color',
+        currentColor: this.state.currentColor,
+        getColor: bgColor => this.getColor(bgColor),
+      },
+    ]
+
+    let children;
+
+    switch(this.props.view) {
+      case 'note' :
+      case 'img' :
+        children = <NotePanel getText={this.getText} />
+        break;
+      case 'list' :
+        children = <ListNotePanel getList={this.getList} />
+        break;
     }
     
     return (
       <>
-        {this.state.picture && (
-          <div>
-            <img className={cn('img-fluid', style.img)} src={this.state.picture} alt="Uploaded images" height="300" width="400"/>
+        <div className={style.pictureBox}>
+          {this.props.input && (
+            <div className={style.picturePreview}>
+              <PicturePreview input={this.props.input} />
+            </div>
+          )}
+          <div className={style.deleteIcon}>
+            <ClickIcon onClick={this.onDelete} 
+                        tooltipText="Удалить картинку">
+              <i class="far fa-trash-alt" />
+            </ClickIcon>
           </div>
-        )}
-        <PanelTitle getTitle={this.getTitle} />
+        </div>
+        <PanelTitle getTitle={this.getTitle}
+                    textareaClass={style.title} />
         <div className={style.fixMark}>
           <FixMark check={this.state.note.fixMark} onClick={this.onClickFixMark} />
         </div>
 
-        {this.props.children}
+        {children}
 
         <div className={style.bottomPanel}>
-          <NoteBottomPanel params={NoteBottomPanelParams(this.props.bottomPanel)} />
+          <div className={style.bottomPanelBox}>
+            <NoteBottomPanel panels={panels}
+                            noteBottomClass={style.noteBottom} />
+          </div>
           <AddBtn text="Добавить" onClick={this.onClickAddBtn} />
         </div>
       </>

@@ -1,6 +1,7 @@
 .noteBottomPanel {
   display: flex;
-  padding: 12px 15px 10px;
+  align-items: center;
+  padding: 18px 15px 10px;
 
   // &.notePreview {
   //   border-radius: 0 0 0 0;
@@ -8,7 +9,10 @@
 }
 
 .icon {
-  margin-left: 10px;
+  margin-left: 20px;
+  color: #202124;
+  opacity: .71;
+  transition: opacity .3s;
   
   &:first-child {
     margin-left: 0;
@@ -20,6 +24,10 @@
 
   &_3 {
     margin-left: 30px;
+  }
+
+  &:hover {
+    opacity: 1;
   }
 }
 
