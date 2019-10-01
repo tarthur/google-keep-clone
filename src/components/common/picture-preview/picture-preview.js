@@ -1,7 +1,5 @@
 import React, {Component} from 'react'
 import setImgPreview from '../../../utils/set-img-preview'
-// import baseBtn from '../../../styles/btn.module.scss'
-import ClickIcon from '../../common/click-icon/click-icon'
 import cn from 'classnames'
 import style from './picture-preview.module.scss'
 
@@ -12,46 +10,34 @@ class PicturePreview extends Component {
   }
 
   componentDidMount() {
-    if (this.props.input) {
-      this.setImgPreview(this.props.input)
-    }
+    const {input} = this.props;
+    if (typeof input === "string" ) this.setState({picture: input})
+    else this.setImgPreview(input)
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('======')
-
-    if (prevProps.input === null && this.props.input.files[0]) {
+    
+    if (prevProps.input === null && this.props.input) {
         this.setImgPreview(this.props.input)
     }
 
-    if (prevProps.input !== null) {
-      if (prevProps.input.files[0] !== this.props.input.files[0]) {
+    if ((prevProps.input !== null) && (typeof this.props.input !== "string")) {
+      // debugger
+      // if (prevProps.input.files[0] !== this.props.input.files[0]) {
         this.setImgPreview(this.props.input)
-      }
+      // }
     }
   }
 
-
   setImgPreview = (input) => {
     setImgPreview(input, (picture) => {
-      console.log(picture)
       this.setState({picture})
     })
   }
 
   render() {
-    
     return (
       <div className={style.pictureBox}>
-        {(this.props.initialPicture && !this.props.input) && (
-          <div>
-            <img className={cn('img-fluid', style.img)} 
-                  src={this.props.initialPicture} 
-                  alt="Uploaded images" />
-          </div>
-        )}
-
-
         {this.state.picture && (
           <div>
             <img className={cn('img-fluid', style.img)} 

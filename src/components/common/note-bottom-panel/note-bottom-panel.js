@@ -17,7 +17,7 @@ const NoteBottomPanel = props => {
         const props = {position, getColor, currentColor};
 
         return (
-          <div className={style.icon} data-tip="Изменить цвет">
+          <div key={item.name} className={style.icon} data-tip="Изменить цвет">
             <ChooseСolor {...props} />
           </div>
         )
@@ -25,9 +25,9 @@ const NoteBottomPanel = props => {
         const {onClickDelNoteBtn} = item;
 
         return (
-          <div className={style.icon}>
+          <div key={item.name} className={style.icon}>
             <ClickIcon tooltipText="Удалить заметку" onClick={onClickDelNoteBtn}>
-              <i class="far fa-trash-alt"></i>
+              <i className="far fa-trash-alt"></i>
             </ClickIcon>
           </div>
         )
@@ -35,9 +35,9 @@ const NoteBottomPanel = props => {
         const {onClickCreateCloneBtn} = item;
 
         return (
-          <div className={style.icon}>
+          <div key={item.name} className={style.icon}>
             <ClickIcon tooltipText="Создать Копию" onClick={onClickCreateCloneBtn}>
-              <i class="far fa-clone"></i>
+              <i className="far fa-clone"></i>
             </ClickIcon>
           </div>
         )
@@ -45,9 +45,9 @@ const NoteBottomPanel = props => {
         const {addImg} = item;
 
         return (
-          <div className={style.icon} data-tip="Добавить картинку">
+          <div key={item.name} className={style.icon} data-tip="Добавить картинку">
             <InputFile onChangeFile={addImg}>
-              <i class="far fa-image" />
+              <i className="far fa-image" />
             </InputFile>
           </div>
         )
@@ -55,7 +55,7 @@ const NoteBottomPanel = props => {
         const {fixMark, onClickFixMark} = item;
 
         return (
-          <div className={style.icon}>
+          <div key={item.name} className={style.icon}>
             <FixMark check={fixMark} onClick={onClickFixMark} />
           </div>
         )

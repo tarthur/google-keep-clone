@@ -75,10 +75,10 @@ const putImage = (storage, image, name, endFunc) => {
           );
 }
 
-const setImage = (name, id, dispatch, getState, getFirestore, storage) => {
-  storage.ref('images').child(name).getDownloadURL()
+const setImage = (imgName, id, dispatch, getState, getFirestore, storage) => {
+  storage.ref('images').child(imgName).getDownloadURL()
     .then(url => {
-      updateNote(id, {url, imgName: name})(dispatch, getState, {getFirestore})
+      updateNote(id, {url, imgName})(dispatch, getState, {getFirestore})
     })
 }
 
@@ -94,20 +94,19 @@ export const addImage = (image, id) => {
 
 export const addItem = (note, image) => {
   return (dispatch, getState, {getFirestore, storage}) => {
-      let newNote = {
-        ...defaultNodeProps,
-        ...note
+    let newNote = {
+      ...defaultNodeProps,
+      ...note
+    }
+
+    const firestore = getFirestore();
+    firestore.collection('notes').add(newNote).then(({id}) => {
+      if (image !== undefined) {
+        addImage(image, id)(dispatch, getState, {getFirestore, storage});
       }
- 
-      const firestore = getFirestore();
-      firestore.collection('notes').add(newNote).then(({id}) => {
-        if (image !== undefined) {
-      // if ((note.imgHeight !== undefined) && !note.url) {
-          addImage(image, id)(dispatch, getState, {getFirestore, storage});
-        }
-      }).catch(err => {
-        // dispatch({ type: 'CREATE_PROJECT_ERROR' }, err);
-      });
+    }).catch(err => {
+      // dispatch({ type: 'CREATE_PROJECT_ERROR' }, err);
+    });
   }
 };
 
@@ -128,15 +127,12 @@ export const delNote = (note, notes) => {
   }
 };
 
-export const delImg = (note, callback) => {
+export const delImg = (note, callback = () => {}) => {
   return (dispatch, getState, {getFirestore, storage}) => {
+    updateNote(note.id, {url: null, imgName: null})(dispatch, getState, {getFirestore});
+    
     storage.ref(`images/${note.imgName}`).delete().then(function() {
-      deleteField(note.id, 'url')(dispatch, getState, {getFirestore})
-      deleteField(note.id, 'imgName')(dispatch, getState, {getFirestore})
-      deleteField(note.id, 'imgHeight')(dispatch, getState, {getFirestore})
-      deleteField(note.id, 'imgWidth')(dispatch, getState, {getFirestore})
-
-      callback()
+        callback()
     }).catch(function(error) {
       console.log(storage)
     });
@@ -149,7 +145,6 @@ export const replaceImage = (note, input) => {
 
     delImg(note, () => {
       getImgSizes(input, (imgWidth, imgHeight) => {
-        // alert(imgHeight)
         updateNote(id, {imgWidth, imgHeight})(dispatch, getState, {getFirestore});
         addImage(input.files[0], id)(dispatch, getState, {getFirestore, storage});
       })

@@ -75,7 +75,7 @@ class Header extends Component {
             <div className={cn('container', style.noticeContainer)}>
               <div className={style.headerNoticeMain}>
                 <div onClick={this.yyyyyy}>
-                  <i class="fas fa-times"></i>
+                  <i className="fas fa-times"></i>
                 </div>
                 <div className={style.noticeTitle}>Выбрана {markNotes.length} заметка</div>
                 <NoteBottomPanel panels={panels} />

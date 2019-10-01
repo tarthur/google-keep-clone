@@ -15,7 +15,7 @@ const FixMark = props => {
 
   return (
     <div className={cn(style.fixMark, checkMark)} onClick={onClick} data-tip={textMark} >
-      <i class="fas fa-thumbtack"></i>
+      <i className="fas fa-thumbtack"></i>
       <ReactTooltip place="bottom" type="dark" effect="solid"/>
     </div>
   )

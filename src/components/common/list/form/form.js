@@ -21,7 +21,7 @@ class Form extends React.Component {
     return (
       <div className={style.form}>
         <div className={style.icon}>
-          <i class="fas fa-plus" />
+          <i className="fas fa-plus" />
         </div>
         <input type="text" className={style.formInput} placeholder="Новый пункт" 
                value={ this.state.value}

@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import NotePreview from '../note-preview'
 import {connect} from 'react-redux';
-import {delNote, updateNote, addMarkNote} from '../../redux/notes-reducer'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import Spinner from '../common/spinner'
@@ -14,7 +13,7 @@ const AllNotes = props => {
   const masonryOptions = { transitionDuration: 0 };
   const imagesLoadedOptions = { background: '.my-bg-image-el' }
 
-  const {notes, deleteNote, updateNote, addMarkNote} = props;
+  const {notes} = props;
   let notesList = [];
   let fixNotesList = [];
 
@@ -33,7 +32,9 @@ const AllNotes = props => {
         disableImagesLoaded={false} // default false
         updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
         imagesLoadedOptions={imagesLoadedOptions} // default {}
-        onLayoutComplete={(e) => {console.log(1111, e)}} >
+        onLayoutComplete={(e) => {}} 
+        // onLayoutComplete={(e) => {console.log(1111, e)}} 
+        >
 
           {children}
 
@@ -45,14 +46,7 @@ const AllNotes = props => {
     let [...sortNotes] = notes;
     sortNotes.sort(sortNotesFunc);
 
-    const getNote = note => {
-      return (
-        <NotePreview key={note.id} 
-                      note={note} 
-                      updateNote={(obj) => updateNote(note.id, obj)} 
-                      onClickMark={() => addMarkNote(note.id)} />
-      )
-    }
+    const getNote = note => <NotePreview key={note.id} note={note}/>
 
     notesList = sortNotes.filter(note => !note.fixMark).map(getNote)
     fixNotesList = sortNotes.filter(note => note.fixMark).map(getNote)
@@ -95,27 +89,15 @@ const AllNotes = props => {
   )
 }
 
-
 const mapStateToProps = (state) => {
   return {
-    projects: state.firestore.ordered.projects,
     notes: state.firestore.ordered.notes,
-    markNotes: state.notesReducer.markNotes,
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    deleteNote: (note, notes) => dispatch(delNote(note, notes)),
-    updateNote: (id, obj) => dispatch(updateNote(id, obj)),
-    addMarkNote: id => dispatch(addMarkNote(id))
   }
 }  
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, null),
   firestoreConnect([
-    { collection: 'projects' },
     { collection: 'notes' }
   ])
 )(AllNotes)

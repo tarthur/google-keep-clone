@@ -1,25 +1,29 @@
 .note {
 }
 
-.deleteIcon {
-  position: absolute;
-  z-index: 20;
-  bottom: 12px;
-  right: 14px;
-  color: #ccc;
-  opacity: 0;
-  transition: opacity .3s;
-}
 
-.pictureBox {
-  position: relative;
+// .deleteIcon {
+//   position: absolute;
+//   transform: none;
+//   z-index: 20;
+//   bottom: 12px;
+//   right: 14px;
+//   color: #ccc;
+//   opacity: 0;
+//   transition: opacity .3s;
+// }
 
-  &:hover {
-    .deleteIcon {
-      opacity: 1;
-    }
-  }
-}
+// .pictureBox {
+//   position: relative;
+//   border-radius: 8px 8px 0 0;
+//   overflow: hidden;
+
+//   &:hover {
+//     .deleteIcon {
+//       opacity: 1;
+//     }
+//   }
+// }
 
 .img {
   width: 100%;
@@ -72,6 +76,14 @@
       opacity: 1;
     }
   }
+}
+.modalWrap {
+  max-width: 70vw;
+  max-height: 100vh;
+  overflow: auto;
+  border-radius: inherit;
+  box-shadow: 0 1px 3px 0 rgba(60,64,67,0.302), 
+              0 4px 8px 3px rgba(60,64,67,0.149);
 }
 
 .btns {

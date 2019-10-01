@@ -5,7 +5,7 @@ import style from './add-btn.module.scss'
 
 const addBtn = props => {
   return (
-    <div class={`${baseBtn.btn} ${style.btn}`} role="button" onClick={props.onClick}>
+    <div className={`${baseBtn.btn} ${style.btn}`} role="button" onClick={props.onClick}>
       {props.text}
     </div>
   )

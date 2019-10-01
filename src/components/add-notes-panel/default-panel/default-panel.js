@@ -16,13 +16,13 @@ const DefaultPanel = props => {
       <div className={className(style.icon, style.listIcon)} onClick={() => setPanelView('list')} >
         <ClickIcon tooltipText="Создать список" 
                    onClick={() => setPanelView('list')}>
-          <i class="far fa-check-square"></i>
+          <i className="far fa-check-square"></i>
         </ClickIcon>
       </div>
       <div className={className(style.icon, style.imgIcon)}>
-        <InputFile onChangeFile={input => setPanelView('img', input)} 
+        <InputFile onChangeFile={input => setPanelView('note', input)} 
                     tooltipText="Создать фотозаметку">
-          <i class="far fa-image" />
+          <i className="far fa-image" />
         </InputFile>
       </div>
     </React.Fragment>

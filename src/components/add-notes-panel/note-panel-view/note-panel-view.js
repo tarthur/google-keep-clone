@@ -3,8 +3,7 @@ import NoteBottomPanel from '../../common/note-bottom-panel';
 import PanelTitle from '../../common/panel-title'
 import FixMark from '../../common/fix-mark'
 import AddBtn from '../../common/add-btn'
-import PicturePreview from '../../common/picture-preview'
-import ClickIcon from '../../common/click-icon'
+import PicturePreviewBox from '../../common/picture-preview-box'
 import NotePanel from './../../common/note-panel'
 import ListNotePanel from './../list-note-panel'
 import getImgSizes from '../../../utils/get-image-sizes'
@@ -100,7 +99,6 @@ class NotePanelView extends Component {
 
     switch(this.props.view) {
       case 'note' :
-      case 'img' :
         children = <NotePanel getText={this.getText} />
         break;
       case 'list' :
@@ -110,19 +108,7 @@ class NotePanelView extends Component {
     
     return (
       <>
-        <div className={style.pictureBox}>
-          {this.props.input && (
-            <div className={style.picturePreview}>
-              <PicturePreview input={this.props.input} />
-            </div>
-          )}
-          <div className={style.deleteIcon}>
-            <ClickIcon onClick={this.onDelete} 
-                        tooltipText="Удалить картинку">
-              <i class="far fa-trash-alt" />
-            </ClickIcon>
-          </div>
-        </div>
+        <PicturePreviewBox input={this.props.input} onDelete={this.onDelete} />
         <PanelTitle getTitle={this.getTitle}
                     textareaClass={style.title} />
         <div className={style.fixMark}>

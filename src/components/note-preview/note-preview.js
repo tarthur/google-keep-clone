@@ -21,10 +21,6 @@ class NotesPreview extends Component {
     modalIsOpen: false,
   }
 
-  componentDidUpdate() {
-    
-  }
-
   onClickMark = () => {
     // this.setState(state => {
     //   return {mark: !state.mark}
@@ -40,9 +36,10 @@ class NotesPreview extends Component {
     this.props.addNote(note)
   }
 
-  setImgParams(input) {
+  addImage(input) {
     const image = input.files[0];
 
+    // alert(this.props.note.imgHeight)
     if (this.props.note.imgHeight) {
         this.props.replaceImage(this.props.note, input)
     } else {
@@ -53,106 +50,111 @@ class NotesPreview extends Component {
     }
   }
 
-  modal = modalIsOpen => {
-    this.setState(state => {
-      return {modalIsOpen}
-    })
+  setData = (obj) => {   
+    
+    switch(obj.input) {
+      case 'delImg' :
+        if (obj.isEmptyFields) {
+          this.props.deleteNote(this.props.note, this.props.notes)
+        } else {
+          this.props.delImg(this.props.note)
+          this.props.updateNote(this.props.note.id, {
+            imgHeight: null, imgWidth: null
+          });
+        }
+        break;
+      case 'replaceImage' :
+          this.addImage(obj.inputTarget);
+        break;
+    }
   }
 
   buildMain() {
     switch(this.props.note.type) {
       case 'note' :
-      case 'img' :
         return <SimpleNotePreview note={this.props.note} 
-                                  replaceImage={this.props.replaceImage} 
-                                  updateNote={this.props.updateNote} 
+                                  modal={this.modal}
                                   modalIsOpen={this.state.modalIsOpen} 
-                                  modal={this.modal} />
+                                  setData={this.setData} />
       case 'list' :
         return <ListNotePreview note={this.props.note} 
                                 updateNote={this.props.updateNote} 
                                 modalIsOpen={this.state.modalIsOpen} 
+                                setData={this.setData}
                                 modal={this.modal} />
       default :
         return <div>no note</div>
     }
   }
 
-  onClickNotePreview = () => {
-    this.setState({
-      modalIsOpen: true
-    })
-  }
-
   getColor = currentColor => {
-    this.setState({
-      currentColor
-    })
-
+    this.setState({currentColor});
     this.props.updateNote(this.props.note.id, {bgColor: currentColor})
   }
+
+  modal = modalIsOpen => this.setState({modalIsOpen})
 
   onClickFixMark = () => {
     this.props.updateNote(this.props.note.id, {fixMark: !this.props.note.fixMark})
   }
-
+  
   render() {
+    const {note, notes, deleteNote} = this.props;
+    const {mark, modalIsOpen, currentColor} = this.state;
+
+    let bottomPanelPosition = 'relative';
+    let paddingTop = null;
+
     const panels = [
       {
         name: 'color',
-        currentColor: this.state.currentColor,
+        currentColor,
         getColor: bgColor => this.getColor(bgColor),
       }, {
         name: 'addImg',
-        addImg: (input) => this.setImgParams(input),
+        addImg: (input) => this.addImage(input),
       }, {
         name: 'delNote',
-        onClickDelNoteBtn: () => this.props.deleteNote(this.props.note, this.props.notes),
+        onClickDelNoteBtn: () => deleteNote(note, notes),
       }, {
         name: 'createClone',
         onClickCreateCloneBtn: () => this.cloneNote(),
       }
     ]
 
-    let bottomPanelPosition = 'relative';
-    let paddingTop = null;
-
-    if (this.props.note.imgHeight) {
+    if (note.imgHeight) {
       bottomPanelPosition = 'absolute';
     } else {
       paddingTop = style.paddingTop
     }
 
-    if (this.props.note.text || this.props.note.title || this.props.note.lists) {
+    if (note.text || note.title || note.lists) {
       bottomPanelPosition = 'relative';
       paddingTop = style.paddingTop
     } else {
       bottomPanelPosition = 'absolute';
     }
 
-    if ((this.props.note.imgHeight) && (this.props.note.text || this.props.note.title || this.props.note.lists)) {
+    if ((note.imgHeight) && (note.text || note.title || note.lists)) {
       paddingTop = style.paddingTop
     }
     
     return (
-      <div className={cn(style.notePreview, this.state.mark && style.activeNote)}  
-            style={{backgroundColor: this.props.note.bgColor, opacity: this.state.modalIsOpen ? 0 : 1}}
-            onClick={this.onClickNotePreview}>
+      <div className={cn(style.notePreview, (mark && style.activeNote), (modalIsOpen && style.openModal))}  
+            style={{backgroundColor: note.bgColor}}
+            onClick={() => this.modal(true)}>
         <div className={style.notePreviewWrap} >
-          <ImgHeightLoader note={this.props.note} />
-          <div>
-            {/* <div className={style.selectedMark} >
-              <ClickIcon onClick={this.onClickMark}>
-                <i class="fas fa-check-circle" />
-              </ClickIcon>
-            </div> */}
-            <div className={style.fixMark}>
-              <FixMark check={this.props.note.fixMark} 
-                        onClick={this.onClickFixMark} />
-            </div>
-            <div className={cn(style.main, paddingTop)}>
-              {this.buildMain()}
-            </div>
+          <ImgHeightLoader note={note} />
+          {/* <div className={style.selectedMark} >
+            <ClickIcon onClick={this.onClickMark}>
+              <i className="fas fa-check-circle" />
+            </ClickIcon>
+          </div> */}
+          <div className={style.fixMark}>
+            <FixMark check={note.fixMark} onClick={this.onClickFixMark} />
+          </div>
+          <div className={cn(style.main, paddingTop)}>
+            {this.buildMain()}
           </div>
         </div>
         <div className={cn(style.NoteBottomPanel, style[bottomPanelPosition])}>

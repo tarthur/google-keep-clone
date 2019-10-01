@@ -31,7 +31,7 @@ export default class ChooseColor extends Component {
       if (this.props.currentColor === item) currentColor = style.currentColor
       if (i === 0) borderColor = '#eee'
       
-      return <li className={cn(style.listItem, currentColor)} 
+      return <li key={item} className={cn(style.listItem, currentColor)} 
                   style={{backgroundColor: item, borderColor}} 
                   onClick={e => {
                     e.stopPropagation()
@@ -60,7 +60,7 @@ export default class ChooseColor extends Component {
     return (
       <div className={style.chooseColor} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
         <span className={style.title}>
-          <i class="fas fa-palette"></i>
+          <i className="fas fa-palette"></i>
         </span>
         {this.getList()}
       </div>

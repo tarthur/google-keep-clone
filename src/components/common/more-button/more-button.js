@@ -40,7 +40,7 @@ class MoreButton extends Component {
   render() {
     return (
       <div onClick={this.ddd} className={style.moreBox}>
-        <i class="fas fa-ellipsis-v"></i>
+        <i className="fas fa-ellipsis-v"></i>
       
         {this.state.isShowList &&
           <div className={style.listBox}>

@@ -35,16 +35,22 @@ class ListNotePreview extends Component {
     })
   }
 
-  setData = data => {
-    this.props.updateNote(this.props.note.id, {
-      ...this.state.note,
-      time: +(new Date()),
-    });
-    // this.props.replaceImage(this.props.note, data.input)
-      
+  setData = (obj) => {   
+    const isEmptyFields = (this.state.note.lists.length === 0); 
+
+    this.props.setData({
+      ...obj,
+      isEmptyFields
+    })
+
+    if (!isEmptyFields) {
+      this.props.updateNote(this.props.note.id, {
+        ...this.state.note,
+        time: +(new Date()),
+      });
+    }
   }
 
-  // 
   render() {
     const previewContent = (
       <div>

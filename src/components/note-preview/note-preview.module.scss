@@ -144,3 +144,9 @@
   left: 0; right: 0;
   background: rgba(#fff, .8);
 }
+
+.openModal {
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+}

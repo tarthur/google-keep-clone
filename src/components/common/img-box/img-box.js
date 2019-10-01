@@ -21,6 +21,7 @@ class ImgBox extends Component {
     if (this.props.width !== prevProps.width) {
       this.calcHeight()
     }
+    
   }
 
   calcHeight = () => {
@@ -37,6 +38,7 @@ class ImgBox extends Component {
   }
 
   render() {
+    
     return (
       <div className={style.imgBox} style={{height: this.state.height}}>
         {this.props.note.url && (

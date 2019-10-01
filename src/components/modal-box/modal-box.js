@@ -15,7 +15,9 @@ const customStyles = {
     transform             : 'translate(-50%, -50%)',
     zIndex                : '100',
     padding               : '0',
-    overflow              : 'visible' 
+    overflow              : 'visible',
+    borderRadius          : '8px',
+    border                : 'none'
   }
 };
 
@@ -25,7 +27,7 @@ export default class ModalBox extends Component {
     return (
       <Modal isOpen={this.props.isOpen} 
               style={customStyles}
-              overlayClassName={style.ddd}
+              overlayClassName={style.overlay}
               onRequestClose={this.props.onRequestClose} >
         {this.props.children}
       </Modal>

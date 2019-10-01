@@ -2,49 +2,60 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import { compose } from 'redux'
 import ModalBox from './../../modal-box'
-import PanelTitle from '../../common/panel-title/panel-title'
 import { firestoreConnect } from 'react-redux-firebase'
 import {updateNote, addMarkNote, addItem, addImage, delNote, delImg, replaceImage} from '../../../redux/notes-reducer'
-import NoteBottomPanel from '../../common/note-bottom-panel/note-bottom-panel';
+import NoteBottomPanel from '../../common/note-bottom-panel';
 import AddBtn from '../../common/add-btn/add-btn'
-import NotePanel from '../../common/note-panel/note-panel'
-import setImgSizes from '../../../utils/get-image-sizes'
-import ImgBox from '../../common/img-box/img-box'
 import FixMark from '../../common/fix-mark'
-import PicturePreview from '../../common/picture-preview/picture-preview'
-import * as moment from 'moment';
-import ImgHeightLoader from '../../common/img-height-loader'
-import getImgSizes from '../../../utils/get-image-sizes'
-import cn from 'classnames'
+import PicturePreviewBox from '../../common/picture-preview-box'
 import style from './modal-container.module.scss'
-import ClickIcon from '../../common/click-icon'
+import * as moment from 'moment';
+import cn from 'classnames'
 
 
 class ModalContainer extends Component {
   state = {
     currentColor: this.props.note.bgColor,
     picture: null,
-    inputData: null,
     input: null,
   }
   
+  componentDidMount() {
+    // if (this.props.note.url) {
+    //   this.setState({
+    //     input: this.props.note.url
+    //   })
+    // }
+  }
+  
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.modalIsOpen !== this.props.modalIsOpen) {
+      if (this.props.note.url) {
+        this.setState({
+          input: this.props.note.url
+        })
+      } else {
+        this.setState({
+          input: null
+        })
+      }
+    }
+  }
+
   closeModal = e => {
     e.stopPropagation()
     
-    this.props.modal(false)
-  }
+    const input = this.state.input;
 
-  setImgParams(input) {
-    const image = input.files[0];
-
-    if (this.props.note.imgHeight) {
-        this.props.replaceImage(this.props.note, input)
+    if (this.props.note.url && (input === null)) {
+      this.props.setData({input: 'delImg'})
+    } else if (input && (typeof input === 'object')) {
+      this.props.setData({input: 'replaceImage', inputTarget: input})
     } else {
-      getImgSizes(input, (imgWidth, imgHeight) => {
-        this.props.updateNote(this.props.note.id, {imgWidth, imgHeight})
-        this.props.addImage(image, this.props.note.id);
-      })
+      this.props.setData({})
     }
+
+    this.props.modal(false)
   }
   
   cloneNote = () => {
@@ -62,58 +73,47 @@ class ModalContainer extends Component {
     this.props.updateNote(this.props.note.id, {bgColor: currentColor})
   }
   
-  onDelete = () => {
-    this.props.delImg(this.props.note)
-  }
+  onDelete = () => this.setState({input: null})
   
   render() {
+    const {note, notes, deleteNote, updateNote, previewContent, modalIsOpen} = this.props;
+    const {input} = this.state;
+    
     const panels = [
       {
         name: 'color',
-        currentColor: this.props.note.bgColor,  
+        currentColor: note.bgColor,  
         getColor: bgColor => this.getColor(bgColor),  
       }, {
         name: 'addImg',
-        addImg: (input) => {this.setImgParams(input)},
-      }, 
-      {
+        addImg: (input) => this.setState({input}),
+      }, {
         name: 'delNote',
-        onClickDelNoteBtn: () => this.props.deleteNote(this.props.note, this.props.notes),
+        onClickDelNoteBtn: () => deleteNote(note, notes),
       }, {
         name: 'createClone',
         onClickCreateCloneBtn: () => this.cloneNote(),
       }
     ]
-
   
     return (
       <div>
-        {this.props.previewContent}
-        <ModalBox isOpen={this.props.modalIsOpen} 
+
+        {previewContent}
+
+        <ModalBox isOpen={modalIsOpen} 
                   onRequestClose={this.closeModal}>
-          <div style={{backgroundColor: this.props.note.bgColor}}>
-            {this.props.note.url && (
-              <div className={style.pictureBox}>
-                <ImgHeightLoader note={this.props.note} />
-                <div className={style.deleteIcon}>
-                  <ClickIcon onClick={this.onDelete} 
-                              tooltipText="Удалить картинку">
-                    <i class="far fa-trash-alt" />
-                  </ClickIcon>
-                </div>
-              </div>
-            )}
-            {/* {this.props.note.url && (
-              <PicturePreview initialPicture={this.props.note.url} input={this.state.input} />
-            )} */}
+
+          <div className={style.modalWrap} style={{backgroundColor: note.bgColor}}>
+            <PicturePreviewBox input={input} onDelete={this.onDelete} />
             <div className={style.fixMark}>
-              <FixMark check={this.props.note.fixMark} onClick={() => this.props.updateNote(this.props.note.id, {fixMark: !this.props.note.fixMark})} />
+              <FixMark check={note.fixMark} onClick={() => updateNote(note.id, {fixMark: !note.fixMark})} />
             </div>
             <div>
 
               {this.props.children}
 
-              <div className={style.date}>Измененно: {moment(this.props.note.time).format('LTS')}</div>
+              <div className={style.date}>Измененно: {moment(note.time).format('LTS')}</div>
             </div>
             <div className={style.bottomPanel}>
               <div className={style.bottomPanelBox}>
@@ -127,12 +127,13 @@ class ModalContainer extends Component {
               </div>
             </div>
           </div>
+          
         </ModalBox>
+
       </div>
     )
   }
 }
-
 
 const mapStateToProps = (state) => {
   return {
@@ -149,7 +150,7 @@ const mapDispatchToProps = dispatch => {
     addNote: (item) => dispatch(addItem(item)),
     deleteNote: (note, notes) => dispatch(delNote(note, notes)),
     delImg: (note) => dispatch(delImg(note)),
-    replaceImage: (note, imgWidth, imgHeight, image) => dispatch(replaceImage(note, imgWidth, imgHeight, image)),
+    // replaceImage: (note, imgWidth, imgHeight, image) => dispatch(replaceImage(note, imgWidth, imgHeight, image)),
   }
 }  
 

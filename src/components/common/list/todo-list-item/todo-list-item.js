@@ -39,7 +39,7 @@ class ListItem extends Component {
             />
         <div className={style.closeBtn} 
            onClick={ onDeleteTodoListItem } >
-            <i class="fas fa-times"></i>
+            <i className="fas fa-times"></i>
         </div>
       </li>
     );

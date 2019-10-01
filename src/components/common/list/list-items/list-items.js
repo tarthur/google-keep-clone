@@ -13,7 +13,8 @@ const ListItems = props => {
     if (props.viewMode && props.viewMode === "only-view") {
       return items.map((item, index, array) => {
         
-        return <TodoListItem  id={item.id} 
+        return <TodoListItem  key={item.id}
+                              id={item.id} 
                               value={item.value} 
                               checkbox={item.checkbox}
                               onDeleteTodoListItem={ () => {} }
@@ -28,7 +29,8 @@ const ListItems = props => {
       return items.map((item, index, array) => {
         const focus = (index === (array.length - 1)) ? true : false;
         
-        return <TodoListItem  id={item.id} 
+        return <TodoListItem  key={item.id}
+                              id={item.id} 
                               value={item.value} 
                               checkbox={item.checkbox}
                               onDeleteTodoListItem={ () => { onDeleteTodoListItem(item.id) } }

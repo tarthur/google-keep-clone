@@ -18,11 +18,14 @@ class ImgHeightLoader extends Component {
   }
   
   componentWillUnmount() {
+    this.box = null
     window.removeEventListener("resize", this.updateDimensions.bind(this));
   }
 
   updateDimensions = () => {
-    this.setState({ boxWidth: this.box.current.offsetWidth });
+    if (this.box) {
+      this.setState({ boxWidth: this.box.current.offsetWidth });
+    }
   }
 
   render() {

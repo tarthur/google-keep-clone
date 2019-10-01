@@ -17,7 +17,7 @@ const InputFile = props => {
 
   return (
     <div data-tip={tooltipText} onClick={e => e.stopPropagation()}>
-      <label class={style.uploadFile}>
+      <label className={style.uploadFile}>
         {props.children}
         <input className={style.input} type="file" onChange={onChangeFile}  />
         {tooltipText && <ReactTooltip place="bottom" type="dark" effect="solid"/>}
