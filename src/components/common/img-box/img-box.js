@@ -10,6 +10,7 @@ class ImgBox extends Component {
   }
 
   componentDidMount() {
+    this.props.onLoad(this.state.loader);
     this.calcHeight()
   }
 
@@ -32,6 +33,8 @@ class ImgBox extends Component {
   }
 
   onLoad = e => {
+    this.props.onLoad(false);
+
     this.setState({
       loader: false,
     })

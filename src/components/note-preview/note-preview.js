@@ -19,7 +19,9 @@ class NotesPreview extends Component {
     currentColor: this.props.note.bgColor,
     mark: false,
     modalIsOpen: false,
+    loader: true
   }
+  
 
   onClickMark = () => {
     // this.setState(state => {
@@ -97,10 +99,14 @@ class NotesPreview extends Component {
   onClickFixMark = () => {
     this.props.updateNote(this.props.note.id, {fixMark: !this.props.note.fixMark})
   }
+
+  onLoad = loader => {
+    this.setState({loader})
+  }
   
   render() {
     const {note, notes, deleteNote} = this.props;
-    const {mark, modalIsOpen, currentColor} = this.state;
+    const {mark, modalIsOpen, currentColor, loader} = this.state;
 
     let bottomPanelPosition = 'relative';
     let paddingTop = null;
@@ -140,11 +146,11 @@ class NotesPreview extends Component {
     }
     
     return (
-      <div className={cn(style.notePreview, (mark && style.activeNote), (modalIsOpen && style.openModal))}  
+      <div className={cn(style.notePreview, (mark && style.activeNote), (modalIsOpen && style.openModal), (loader && style.loader))}  
             style={{backgroundColor: note.bgColor}}
             onClick={() => this.modal(true)}>
         <div className={style.notePreviewWrap} >
-          <ImgHeightLoader note={note} />
+          <ImgHeightLoader note={note} onLoad={this.onLoad} />
           {/* <div className={style.selectedMark} >
             <ClickIcon onClick={this.onClickMark}>
               <i className="fas fa-check-circle" />

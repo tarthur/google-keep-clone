@@ -61,6 +61,7 @@
 }
 
 .notePreview {
+  cursor: pointer;
   border: 1px solid #e0e0e0;
   margin-left: 1%;
   margin-bottom: 15px;
@@ -147,6 +148,12 @@
 
 .openModal {
   opacity: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.loader {
+  cursor: wait;
   user-select: none;
   pointer-events: none;
 }
