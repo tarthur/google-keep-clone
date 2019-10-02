@@ -22,6 +22,11 @@ class NotesPreview extends Component {
     loader: true
   }
   
+  componentDidMount() {
+    if (!this.props.note.imgHeight) {
+      this.setState({loader: false})
+    }
+  }
 
   onClickMark = () => {
     // this.setState(state => {
