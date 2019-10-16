@@ -3,20 +3,31 @@ import style from './click-icon.module.scss'
 import ReactTooltip from 'react-tooltip'
 
 
-const ClickIcon = props => {
-  const onClick = e => {
+class ClickIcon extends Component {
+  onClick = e => {
     e.stopPropagation();
-    props.onClick()
+    this.props.onClick()
   }
 
-  const {tooltipText} = props;
+  render() {
+    const {tooltipText, tooltip} = this.props;
 
-  return (
-    <div className={style.clickIcon} onClick={onClick} data-tip={tooltipText} >
-      {props.children}
-      <ReactTooltip place="bottom" type="dark" effect="solid" />
-    </div>
-  )
+    return tooltip ? (
+      <div className={style.clickIcon} onClick={this.onClick} data-tip={tooltipText} >
+        {this.props.children}
+        <ReactTooltip place="bottom" type="dark" effect="solid" />
+      </div>
+    ) : (
+      <div className={style.clickIcon} onClick={this.onClick}>
+        {this.props.children}
+      </div>
+    )
+  }
 }
+
+ClickIcon.defaultProps = {
+  tooltip: true,
+  tooltipText: 'tooltip'
+};
 
 export default ClickIcon

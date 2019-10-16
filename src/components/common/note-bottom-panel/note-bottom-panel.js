@@ -19,6 +19,7 @@ const NoteBottomPanel = props => {
         return (
           <div key={item.name} className={style.icon} data-tip="Изменить цвет">
             <ChooseСolor {...props} />
+            <ReactTooltip place="bottom" type="dark" effect="solid" />
           </div>
         )
       case 'delNote' :
@@ -49,6 +50,7 @@ const NoteBottomPanel = props => {
             <InputFile onChangeFile={addImg}>
               <i className="far fa-image" />
             </InputFile>
+            <ReactTooltip place="bottom" type="dark" effect="solid" />
           </div>
         )
       case 'fixMark' :
@@ -67,7 +69,6 @@ const NoteBottomPanel = props => {
   return (
     <div className={cn(style.noteBottomPanel, noteBottomClass)} >
       {showPanels}
-      <ReactTooltip place="bottom" type="dark" effect="solid"/>
     </div>
   )
 }

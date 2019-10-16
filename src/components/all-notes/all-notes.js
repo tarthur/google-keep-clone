@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import NotePreview from '../note-preview'
+import NotesPreviewContainer from '../note-preview/note-preview-container'
 import {connect} from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
@@ -46,7 +46,7 @@ const AllNotes = props => {
     let [...sortNotes] = notes;
     sortNotes.sort(sortNotesFunc);
 
-    const getNote = note => <NotePreview key={note.id} note={note}/>
+    const getNote = note => <NotesPreviewContainer key={note.id} note={note}/>
 
     notesList = sortNotes.filter(note => !note.fixMark).map(getNote)
     fixNotesList = sortNotes.filter(note => note.fixMark).map(getNote)

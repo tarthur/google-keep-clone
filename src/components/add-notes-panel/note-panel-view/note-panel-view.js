@@ -31,22 +31,22 @@ class NotePanelView extends Component {
     })
   }
 
-  onClickAddBtn = () => {
-    const input = this.props.input;
+  onClickAddBtn = async () => {
+    const {input, onClickAddBtn} = this.props;
 
     if (input) {
-      getImgSizes(input, (imgWidth, imgHeight) => {
-        this.setState(state => {
-          const note = {
-            ...state.note,
-            imgWidth, imgHeight
-          }
+      const {imgWidth, imgHeight} = await getImgSizes(input);
+      
+      this.setState(state => {
+        const note = {
+          ...state.note,
+          imgWidth, imgHeight
+        }
 
-          this.props.onClickAddBtn(note)
-        })
+        onClickAddBtn(note)
       })
     } else {
-      this.props.onClickAddBtn(this.state.note)
+      onClickAddBtn(this.state.note)
     }  
   }
 
@@ -76,11 +76,8 @@ class NotePanelView extends Component {
   }
 
   getList = list => {
-    if (list.length === 0) {
-      this.props.setData(null);
-    } else {
-      this.props.setData(list);
-    }
+    const {setData} = this.props;
+    return (list.length === 0) ? setData(null) : setData(list)
   }
 
   render() {

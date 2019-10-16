@@ -1,24 +1,33 @@
 import React, {Component} from 'react'
 import style from './fix-mark.module.scss'
-import ReactTooltip from 'react-tooltip'
+import ClickIcon from '../../common/click-icon'
 import cn from 'classnames'
 
 
-const FixMark = props => {
-  const checkMark = props.check ? style.check : '';
-  const textMark = props.check ? 'Открепить' : 'Закрепить'
-
-  const onClick = e => {
-    e.stopPropagation();
-    props.onClick()
+class FixMark extends Component {
+  state = {
+    checkMark: this.props.check,
+    textMark: this.props.check ? 'Открепить' : 'Закрепить'
   }
 
-  return (
-    <div className={cn(style.fixMark, checkMark)} onClick={onClick} data-tip={textMark} >
-      <i className="fas fa-thumbtack"></i>
-      <ReactTooltip place="bottom" type="dark" effect="solid"/>
-    </div>
-  )
+  onClick = () => {
+    this.setState(({checkMark}) => {
+      this.props.onClick()
+      return {checkMark: checkMark === ''}
+    });
+  }
+
+  render() {
+    const checkMark = this.state.checkMark ? style.check : '';
+
+    return (
+      <div className={cn(style.fixMark, checkMark)} data-tip={this.state.textMark} >
+        <ClickIcon tooltipText={this.state.textMark} onClick={this.onClick}>
+          <i className="fas fa-thumbtack" />
+        </ClickIcon>
+      </div>
+    )
+  }
 }
 
 export default FixMark

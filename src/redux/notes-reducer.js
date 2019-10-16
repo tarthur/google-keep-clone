@@ -1,4 +1,3 @@
-import firebase from '../config/fbConfig'
 import getImgSizes from '../utils/get-image-sizes'
 
 
@@ -62,95 +61,73 @@ export const removeAllMarkNote = () => {
   }
 }
 
-const genImageName = image => {
-  return new Date().getTime() + "." + image.name.split('.').pop();
-}
+const genImageName = image => new Date().getTime() + "." + image.name.split('.').pop();
 
 const putImage = (storage, image, name, endFunc) => {
-  return storage.ref(`images/${name}`).put(image)
-          .on('state_changed', 
-            (snapshot) => {}, 
-            (error) => { alert(error.message_) }, 
-            endFunc
-          );
+  return new Promise((res, rej) => {
+    storage.ref(`images/${name}`).put(image)
+    .on('state_changed', 
+      (snapshot) => {}, 
+      (error) => { alert(error.message_) }, res
+    );
+  });
 }
 
-const setImage = (imgName, id, dispatch, getState, getFirestore, storage) => {
+export const setImage = (imgName, id, dispatch, getState, getFirestore, storage) => {
   storage.ref('images').child(imgName).getDownloadURL()
-    .then(url => {
-      updateNote(id, {url, imgName})(dispatch, getState, {getFirestore})
-    })
+         .then(url => updateNote(id, {url, imgName})(dispatch, getState, {getFirestore}))
 }
 
-export const addImage = (image, id) => {
-  return (dispatch, getState, {getFirestore, storage}) => {
-    const name = genImageName(image);
-    
-    putImage(storage, image, name, () => {
-      setImage(name, id, dispatch, getState, getFirestore, storage)
-    });
-  }
+export const addImage = (image, id) => async (dispatch, getState, {getFirestore, storage}) => {
+  const name = genImageName(image);
+  await putImage(storage, image, name);
+  setImage(name, id, dispatch, getState, getFirestore, storage)
 }
 
-export const addItem = (note, image) => {
-  return (dispatch, getState, {getFirestore, storage}) => {
-    let newNote = {
-      ...defaultNodeProps,
-      ...note
-    }
+export const addItem = (note, image) => (dispatch, getState, {getFirestore, storage}) => {
+  const newNote = { ...defaultNodeProps, ...note }
 
-    const firestore = getFirestore();
-    firestore.collection('notes').add(newNote).then(({id}) => {
-      if (image !== undefined) {
-        addImage(image, id)(dispatch, getState, {getFirestore, storage});
-      }
-    }).catch(err => {
-      // dispatch({ type: 'CREATE_PROJECT_ERROR' }, err);
-    });
+  getFirestore().collection('notes').add(newNote).then(({id}) => {
+    if (image !== undefined) addImage(image, id)(dispatch, getState, {getFirestore, storage});
+  }).catch(err => console.log(err));
+}
+
+export const delNote = (note, notes) => (dispatch, getState, {getFirestore, storage}) => {
+  if (note.imgName) {
+    let matchesArr = notes.filter(item => item.imgName === note.imgName);
+
+    if (matchesArr.length < 2) delImg(note, storage)
   }
-};
 
-export const delNote = (note, notes) => {
-  return (dispatch, getState, {getFirestore, storage}) => {
+  getFirestore().delete({ 
+    collection: 'notes', 
+    doc: note.id 
+  });
+}
 
-    if (note.imgName) {
-      let matchesArr = notes.filter(item => item.imgName === note.imgName);
-
-
-      if (matchesArr.length < 2) {
-        delImg(note, storage)
-      }
-    }
-  
-    const firestore = getFirestore();
-    firestore.delete({ collection: 'notes', doc: note.id });
-  }
-};
-
-export const delImg = (note, callback = () => {}) => {
-  return (dispatch, getState, {getFirestore, storage}) => {
+export const delImg = (note) => (dispatch, getState, {getFirestore, storage}) => {
+  return new Promise((res, rej) => {
     updateNote(note.id, {url: null, imgName: null})(dispatch, getState, {getFirestore});
-    
-    storage.ref(`images/${note.imgName}`).delete().then(function() {
-        callback()
-    }).catch(function(error) {
-      console.log(storage)
-    });
-  }
+    storage.ref(`images/${note.imgName}`).delete().then(() => res());
+  })
 }
 
-export const replaceImage = (note, input) => {
-  return (dispatch, getState, {getFirestore, storage}) => {
-    const {id} = note;
-
-    delImg(note, () => {
-      getImgSizes(input, (imgWidth, imgHeight) => {
-        updateNote(id, {imgWidth, imgHeight})(dispatch, getState, {getFirestore});
-        addImage(input.files[0], id)(dispatch, getState, {getFirestore, storage});
-      })
-    })(dispatch, getState, {getFirestore, storage})
-  }
+export const addStartImage = (input, note, image) => async (dispatch, getState, {getFirestore, storage}) => {
+  const {imgWidth, imgHeight} = await getImgSizes(input);
+  updateNote(note.id, {imgWidth, imgHeight})(dispatch, getState, {getFirestore, storage});
+  addImage(image, note.id)(dispatch, getState, {getFirestore, storage})
 }
+
+export const replaceImage = (note, input) => async (dispatch, getState, {getFirestore, storage}) => {
+  await delImg(note)(dispatch, getState, {getFirestore, storage})
+  const {imgWidth, imgHeight} = await getImgSizes(input);
+  updateNote(note.id, {imgWidth, imgHeight})(dispatch, getState, {getFirestore});
+  addImage(input.files[0], note.id)(dispatch, getState, {getFirestore, storage});
+}
+
+export const updateNote = (id, obj) => (dispatch, getState, {getFirestore}) => {
+  getFirestore().update({ collection: 'notes', doc: id }, obj)
+};
 
 export const deleteAllNote = (notes) => {
   return (dispatch, getState, {getFirestore, storage}) => {
@@ -158,29 +135,6 @@ export const deleteAllNote = (notes) => {
     notes.forEach(note => {
       delNote(note, notes)(dispatch, getState, {getFirestore, storage})
     })
-  }
-};
-
-export const updateNote = (id, obj) => {
-  return (dispatch, getState, {getFirestore}) => {
-    const firestore = getFirestore();
-    firestore.update({ collection: 'notes', doc: id }, obj)
-  }
-};
-
-export const deleteField = (id, field) => {
-  return (dispatch, getState, {getFirestore}) => {
-    const firestore = getFirestore();
-    // firestore.update({ collection: 'notes', doc: id }, obj)
-
-    let cityRef = firestore.collection('notes').doc(id);
-
-    // Remove the 'capital' field from the document
-    let removeCapital = cityRef.update({
-      [field]: firebase.firestore.FieldValue.delete()
-    });
-
-    console.log(removeCapital)
   }
 };
 

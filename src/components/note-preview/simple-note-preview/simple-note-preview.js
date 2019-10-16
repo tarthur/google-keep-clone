@@ -1,12 +1,6 @@
 import React, {Component} from 'react'
 import PanelTitle from '../../common/panel-title'
 import NotePanel from '../../common/note-panel'
-import {updateNote, addMarkNote, addItem, addImage, delNote, replaceImage, delImg} from '../../../redux/notes-reducer'
-import {connect} from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
-import getImgSizes from '../../../utils/get-image-sizes'
-import cn from 'classnames'
 import ModalContainer from '../modal-container/modal-container'
 import style from './simple-note-preview.module.scss'
 
@@ -86,28 +80,5 @@ class SimpleNotePreview extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    notes: state.firestore.ordered.notes,
-    markNotes: state.notesReducer.markNotes
-  }
-}
 
-const mapDispatchToProps = dispatch => {
-  return {
-    delImg: (note) => dispatch(delImg(note)),
-    addImage: (image, id) => dispatch(addImage(image, id)),
-    updateNote: (id, obj) => dispatch(updateNote(id, obj)),
-    addMarkNote: note => dispatch(addMarkNote(note)),
-    addNote: (item) => dispatch(addItem(item)),
-    deleteNote: (note, notes) => dispatch(delNote(note, notes)),
-    // replaceImage: (note, imgWidth, imgHeight, image) => dispatch(replaceImage(note, imgWidth, imgHeight, image)),
-  }
-}  
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([
-    { collection: 'notes' }
-  ])
-)(SimpleNotePreview)
+export default SimpleNotePreview;

@@ -1,19 +1,26 @@
-const getImgSizes = (input, callback) => {
-  const image = input.files[0];
+const getImgSizes = (input) => {
+  let promise = new Promise((res, rej) => {
 
-  if (image) {
-    let _URL = window.URL || window.webkitURL;
-    let imageInstance = new Image();
+    const image = input.files[0];
 
-    imageInstance.onload = function() {
-      const imgWidth = this.width;
-      const imgHeight = this.height;
+    if (image) {
+      let _URL = window.URL || window.webkitURL;
+      let imageInstance = new Image();
+  
+      imageInstance.onload = function() {
+        res({
+          imgWidth: this.width,
+          imgHeight: this.height,
+        });
+      };
+  
+      imageInstance.src = _URL.createObjectURL(image);
+    }
 
-      callback(imgWidth, imgHeight) 
-    };
+  })
 
-    imageInstance.src = _URL.createObjectURL(image);
-  }
+  return promise;
 }
 
 export default getImgSizes;
+
