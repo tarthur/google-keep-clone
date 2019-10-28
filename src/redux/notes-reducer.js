@@ -73,56 +73,50 @@ const putImage = (storage, image, name, endFunc) => {
   });
 }
 
-export const setImage = (imgName, id, dispatch, getState, getFirestore, storage) => {
-  storage.ref('images').child(imgName).getDownloadURL()
-         .then(url => updateNote(id, {url, imgName})(dispatch, getState, {getFirestore}))
+export const setImage = (imgName, id) => async (dispatch, getState, {getFirestore, storage}) => {
+  const url = await storage.ref('images').child(imgName).getDownloadURL();
+  dispatch(updateNote(id, {url, imgName}));
 }
 
 export const addImage = (image, id) => async (dispatch, getState, {getFirestore, storage}) => {
   const name = genImageName(image);
   await putImage(storage, image, name);
-  setImage(name, id, dispatch, getState, getFirestore, storage)
+  dispatch(setImage(name, id));
 }
 
-export const addItem = (note, image) => (dispatch, getState, {getFirestore, storage}) => {
+export const addItem = (note, image) => async (dispatch, getState, {getFirestore}) => {
   const newNote = { ...defaultNodeProps, ...note }
-
-  getFirestore().collection('notes').add(newNote).then(({id}) => {
-    if (image !== undefined) addImage(image, id)(dispatch, getState, {getFirestore, storage});
-  }).catch(err => console.log(err));
+  const {id} = await getFirestore().collection('notes').add(newNote);
+  if (image !== undefined) dispatch(addImage(image, id));
 }
 
 export const delNote = (note, notes) => (dispatch, getState, {getFirestore, storage}) => {
   if (note.imgName) {
     let matchesArr = notes.filter(item => item.imgName === note.imgName);
-
     if (matchesArr.length < 2) delImg(note, storage)
   }
 
-  getFirestore().delete({ 
-    collection: 'notes', 
-    doc: note.id 
-  });
+  getFirestore().delete({ collection: 'notes', doc: note.id });
 }
 
 export const delImg = (note) => (dispatch, getState, {getFirestore, storage}) => {
   return new Promise((res, rej) => {
-    updateNote(note.id, {url: null, imgName: null})(dispatch, getState, {getFirestore});
+    dispatch(updateNote(note.id, {url: null, imgName: null}));
     storage.ref(`images/${note.imgName}`).delete().then(() => res());
   })
 }
 
-export const addStartImage = (input, note, image) => async (dispatch, getState, {getFirestore, storage}) => {
+export const addStartImage = (input, note, image) => async (dispatch) => {
   const {imgWidth, imgHeight} = await getImgSizes(input);
-  updateNote(note.id, {imgWidth, imgHeight})(dispatch, getState, {getFirestore, storage});
-  addImage(image, note.id)(dispatch, getState, {getFirestore, storage})
+  dispatch(updateNote(note.id, {imgWidth, imgHeight}));
+  dispatch(addImage(image, note.id))
 }
 
-export const replaceImage = (note, input) => async (dispatch, getState, {getFirestore, storage}) => {
-  await delImg(note)(dispatch, getState, {getFirestore, storage})
+export const replaceImage = (note, input) => async (dispatch) => {
+  await dispatch(delImg(note))
   const {imgWidth, imgHeight} = await getImgSizes(input);
-  updateNote(note.id, {imgWidth, imgHeight})(dispatch, getState, {getFirestore});
-  addImage(input.files[0], note.id)(dispatch, getState, {getFirestore, storage});
+  dispatch(updateNote(note.id, {imgWidth, imgHeight}))
+  dispatch(addImage(input.files[0], note.id));
 }
 
 export const updateNote = (id, obj) => (dispatch, getState, {getFirestore}) => {
