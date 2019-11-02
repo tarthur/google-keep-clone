@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {addNote, addItem} from '../../redux/notes-reducer'
+import {notes} from '../../redux/notes-selectors'
 import style from './add-notes-panel.module.scss'
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
@@ -55,7 +56,7 @@ class AddNotesPanel extends Component {
           type: state.view
         }
   
-        this.props.addNote(newNote, image);
+        this.props.addItem(newNote, image);
   
         newNote = {
           ...this.defaultNoteView
@@ -123,15 +124,13 @@ class AddNotesPanel extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    notes: state.firestore.ordered.notes
+    notes: notes(state),
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addNote: (note, image) => dispatch(addItem(note, image)),
-  }
-}
+const mapDispatchToProps = {
+  addItem
+} 
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

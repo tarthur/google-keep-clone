@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {updateNote, addMarkNote, addItem, 
         addImage, delNote, replaceImage, 
         delImg, addStartImage} from '../../redux/notes-reducer'
+import {notes} from '../../redux/notes-selectors'
 import {connect} from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
@@ -101,8 +102,7 @@ class NotesPreviewContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    notes: state.firestore.ordered.notes,
-    markNotes: state.notesReducer.markNotes
+    notes: notes(state),
   }
 }
 

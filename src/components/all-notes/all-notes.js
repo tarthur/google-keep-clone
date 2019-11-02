@@ -6,6 +6,7 @@ import { compose } from 'redux'
 import Spinner from '../common/spinner'
 import style from './all-notes.module.scss'
 import Masonry from 'react-masonry-component';
+import {notes} from '../../redux/notes-selectors'
 import cn from 'classnames'
 
 
@@ -91,7 +92,7 @@ const AllNotes = props => {
 
 const mapStateToProps = (state) => {
   return {
-    notes: state.firestore.ordered.notes,
+    notes: notes(state),
   }
 }  
 
