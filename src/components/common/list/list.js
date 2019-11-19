@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import ListItems from './list-items'
-import Form from './form'
-import style from './list.module.scss'
+import React, {Component} from 'react';
+import ListItems from './list-items';
+import Form from './form';
+import style from './list.module.scss';
 
 export default class List extends Component {
   state = {

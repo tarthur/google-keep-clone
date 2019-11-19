@@ -1,7 +1,6 @@
-import React, {Component} from 'react'
+import React from 'react';
+import ReactTooltip from 'react-tooltip';
 import style from './input-file.module.scss';
-import classNames from 'classnames';
-import ReactTooltip from 'react-tooltip'
 
 
 const InputFile = props => {

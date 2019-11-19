@@ -1,13 +1,10 @@
-import React, {Component} from 'react'
-import TodoListItem from '../todo-list-item'
-import style from './list-items.module.scss'
+import React from 'react';
+import TodoListItem from '../todo-list-item';
+import style from './list-items.module.scss';
 
 
 const ListItems = props => {
-  // const { items, 
-  //   onDeleteTodoListItem, onClickCompletedCheckbox, onChangeTextField 
-  // } = props;
-  const { items,  onChangeTextField, onClickCompletedCheckbox, onDeleteTodoListItem } = props;
+  const { items, onChangeTextField, onClickCompletedCheckbox, onDeleteTodoListItem } = props;
 
   const todoListItems = () => {
     if (props.viewMode && props.viewMode === "only-view") {

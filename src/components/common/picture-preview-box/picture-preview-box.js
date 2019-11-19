@@ -1,11 +1,10 @@
-import React, {Component} from 'react'
-import cn from 'classnames'
-import PicturePreview from '../picture-preview'
-import ClickIcon from '../click-icon'
-import style from './picture-preview-box.module.scss'
+import React from 'react';
+import PicturePreview from '../picture-preview';
+import ClickIcon from '../click-icon';
+import style from './picture-preview-box.module.scss';
 
 
-const PicturePreviewBox = ({input, onDelete}) => {
+const PicturePreviewBox = ({ input, onDelete }) => {
   return (    
     <div className={style.pictureBox}>
       {input && (

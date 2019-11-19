@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import PanelTitle from '../../common/panel-title'
-import NotePanel from '../../common/note-panel'
-import ModalContainer from '../modal-container/modal-container'
-import style from './simple-note-preview.module.scss'
+import React, {Component} from 'react';
+import PanelTitle from '../../common/panel-title';
+import NotePanel from '../../common/note-panel';
+import ModalContainer from '../../../containers/modal-container';
+import style from './simple-note-preview.module.scss';
 
 
 class SimpleNotePreview extends Component {

@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import ImgBox from '../img-box/img-box'
+import React, {Component} from 'react';
+import ImgBox from '../img-box/img-box';
 
 
 class ImgHeightLoader extends Component {

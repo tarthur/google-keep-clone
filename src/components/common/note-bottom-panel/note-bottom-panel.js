@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import style from './note-bottom-panel.module.scss'
-import ChooseСolor from '../choose-color/choose-color'
-import ClickIcon from '../click-icon'
-import ReactTooltip from 'react-tooltip'
-import InputFile from '../input-file/input-file'
-import FixMark from '../fix-mark/fix-mark'
-import cn from 'classnames'
+import React from 'react';
+import cn from 'classnames';
+import ChooseСolor from '../choose-color/choose-color';
+import ClickIcon from '../click-icon';
+import ReactTooltip from 'react-tooltip';
+import InputFile from '../input-file/input-file';
+import FixMark from '../fix-mark/fix-mark';
+import style from './note-bottom-panel.module.scss';
 
 
 const NoteBottomPanel = props => {
@@ -72,7 +72,5 @@ const NoteBottomPanel = props => {
     </div>
   )
 }
-
-
 
 export default NoteBottomPanel;

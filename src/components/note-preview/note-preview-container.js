@@ -1,12 +1,5 @@
-import React, {Component} from 'react'
-import {updateNote, addMarkNote, addItem, 
-        addImage, delNote, replaceImage, 
-        delImg, addStartImage} from '../../redux/notes-reducer'
-import {notes} from '../../redux/notes-selectors'
-import {connect} from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
-import NotePreview from './note-preview'
+import React, {Component} from 'react';
+import NotePreview from './note-preview';
 
 
 class NotesPreviewContainer extends Component {
@@ -35,7 +28,7 @@ class NotesPreviewContainer extends Component {
     let {...note} = this.props.note;
     delete note.id
 
-    this.props.addItem(note)
+    this.props.addNote(note)
   }
 
   addImage = (input) => {
@@ -49,7 +42,7 @@ class NotesPreviewContainer extends Component {
     switch(obj.input) {
       case 'delImg' :
         if (obj.isEmptyFields) {
-          this.props.delNote(this.props.note, this.props.notes)
+          this.props.deleteNote(this.props.note, this.props.notes)
         } else {
           this.props.delImg(this.props.note)
           this.props.updateNote(this.props.note.id, {
@@ -78,12 +71,12 @@ class NotesPreviewContainer extends Component {
   }
 
   render() {
-    const {note, notes, delNote, updateNote} = this.props;
+    const {note, notes, deleteNote, updateNote} = this.props;
     const {mark, modalIsOpen, currentColor, loader} = this.state;
 
     return <NotePreview note={note}
                           notes={notes}
-                          delNote={delNote}
+                          deleteNote={deleteNote}
                           modalIsOpen={modalIsOpen}
                           currentColor={currentColor}
                           updateNote={updateNote}
@@ -100,21 +93,4 @@ class NotesPreviewContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    notes: notes(state),
-  }
-}
-
-const mapDispatchToProps = {
-  delImg, addImage, updateNote,
-  addMarkNote, addItem, delNote,
-  replaceImage, addStartImage
-} 
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([
-    { collection: 'notes' }
-  ])
-)(NotesPreviewContainer)
+export default NotesPreviewContainer;

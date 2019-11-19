@@ -1,7 +1,7 @@
 import React from 'react';
-import svg from './puff.svg'
+import cn from 'classnames';
+import svg from './puff.svg';
 import style from './spinner.module.scss';
-import className from 'classnames'
 
 
 const Spinner = props => {
@@ -9,7 +9,7 @@ const Spinner = props => {
 
   return (
     <div className={style.spinner}>
-      <img className={className(style.spinnerImg, mainClasses)} src={svg} alt="" />
+      <img className={cn(style.spinnerImg, mainClasses)} src={svg} alt="" />
     </div>
   );
 };

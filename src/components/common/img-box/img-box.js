@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import Spinner from '../../common/spinner/spinner'
-import style from './img-box.module.scss'
+import React, {Component} from 'react';
+import Spinner from '../../common/spinner/spinner';
+import style from './img-box.module.scss';
 
 
 class ImgBox extends Component {
@@ -41,7 +41,6 @@ class ImgBox extends Component {
   }
 
   render() {
-    
     return (
       <div className={style.imgBox} style={{height: this.state.height}}>
         {this.props.note.url && (

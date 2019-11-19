@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import style from './choose-color.module.scss';
 import cn from 'classnames';
 
@@ -19,7 +19,6 @@ export default class ChooseColor extends Component {
       isShowList: false
     })
   }
-  
 
   getColors = () => {
     let colors = ['#ffffff', '#f28b82', '#fbbc04', '#fff475', '#ccff90', '#a7ffeb', '#cbf0f8', '#aecbfa', '#d7aefb', '#fdcfe8', '#e6c9a8', '#e8eaed'];
@@ -45,7 +44,6 @@ export default class ChooseColor extends Component {
   }
 
   getList = () => {
-    
     return this.state.isShowList &&
             <div className={cn(style.box, this.props.position ? style[this.props.position] : style.positionTopLeft)}>
               <ul className={style.list}>
@@ -55,8 +53,6 @@ export default class ChooseColor extends Component {
   }
 
   render() {
-    
-
     return (
       <div className={style.chooseColor} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
         <span className={style.title}>

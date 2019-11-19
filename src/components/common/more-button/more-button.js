@@ -1,22 +1,13 @@
-import React, {Component} from 'react'
-import style from './more-button.module.scss'
+import React, {Component} from 'react';
+import style from './more-button.module.scss';
 
-// use
-      // case 'more' :
-      //   const {moreItems} = item;
 
-      //   return (
-      //     <div className={style.icon} data-tip="Еще">
-      //       <MoreButton toggle={<i class="fas fa-ellipsis-v"></i>}
-      //                   items={moreItems} />
-      //     </div>
-      //   )
 class MoreButton extends Component {
   state = {
     isShowList: false
   }
 
-  ddd = () => {
+  onClick = () => {
     this.setState(state => {
       return {
         isShowList: !state.isShowList
@@ -30,16 +21,9 @@ class MoreButton extends Component {
     })
   }
 
-  ddd2 = () => {
-    // this.setState({
-    //   isShowList: false
-    // })
-    console.log('tttt')
-  }
-
   render() {
     return (
-      <div onClick={this.ddd} className={style.moreBox}>
+      <div onClick={this.onClick} className={style.moreBox}>
         <i className="fas fa-ellipsis-v"></i>
       
         {this.state.isShowList &&

@@ -1,14 +1,14 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import NoteBottomPanel from '../../common/note-bottom-panel';
-import PanelTitle from '../../common/panel-title'
-import FixMark from '../../common/fix-mark'
-import AddBtn from '../../common/add-btn'
-import PicturePreviewBox from '../../common/picture-preview-box'
-import NotePanel from './../../common/note-panel'
-import ListNotePanel from './../list-note-panel'
-import getImgSizes from '../../../utils/get-image-sizes'
-import validateTextFields from '../../../utils/validateTextFields'
-import style from './note-panel-view.module.scss'
+import PanelTitle from '../../common/panel-title';
+import FixMark from '../../common/fix-mark';
+import AddBtn from '../../common/add-btn';
+import PicturePreviewBox from '../../common/picture-preview-box';
+import NotePanel from './../../common/note-panel';
+import ListNotePanel from './../list-note-panel';
+import getImgSizes from '../../../utils/get-image-sizes';
+import validateTextFields from '../../../utils/validateTextFields';
+import style from './note-panel-view.module.scss';
 
 
 class NotePanelView extends Component {
@@ -80,28 +80,29 @@ class NotePanelView extends Component {
     return (list.length === 0) ? setData(null) : setData(list)
   }
 
+  getChildren = () => {
+    switch (this.props.view) {
+      case 'note' :
+        return <NotePanel getText={this.getText} />
+      case 'list' :
+        return <ListNotePanel getList={this.getList} />
+      default:
+        return <div></div>;
+    }
+  }
+
   render() {
+    const { setInput } = this.props;
     const panels = [
       {
         name: 'addImg',
-        addImg: (input) => this.props.setInput(input),
+        addImg: (input) => setInput(input),
       }, {
         name: 'color',
         currentColor: this.state.currentColor,
         getColor: bgColor => this.getColor(bgColor),
       },
     ]
-
-    let children;
-
-    switch(this.props.view) {
-      case 'note' :
-        children = <NotePanel getText={this.getText} />
-        break;
-      case 'list' :
-        children = <ListNotePanel getList={this.getList} />
-        break;
-    }
     
     return (
       <>
@@ -112,7 +113,7 @@ class NotePanelView extends Component {
           <FixMark check={this.state.note.fixMark} onClick={this.onClickFixMark} />
         </div>
 
-        {children}
+        { this.getChildren() }
 
         <div className={style.bottomPanel}>
           <div className={style.bottomPanelBox}>

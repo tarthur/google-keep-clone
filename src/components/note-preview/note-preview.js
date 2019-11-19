@@ -1,17 +1,17 @@
-import React from 'react'
-import style from './note-preview.module.scss'
+import React from 'react';
+import cn from 'classnames'
 import NoteBottomPanel from '../common/note-bottom-panel/note-bottom-panel';
 import SimpleNotePreview from './simple-note-preview';
-import ListNotePreview from './list-note-preview/list-note-preview'
-import FixMark from '../common/fix-mark/fix-mark'
-import ImgHeightLoader from '../common/img-height-loader/img-height-loader'
-import cn from 'classnames'
+import ListNotePreview from './list-note-preview/list-note-preview';
+import FixMark from '../common/fix-mark/fix-mark';
+import ImgHeightLoader from '../common/img-height-loader/img-height-loader';
 import ClickIcon from '../common/click-icon';
+import style from './note-preview.module.scss';
 
 
 const NotesPreview = ({note, notes, modal, setData, updateNote, 
                       onClickMark, onClickFixMark, onLoad, mark, modalIsOpen, 
-                      currentColor, loader, getColor, addImage, cloneNote, delNote}) => {
+                      currentColor, loader, getColor, addImage, cloneNote, deleteNote}) => {
 
   const buildMain = () => {
     const noteProps = {note, modal, modalIsOpen, setData, updateNote}
@@ -39,7 +39,7 @@ const NotesPreview = ({note, notes, modal, setData, updateNote,
       addImg: (input) => addImage(input),
     }, {
       name: 'delNote',
-      onClickDelNoteBtn: () => delNote(note, notes),
+      onClickDelNoteBtn: () => deleteNote(note, notes),
     }, {
       name: 'createClone',
       onClickCreateCloneBtn: () => cloneNote(),

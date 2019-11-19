@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.scss';
+import { Provider } from 'react-redux';
+import configureStore from './store';
 import App from './components/app';
 import Modal from 'react-modal';
-import { Provider } from 'react-redux';
-import {store} from './redux';
+import './styles/index.scss';
 
-Modal.setAppElement('#root')
+Modal.setAppElement('#root');
+
+const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>

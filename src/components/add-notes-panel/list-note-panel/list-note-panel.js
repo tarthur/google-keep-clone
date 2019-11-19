@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import List from '../../common/list'
-import style from './list-note-panel.module.scss'
+import React from 'react';
+import List from '../../common/list';
+import style from './list-note-panel.module.scss';
 
 
 const ListNotePanel = ({getList}) => {

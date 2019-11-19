@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '../header'
-import {AddNotesPanel} from '../add-notes-panel'
-import AllNotes from '../all-notes'
 import ErrorBoundry from '../error-boundry';
+import Header from '../../containers/header';
+import AddNotesPanel from '../../containers/add-notes-panel';
+import AllNotes from '../../containers/all-notes';
 import style from './app.module.scss'
 
 

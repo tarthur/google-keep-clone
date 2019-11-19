@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import style from './default-panel.module.scss'
-import ClickIcon from '../../common/click-icon'
-import className from 'classnames'
-import InputFile from '../../common/input-file/input-file'
+import React from 'react';
+import className from 'classnames';
+import ClickIcon from '../../common/click-icon';
+import InputFile from '../../common/input-file/input-file';
+import style from './default-panel.module.scss';
 
 
 const DefaultPanel = props => {

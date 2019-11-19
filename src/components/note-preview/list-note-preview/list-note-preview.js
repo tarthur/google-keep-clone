@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import List from '../../common/list/list'
-import ListItems from '../../common/list/list-items/list-items'
-import PanelTitle from '../../common/panel-title'
-import style from './list-note-preview.module.scss'
-import ModalContainer from '../modal-container/modal-container'
+import React, {Component} from 'react';
+import List from '../../common/list/list';
+import ListItems from '../../common/list/list-items/list-items';
+import PanelTitle from '../../common/panel-title';
+import style from './list-note-preview.module.scss';
+import ModalContainer from '../../../containers/modal-container';
   
 
 class ListNotePreview extends Component {

@@ -1,16 +1,11 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux';
-import { compose } from 'redux'
-import ModalBox from './../../modal-box'
-import { firestoreConnect } from 'react-redux-firebase'
-import {updateNote, addMarkNote, addItem, addImage, delNote, delImg, replaceImage} from '../../../redux/notes-reducer'
-import NoteBottomPanel from '../../common/note-bottom-panel';
-import AddBtn from '../../common/add-btn/add-btn'
-import FixMark from '../../common/fix-mark'
-import PicturePreviewBox from '../../common/picture-preview-box'
-import style from './modal-container.module.scss'
+import React, { Component } from 'react';
 import * as moment from 'moment';
-import cn from 'classnames'
+import ModalBox from './../../modal-box';
+import NoteBottomPanel from '../../common/note-bottom-panel';
+import AddBtn from '../../common/add-btn/add-btn';
+import FixMark from '../../common/fix-mark';
+import PicturePreviewBox from '../../common/picture-preview-box';
+import style from './modal-container.module.scss';
 
 
 class ModalContainer extends Component {
@@ -18,14 +13,6 @@ class ModalContainer extends Component {
     currentColor: this.props.note.bgColor,
     picture: null,
     input: null,
-  }
-  
-  componentDidMount() {
-    // if (this.props.note.url) {
-    //   this.setState({
-    //     input: this.props.note.url
-    //   })
-    // }
   }
   
   componentDidUpdate(prevProps, prevState) {
@@ -135,28 +122,4 @@ class ModalContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    notes: state.firestore.ordered.notes,
-    markNotes: state.notesReducer.markNotes
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    addImage: (note, id) => dispatch(addImage(note, id)),
-    updateNote: (id, obj) => dispatch(updateNote(id, obj)),
-    addMarkNote: note => dispatch(addMarkNote(note)),
-    addNote: (item) => dispatch(addItem(item)),
-    deleteNote: (note, notes) => dispatch(delNote(note, notes)),
-    delImg: (note) => dispatch(delImg(note)),
-    // replaceImage: (note, imgWidth, imgHeight, image) => dispatch(replaceImage(note, imgWidth, imgHeight, image)),
-  }
-}  
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([
-    { collection: 'notes' }
-  ])
-)(ModalContainer)
+export default ModalContainer;

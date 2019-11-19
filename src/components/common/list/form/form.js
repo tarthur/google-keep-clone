@@ -1,10 +1,5 @@
-import React, {Component} from 'react'
-// import {connect} from 'react-redux';
-// import {addNote} from '../../redux/notes-reducer'
-// import BottomPanel from './../bottom-panel';
-import style from './form.module.scss'
-
-
+import React from 'react';
+import style from './form.module.scss';
 
 
 class Form extends React.Component {

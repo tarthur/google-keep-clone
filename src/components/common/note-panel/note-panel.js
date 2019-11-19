@@ -1,6 +1,6 @@
-import React, {Component} from 'react'
-import style from './note-panel.module.scss'
-import autosize from 'autosize'
+import React, {Component} from 'react';
+import style from './note-panel.module.scss';
+import autosize from 'autosize';
 
 class notePanel extends Component {
   input = React.createRef();

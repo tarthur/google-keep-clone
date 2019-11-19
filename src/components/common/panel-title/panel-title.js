@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import cn from 'classnames'
-import autosize from 'autosize'
-import style from './panel-title.module.scss'
+import React, {Component} from 'react';
+import cn from 'classnames';
+import autosize from 'autosize';
+import style from './panel-title.module.scss';
 
 export default class PanelTitle extends Component {
   textarea = React.createRef();

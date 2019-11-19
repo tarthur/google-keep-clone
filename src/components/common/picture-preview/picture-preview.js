@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import setImgPreview from '../../../utils/set-img-preview'
-import cn from 'classnames'
-import style from './picture-preview.module.scss'
+import React, {Component} from 'react';
+import cn from 'classnames';
+import setImgPreview from '../../../utils/set-img-preview';
+import style from './picture-preview.module.scss';
 
 
 class PicturePreview extends Component {

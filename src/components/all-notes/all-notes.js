@@ -1,13 +1,10 @@
-import React, {Component} from 'react'
-import NotesPreviewContainer from '../note-preview/note-preview-container'
-import {connect} from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
-import Spinner from '../common/spinner'
-import style from './all-notes.module.scss'
+import React from 'react';
+import cn from 'classnames';
 import Masonry from 'react-masonry-component';
-import {notes} from '../../redux/notes-selectors'
-import cn from 'classnames'
+import NotesPreviewContainer from '../../containers/note-preview-container';
+import Spinner from '../common/spinner';
+import sortByTime from '../../utils/sort-by-time';
+import style from './all-notes.module.scss';
 
 
 const AllNotes = props => {
@@ -18,23 +15,15 @@ const AllNotes = props => {
   let notesList = [];
   let fixNotesList = [];
 
-  const sortNotesFunc = (a, b) => {
-    if (a.time > b.time) return -1;
-    if (a.time == b.time) return 0;
-    if (a.time < b.time) return 1;
-  }
-
   const getMasonry = children => {
     return (
       <Masonry
-        className={cn(style.npWrap, '')} // default ''
-        // elementType={'ul'} // default 'div'
-        options={masonryOptions} // default {}
-        disableImagesLoaded={false} // default false
-        updateOnEachImageLoad={false} // default false and works only if disableImagesLoaded is false
-        imagesLoadedOptions={imagesLoadedOptions} // default {}
+        className={cn(style.npWrap, '')}
+        options={masonryOptions}
+        disableImagesLoaded={false}
+        updateOnEachImageLoad={false}
+        imagesLoadedOptions={imagesLoadedOptions}
         onLayoutComplete={(e) => {}} 
-        // onLayoutComplete={(e) => {console.log(1111, e)}} 
         >
 
           {children}
@@ -45,7 +34,7 @@ const AllNotes = props => {
   
   if (notes) {
     let [...sortNotes] = notes;
-    sortNotes.sort(sortNotesFunc);
+    sortNotes.sort(sortByTime);
 
     const getNote = note => <NotesPreviewContainer key={note.id} note={note}/>
 
@@ -90,15 +79,4 @@ const AllNotes = props => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    notes: notes(state),
-  }
-}  
-
-export default compose(
-  connect(mapStateToProps, null),
-  firestoreConnect([
-    { collection: 'notes' }
-  ])
-)(AllNotes)
+export default AllNotes;

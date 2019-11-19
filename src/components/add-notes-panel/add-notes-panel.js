@@ -1,14 +1,8 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux';
-import {addNote, addItem} from '../../redux/notes-reducer'
-import {notes} from '../../redux/notes-selectors'
-import style from './add-notes-panel.module.scss'
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
-import NotePanelView from './note-panel-view'
-import DefaultPanel from './default-panel'
-import OutsideAlerter from '../../hoc/with-outside-alerter'
-import cn from 'classnames'
+import React, { Component } from 'react';
+import cn from 'classnames';
+import NotePanelView from './note-panel-view';
+import DefaultPanel from './default-panel';
+import style from './add-notes-panel.module.scss';
 
 
 class AddNotesPanel extends Component {
@@ -56,7 +50,7 @@ class AddNotesPanel extends Component {
           type: state.view
         }
   
-        this.props.addItem(newNote, image);
+        this.props.addNote(newNote, image);
   
         newNote = {
           ...this.defaultNoteView
@@ -81,11 +75,7 @@ class AddNotesPanel extends Component {
   }
 
   setData = dataObj => {
-
-
-    if (dataObj === null) {
-      return this.setState({emptyField: true})
-    } 
+    if (dataObj === null) return this.setState({emptyField: true}) 
     
     this.setState({
       emptyField: false,
@@ -96,9 +86,7 @@ class AddNotesPanel extends Component {
     })
   }
 
-  setInput = input => {
-    this.setState({input})
-  }
+  setInput = input => this.setState({input})
 
   render() {
     return (
@@ -120,22 +108,4 @@ class AddNotesPanel extends Component {
   }
 }
 
-
-
-const mapStateToProps = (state) => {
-  return {
-    notes: notes(state),
-  }
-}
-
-const mapDispatchToProps = {
-  addItem
-} 
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect([
-    { collection: 'notes' }
-  ]),
-  OutsideAlerter
-)(AddNotesPanel)
+export default AddNotesPanel;
